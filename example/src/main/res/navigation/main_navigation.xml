@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.fm.easypay_sample.ui.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_consentAnnualFragment"
+            app:destination="@id/consentAnnualFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_chargeCardFragment"
+            app:destination="@id/chargeCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chargeCardFragment"
+        android:name="com.fm.easypay_sample.ui.charge_card.ChargeCardFragment"
+        android:label="fragment_charge_card"
+        tools:layout="@layout/fragment_charge_card" />
+    <fragment
+        android:id="@+id/consentAnnualFragment"
+        android:name="com.fm.easypay_sample.ui.consent_annual.ConsentAnnualFragment"
+        android:label="fragment_consent_annual"
+        tools:layout="@layout/fragment_consent_annual" />
+</navigation>
