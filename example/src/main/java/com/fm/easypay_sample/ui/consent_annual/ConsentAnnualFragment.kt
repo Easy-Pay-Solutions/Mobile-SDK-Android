@@ -20,6 +20,8 @@ class ConsentAnnualFragment : Fragment() {
     private val binding by viewBinding(FragmentConsentAnnualBinding::bind)
     private val viewModel: ConsentAnnualViewModel by viewModels { defaultViewModelProviderFactory }
 
+    //region Lifecycle methods
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -32,6 +34,10 @@ class ConsentAnnualFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initFlows()
     }
+
+    //endregion
+
+    //region Flows
 
     private fun initFlows() {
         lifecycleScope.launchWhenResumed {
@@ -55,4 +61,7 @@ class ConsentAnnualFragment : Fragment() {
             }
         }
     }
+
+    //endregion
+
 }

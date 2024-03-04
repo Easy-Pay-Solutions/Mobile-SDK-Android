@@ -3,8 +3,8 @@ package com.fm.easypay
 import android.content.Context
 import com.fm.easypay.api.ApiModule
 import com.fm.easypay.networking.NetworkingModule
-import com.fm.easypay.repositories.ConsentAnnualModule
-import com.fm.easypay.utils.RootedDeviceValidator
+import com.fm.easypay.repositories.charge_cc.ChargeCreditCardModule
+import com.fm.easypay.repositories.consent_annual.ConsentAnnualModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -35,7 +35,8 @@ class EasyPay private constructor() {
                 modules(
                     NetworkingModule.networkingModules,
                     ApiModule.apiModules,
-                    ConsentAnnualModule.consentAnnualModules
+                    ConsentAnnualModule.consentAnnualModules,
+                    ChargeCreditCardModule.chargeCreditCardModules
                 )
             }
         }

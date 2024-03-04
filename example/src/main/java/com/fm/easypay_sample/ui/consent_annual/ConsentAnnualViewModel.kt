@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.fm.easypay.api.requests.base.EasyPayQuery
 import com.fm.easypay.api.responses.ConsentAnnualQueryResult
 import com.fm.easypay.networking.NetworkResource
-import com.fm.easypay.repositories.ConsentAnnual
+import com.fm.easypay.repositories.consent_annual.ConsentAnnual
 import com.fm.easypay_sample.utils.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -2,4 +2,5 @@
     <string name="app_name">EasyPaySDK</string>
     <string name="charge_a_credit_card_example">Charge a Credit Card example</string>
     <string name="consent_annual_example">Consent Annual example</string>
+    <string name="charge_credit_card">Charge Credit Card</string>
 </resources>

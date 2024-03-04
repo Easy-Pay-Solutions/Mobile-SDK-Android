@@ -1,4 +1,4 @@
-package com.fm.easypay.repositories
+package com.fm.easypay.repositories.consent_annual
 
 import com.fm.easypay.api.requests.base.EasyPayQuery
 import com.fm.easypay.api.responses.ConsentAnnualQueryResult

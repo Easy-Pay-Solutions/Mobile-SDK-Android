@@ -4,7 +4,7 @@ import com.fm.easypay.api.responses.base.ApiResponse
 import com.fm.easypay.api.responses.base.ApiResult
 import com.google.gson.annotations.SerializedName
 
-data class ConsentAnnualQueryResponse(
+internal data class ConsentAnnualQueryResponse(
     @SerializedName("ConsentAnnual_QueryResult")
     override val result: ConsentAnnualQueryResult,
 ) : ApiResponse<ConsentAnnualQueryResult>(result)

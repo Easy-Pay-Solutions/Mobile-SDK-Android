@@ -12,6 +12,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            "String",
+            "RSA_CERTIFICATE_URL",
+            "\"https://easypaysoftware.com/mobile.easypay5.com.pem\""
+        )
     }
     buildFeatures {
         buildConfig = true
@@ -61,6 +67,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     testImplementation("org.mockito:mockito-core:5.10.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 
     //Koin
     val koinVersion = "3.5.3"

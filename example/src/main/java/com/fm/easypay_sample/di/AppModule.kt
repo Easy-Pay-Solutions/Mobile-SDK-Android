@@ -1,6 +1,7 @@
 package com.fm.easypay_sample.di
 
-import com.fm.easypay.repositories.ConsentAnnual
+import com.fm.easypay.repositories.charge_cc.ChargeCreditCard
+import com.fm.easypay.repositories.consent_annual.ConsentAnnual
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,4 +15,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideConsentAnnual() = ConsentAnnual()
+
+
+    @Singleton
+    @Provides
+    fun provideChargeCreditCard() = ChargeCreditCard()
 }
