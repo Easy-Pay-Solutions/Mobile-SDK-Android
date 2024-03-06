@@ -6,14 +6,22 @@
     android:layout_height="match_parent"
     tools:context="com.fm.easypay_sample.ui.consent_annual.ConsentAnnualFragment">
 
+    <com.fm.easypay.utils.secured.SecureTextField
+        android:id="@+id/stf_credit_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:hint="@string/credit_card"
+        app:layout_constraintBottom_toTopOf="@id/txt_main" />
+
     <TextView
         android:id="@+id/txt_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Hello Hanna!" />

@@ -1,6 +1,7 @@
 package com.fm.easypay.networking.rsa
 
 import com.fm.easypay.exceptions.EasyPaySdkException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -9,11 +10,13 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
 import java.security.PublicKey
+import java.security.cert.X509Certificate
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class RsaHelperImplTest {
 
-    private lateinit var rsaUtils: TestRsaUtils
+    private lateinit var rsaCertificateManager: TestRsaCertificateManager
     private lateinit var rsaHelper: RsaHelper
 
     companion object {
@@ -22,21 +25,34 @@ internal class RsaHelperImplTest {
 
     @Before
     fun setUp() {
-        rsaUtils = TestRsaUtils()
-        rsaHelper = RsaHelperImpl(rsaUtils)
+        rsaCertificateManager = TestRsaCertificateManager()
+        rsaHelper = RsaHelperImpl(rsaCertificateManager)
     }
 
     @Test
     fun `encrypt() returns correct encrypted data`() {
+        rsaCertificateManager.fetchCertificateIfNeeded()
         val encryptedText = rsaHelper.encrypt(TEST_CREDIT_CARD) ?: ""
-        val decryptedText = RsaEncryptorDecryptor.decrypt(encryptedText, rsaUtils.getPrivateKey())
+        val decryptedText = RsaUtils.decrypt(encryptedText, rsaCertificateManager.privateKey)
         assertEquals(TEST_CREDIT_CARD, decryptedText)
+    }
+
+    @Test
+    fun `not calling fetchCertificate() before encrypt() throws EasyPaySdkException`() {
+        try {
+            rsaHelper.encrypt(TEST_CREDIT_CARD)
+        } catch (e: EasyPaySdkException) {
+            assertEquals(
+                EasyPaySdkException.Type.RSA_CERTIFICATE_NOT_FETCHED.message,
+                e.message
+            )
+        }
     }
 
     @Test
     fun `encrypt() fails on empty input`() {
         try {
-            rsaHelper.encrypt("") ?: ""
+            rsaHelper.encrypt("")
         } catch (e: EasyPaySdkException) {
             assertEquals(
                 EasyPaySdkException.Type.RSA_INPUT_DATA_EMPTY.message,
@@ -46,25 +62,22 @@ internal class RsaHelperImplTest {
     }
 }
 
-internal class TestRsaUtils : RsaUtils {
+internal class TestRsaCertificateManager : RsaCertificateManager {
 
     companion object {
         private const val ALGORITHM = "RSA"
         private const val KEY_SIZE = 2048
     }
 
-    private var publicKey: PublicKey
-    private var privateKey: PrivateKey
+    override var certificate: X509Certificate? = null
+    override var publicKey: PublicKey? = null
+    lateinit var privateKey: PrivateKey
 
-    init {
+    override fun fetchCertificateIfNeeded() {
         val keyGen = KeyPairGenerator.getInstance(ALGORITHM)
         keyGen.initialize(KEY_SIZE)
         val pair = keyGen.generateKeyPair()
         publicKey = pair.public
         privateKey = pair.private
     }
-
-    override fun getPublicKey(): PublicKey = publicKey
-
-    fun getPrivateKey(): PrivateKey = privateKey
 }

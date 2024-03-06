@@ -2,19 +2,31 @@ package com.fm.easypay
 
 import com.fm.easypay.exceptions.EasyPayException
 import com.fm.easypay.exceptions.EasyPaySdkException
+import com.fm.easypay.rules.koin.KoinNetworkingModulesRule
 import com.fm.easypay.utils.VersionManager
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class EasyPayConfigurationTest {
+
+    @get:Rule
+    val koinNetworkingModulesRule = KoinNetworkingModulesRule()
 
     companion object {
         private const val TEST_SESSION_KEY = "9B9175EF556E4DDA93303132323141303035383339"
         private const val TEST_HMAC_SECRET = "7D55DBB3D691C9E0FDF341E4AB38C3C9"
+    }
+
+    @After
+    fun tearDown() {
+        EasyPayConfiguration.reset()
     }
 
     @Test
@@ -43,11 +55,6 @@ internal class EasyPayConfigurationTest {
         val sdkVersion = EasyPayConfiguration.getInstance().getSdkVersion()
         val targetSdkVersion = VersionManager().getCurrentSdkVersion()
         assertEquals(targetSdkVersion, sdkVersion)
-    }
-
-    @After
-    fun tearDown() {
-        EasyPayConfiguration.reset()
     }
 
     //region Private

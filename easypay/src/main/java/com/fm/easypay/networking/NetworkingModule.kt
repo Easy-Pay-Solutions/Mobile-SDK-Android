@@ -3,11 +3,16 @@ package com.fm.easypay.networking
 import com.fm.easypay.BuildConfig
 import com.fm.easypay.EasyPayConfiguration
 import com.fm.easypay.networking.interceptors.NetworkInterceptor
+import com.fm.easypay.networking.rsa.RsaCertificateManager
+import com.fm.easypay.networking.rsa.RsaCertificateManagerImpl
+import com.fm.easypay.networking.rsa.RsaHelper
+import com.fm.easypay.networking.rsa.RsaHelperImpl
+import com.fm.easypay.utils.DownloadManager
+import com.fm.easypay.utils.DownloadManagerImpl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,6 +27,9 @@ internal object NetworkingModule {
         single { provideNetworkDataSource() }
         single { provideNetworkInterceptor() }
         single { provideApiUrl() }
+        single { provideDownloadManager() }
+        single { provideRsaHelper(get()) }
+        single { provideRsaCertificateManager(get()) }
     }
 
     private fun provideGson(): Gson = GsonBuilder().create()
@@ -55,4 +63,13 @@ internal object NetworkingModule {
     private fun provideNetworkDataSource(): NetworkDataSource = DefaultNetworkDataSource()
 
     private fun provideNetworkInterceptor() = NetworkInterceptor()
+
+    private fun provideDownloadManager(): DownloadManager =
+        DownloadManagerImpl()
+
+    private fun provideRsaHelper(rsaCertificateManager: RsaCertificateManager): RsaHelper =
+        RsaHelperImpl(rsaCertificateManager)
+
+    private fun provideRsaCertificateManager(downloadManager: DownloadManager): RsaCertificateManager =
+        RsaCertificateManagerImpl(downloadManager)
 }

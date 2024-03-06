@@ -1,6 +1,6 @@
 package com.fm.easypay.api
 
-import com.fm.easypay.api.requests.ChargeCreditCardBody
+import com.fm.easypay.api.requests.ChargeCreditCardBodyDto
 import com.fm.easypay.api.requests.base.EasyPayQuery
 import com.fm.easypay.api.responses.ChargeCreditCardResponse
 import com.fm.easypay.api.responses.ConsentAnnualQueryResponse
@@ -24,6 +24,6 @@ internal interface EasyPayService {
     @POST("CardSale/Manual")
     suspend fun cardSaleManual(
         @Header(AUTH_HEADER_NAME) sessKey: String,
-        @Body body: ChargeCreditCardBody,
+        @Body body: ChargeCreditCardBodyDto,
     ): Response<ChargeCreditCardResponse>
 }

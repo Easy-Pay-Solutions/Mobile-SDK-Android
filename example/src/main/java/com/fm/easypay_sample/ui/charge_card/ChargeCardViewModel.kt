@@ -2,15 +2,17 @@ package com.fm.easypay_sample.ui.charge_card
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fm.easypay.api.requests.Amounts
-import com.fm.easypay.api.requests.BillingAddress
-import com.fm.easypay.api.requests.ChargeCreditCardBody
-import com.fm.easypay.api.requests.CreditCardInfo
-import com.fm.easypay.api.requests.PersonalData
-import com.fm.easypay.api.requests.PurchaseItems
 import com.fm.easypay.api.responses.ChargeCreditCardResult
 import com.fm.easypay.networking.NetworkResource
+import com.fm.easypay.repositories.charge_cc.AmountsParam
+import com.fm.easypay.repositories.charge_cc.BillingAddressParam
 import com.fm.easypay.repositories.charge_cc.ChargeCreditCard
+import com.fm.easypay.repositories.charge_cc.ChargeCreditCardBodyParams
+import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
+import com.fm.easypay.repositories.charge_cc.PersonalDataParam
+import com.fm.easypay.repositories.charge_cc.PurchaseItemsParam
+import com.fm.easypay.utils.secured.SecureData
+import com.fm.easypay.utils.secured.SecureTextField
 import com.fm.easypay_sample.utils.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,11 +32,11 @@ class ChargeCardViewModel @Inject constructor(
 
     //region Public methods
 
-    fun chargeCreditCard() {
+    fun chargeCreditCard(secureData: SecureData<String>) {
         viewModelScope.launch {
             _chargeCreditCardResult.emit(ViewState.Loading())
-            val request = prepareRequest()
-            val response = chargeCreditCard.chargeCreditCard(request)
+            val params = prepareParams()
+            val response = chargeCreditCard.chargeCreditCard(params, secureData)
             when (response.status) {
                 NetworkResource.Status.SUCCESS -> {
                     response.data?.let {
@@ -58,8 +60,8 @@ class ChargeCardViewModel @Inject constructor(
         )
     }
 
-    private fun prepareRequest(): ChargeCreditCardBody =
-        ChargeCreditCardBody(
+    private fun prepareParams(): ChargeCreditCardBodyParams =
+        ChargeCreditCardBodyParams(
             creditCardInfo = prepareCreditCardInfo(),
             accountHolder = preparePersonalData(),
             endCustomer = preparePersonalData(),
@@ -68,20 +70,19 @@ class ChargeCardViewModel @Inject constructor(
             merchantId = 1
         )
 
-    private fun prepareCreditCardInfo(): CreditCardInfo = CreditCardInfo(
-        accountNumber = "QWOY6TAb5qjPFQdGrxTFThJ7EPbc295nw4JN2L/GLGjqMV1dFJQGBNL9SblCuJId15CjCjrFAVilc1zNM6l5jNnDRR9s2/+co0QLvQLTapTTgveP/5dn6PMfhxwKnSb/a0Qd9+qLb5FeHMgmMbhBMJo3PHlf/JNwDX/PWZ9I2LAEHPPf+5cgteLgoOVNw5U/mf1i5mtovNYI6Nsfsp3JGe2HOQTFCjcBx2OlzRQooYawZVByE1BV+FDvkWirU3v4DO1BxrhDODgK/TMrneg8ne75ig8LlCJhpcuO5oXp9ES6JsdQ/Q9mIqqJBA2Zo86qFLr1yCGh7taQIJ9V6j91VPybJJ9MLv5xJlUv5puxrvSfnECaR0nwLBBHrF/sHq+SmAiGGwC1qQB7dLO5PJWWd7Qy0uhxWarQSVaPKJRW7uNFKXxFdGWNBcINVR/mkNECJ4E+AdbhbbGj3Vx4ExGB2aIFpfp9izXx75T4JGvK/uBv1XABLgqzXInA1WLU50arOLnQH58FBaZiZRATukP60KPLqWSC2NPuHDQw/3eFQ/KvViLR3BSh2WLTvS7qVcZ7f43iNiHt8CMLuaaEWL8GfvU1FU2rB/DsOp9ab+N5DmTs9voRLEfKARCgUggAaC57eDzT8rY/vA7/+2iTGZqv9OuMSlopoGmZF5eiH0ysXUI=",
+    private fun prepareCreditCardInfo(): CreditCardInfoParam = CreditCardInfoParam(
         expMonth = 10,
         expYear = 2026,
         csv = "999"
     )
 
-    private fun preparePurchaseItems(): PurchaseItems = PurchaseItems(
+    private fun preparePurchaseItems(): PurchaseItemsParam = PurchaseItemsParam(
         serviceDescription = "FROM API TESTER",
         clientRefId = "12456",
         rpguid = "3d3424a6-c5f3-4c28"
     )
 
-    private fun prepareAmounts(): Amounts = Amounts(
+    private fun prepareAmounts(): AmountsParam = AmountsParam(
         totalAmount = 10.0,
         salesTax = 0.0,
         surcharge = 0.0,
@@ -94,7 +95,7 @@ class ChargeCardViewModel @Inject constructor(
         totalMedicalAmount = 0.0
     )
 
-    private fun preparePersonalData(): PersonalData = PersonalData(
+    private fun preparePersonalData(): PersonalDataParam = PersonalDataParam(
         firstName = "John",
         lastName = "Doe",
         company = "",
@@ -105,7 +106,7 @@ class ChargeCardViewModel @Inject constructor(
         phone = "8775558472"
     )
 
-    private fun prepareBillingAddress(): BillingAddress = BillingAddress(
+    private fun prepareBillingAddress(): BillingAddressParam = BillingAddressParam(
         address1 = "123 Fake St.",
         address2 = "",
         city = "PORTLAND",

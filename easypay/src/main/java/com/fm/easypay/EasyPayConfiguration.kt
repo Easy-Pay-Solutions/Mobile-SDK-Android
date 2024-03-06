@@ -1,7 +1,9 @@
 package com.fm.easypay
 
 import com.fm.easypay.exceptions.EasyPaySdkException
+import com.fm.easypay.networking.rsa.RsaCertificateManager
 import com.fm.easypay.utils.VersionManager
+import org.koin.java.KoinJavaComponent
 
 data class EasyPayConfiguration internal constructor(
     private val sessionKey: String,
@@ -9,6 +11,9 @@ data class EasyPayConfiguration internal constructor(
     private val versionManager: VersionManager = VersionManager(),
 ) {
 
+    private val rsaCertificateManager: RsaCertificateManager by KoinJavaComponent.inject(
+        RsaCertificateManager::class.java
+    )
     private val sdkVersion: String = versionManager.getCurrentSdkVersion()
 
     companion object {
@@ -32,6 +37,7 @@ data class EasyPayConfiguration internal constructor(
                 sessionKey = sessionKey,
                 hmacSecret = hmacSecret
             )
+            instance?.rsaCertificateManager?.fetchCertificateIfNeeded()
         }
 
         internal fun reset() {

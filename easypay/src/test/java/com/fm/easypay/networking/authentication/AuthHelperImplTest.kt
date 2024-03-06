@@ -3,8 +3,11 @@ package com.fm.easypay.networking.authentication
 import android.content.Context
 import com.fm.easypay.EasyPayConfiguration
 import com.fm.easypay.exceptions.EasyPaySdkException
+import com.fm.easypay.rules.koin.KoinNetworkingModulesRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -20,8 +23,12 @@ internal class TestAuthUtils : AuthUtils {
     override fun getDeviceId(context: Context): String = TEST_DEVICE_ID
 }
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class AuthHelperImplTest {
+
+    @get:Rule
+    val koinNetworkingModulesRule = KoinNetworkingModulesRule()
 
     companion object {
         private const val TEST_SESSION_KEY = "9B9175EF556E4DDA93303132323141303035383339"

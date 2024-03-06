@@ -19,10 +19,10 @@ class EasyPay private constructor() {
             sessionKey: String,
             hmacSecret: String,
         ) {
+            setup(context)
             EasyPayConfiguration.init(sessionKey, hmacSecret)
             // TODO: Validator blocks using Emulator. Need to find a way to bypass it.
 //            RootedDeviceValidator.verifyDevice(context)
-            setup(context)
         }
 
         private fun setup(context: Context) {

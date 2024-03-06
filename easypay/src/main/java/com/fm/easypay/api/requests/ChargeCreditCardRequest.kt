@@ -5,30 +5,30 @@ import com.google.gson.annotations.SerializedName
 
 internal data class ChargeCreditCardRequest(
     override val userDataPresent: Boolean,
-    override val body: ChargeCreditCardBody,
-) : ApiRequest<ChargeCreditCardBody>(userDataPresent, body)
+    override val body: ChargeCreditCardBodyDto,
+) : ApiRequest<ChargeCreditCardBodyDto>(userDataPresent, body)
 
-data class ChargeCreditCardBody(
+internal data class ChargeCreditCardBodyDto(
     @SerializedName("ccCardInfo")
-    val creditCardInfo: CreditCardInfo,
+    val creditCardInfo: CreditCardInfoDto,
 
     @SerializedName("AcctHolder")
-    val accountHolder: PersonalData,
+    val accountHolder: PersonalDataDto,
 
     @SerializedName("EndCustomer")
-    val endCustomer: PersonalData,
+    val endCustomer: PersonalDataDto,
 
     @SerializedName("Amounts")
-    val amounts: Amounts,
+    val amounts: AmountsDto,
 
     @SerializedName("PurchItems")
-    val purchaseItems: PurchaseItems,
+    val purchaseItems: PurchaseItemsDto,
 
     @SerializedName("MerchID")
     val merchantId: Int,
 )
 
-data class CreditCardInfo(
+internal data class CreditCardInfoDto(
     @SerializedName("AccountNumber")
     val accountNumber: String,
 
@@ -42,7 +42,7 @@ data class CreditCardInfo(
     val csv: String,
 )
 
-data class PersonalData(
+internal data class PersonalDataDto(
     @SerializedName("Firstname")
     val firstName: String,
 
@@ -59,7 +59,7 @@ data class PersonalData(
     val url: String? = null,
 
     @SerializedName("BillIngAdress")
-    val billingAddress: BillingAddress,
+    val billingAddress: BillingAddressDto,
 
     @SerializedName("Email")
     val email: String? = null,
@@ -68,7 +68,7 @@ data class PersonalData(
     val phone: String? = null,
 )
 
-data class BillingAddress(
+internal data class BillingAddressDto(
     @SerializedName("Address1")
     val address1: String,
 
@@ -88,7 +88,7 @@ data class BillingAddress(
     val country: String? = null,
 )
 
-data class Amounts(
+internal data class AmountsDto(
     @SerializedName("TotalAmt")
     val totalAmount: Double,
 
@@ -120,7 +120,7 @@ data class Amounts(
     val totalMedicalAmount: Double? = null,
 )
 
-data class PurchaseItems(
+internal data class PurchaseItemsDto(
     @SerializedName("ServiceDescrip")
     val serviceDescription: String? = null,
 

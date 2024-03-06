@@ -1,8 +1,8 @@
 package com.fm.easypay.repositories.charge_cc
 
-import com.fm.easypay.api.requests.ChargeCreditCardBody
 import com.fm.easypay.api.responses.ChargeCreditCardResult
 import com.fm.easypay.networking.NetworkResource
+import com.fm.easypay.utils.secured.SecureData
 import org.koin.java.KoinJavaComponent
 
 class ChargeCreditCard {
@@ -11,7 +11,10 @@ class ChargeCreditCard {
         ChargeCreditCardRepository::class.java
     )
 
-    suspend fun chargeCreditCard(query: ChargeCreditCardBody): NetworkResource<ChargeCreditCardResult> {
-        return chargeCreditCardRepository.chargeCreditCard(query)
+    suspend fun chargeCreditCard(
+        params: ChargeCreditCardBodyParams,
+        secureData: SecureData<String>,
+    ): NetworkResource<ChargeCreditCardResult> {
+        return chargeCreditCardRepository.chargeCreditCard(params, secureData)
     }
 }

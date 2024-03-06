@@ -1,25 +1,28 @@
 package com.fm.easypay.networking.rsa
 
 import android.util.Base64
+import java.security.KeyFactory
 import java.security.PrivateKey
 import java.security.PublicKey
+import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 
-internal interface RsaUtils {
-    fun getPublicKey(): PublicKey?
-}
-
-internal class RsaUtilsImpl : RsaUtils {
-
-    // TODO: To be adjusted during the implementation of Charge a Credit Card feature
-    override fun getPublicKey(): PublicKey? {
-        TODO("Implement this method")
-    }
-}
-
-object RsaEncryptorDecryptor {
+object RsaUtils {
 
     private const val TRANSFORMATION = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding"
+    private const val ALGORITHM = "RSA"
+
+    fun stringToPublicKey(publicKeyBytes: ByteArray?): PublicKey? {
+        var publicKey = publicKeyBytes?.toString(Charsets.UTF_8)
+        publicKey = publicKey?.replace("-----BEGIN PUBLIC KEY-----", "")
+        publicKey = publicKey?.replace("-----END PUBLIC KEY-----", "")
+        publicKey = publicKey?.replace("\n", "")
+        publicKey = publicKey?.replace("\r", "")
+        val keyBytes = Base64.decode(publicKey, Base64.DEFAULT)
+        val spec = X509EncodedKeySpec(keyBytes)
+        val keyFactory = KeyFactory.getInstance(ALGORITHM)
+        return keyFactory.generatePublic(spec)
+    }
 
     fun encrypt(
         data: String,
