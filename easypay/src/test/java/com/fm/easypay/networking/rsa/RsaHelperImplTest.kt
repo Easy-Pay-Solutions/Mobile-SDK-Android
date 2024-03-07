@@ -31,8 +31,8 @@ internal class RsaHelperImplTest {
 
     @Test
     fun `encrypt() returns correct encrypted data`() {
-        rsaCertificateManager.fetchCertificateIfNeeded()
-        val encryptedText = rsaHelper.encrypt(TEST_CREDIT_CARD) ?: ""
+        rsaCertificateManager.fetchCertificate()
+        val encryptedText = rsaHelper.encrypt(TEST_CREDIT_CARD)
         val decryptedText = RsaUtils.decrypt(encryptedText, rsaCertificateManager.privateKey)
         assertEquals(TEST_CREDIT_CARD, decryptedText)
     }
@@ -70,14 +70,16 @@ internal class TestRsaCertificateManager : RsaCertificateManager {
     }
 
     override var certificate: X509Certificate? = null
-    override var publicKey: PublicKey? = null
     lateinit var privateKey: PrivateKey
+    private var publicKey: PublicKey? = null
 
-    override fun fetchCertificateIfNeeded() {
+    override fun fetchCertificate() {
         val keyGen = KeyPairGenerator.getInstance(ALGORITHM)
         keyGen.initialize(KEY_SIZE)
         val pair = keyGen.generateKeyPair()
         publicKey = pair.public
         privateKey = pair.private
     }
+
+    override fun getPublicKey(): PublicKey? = publicKey
 }

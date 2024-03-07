@@ -37,7 +37,7 @@ data class EasyPayConfiguration internal constructor(
                 sessionKey = sessionKey,
                 hmacSecret = hmacSecret
             )
-            instance?.rsaCertificateManager?.fetchCertificateIfNeeded()
+            instance?.rsaCertificateManager?.fetchCertificate()
         }
 
         internal fun reset() {

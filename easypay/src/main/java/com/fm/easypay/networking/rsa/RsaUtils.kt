@@ -1,27 +1,28 @@
 package com.fm.easypay.networking.rsa
 
 import android.util.Base64
-import java.security.KeyFactory
+import com.fm.easypay.exceptions.EasyPaySdkException
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.security.PrivateKey
 import java.security.PublicKey
-import java.security.spec.X509EncodedKeySpec
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 import javax.crypto.Cipher
 
 object RsaUtils {
 
     private const val TRANSFORMATION = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding"
-    private const val ALGORITHM = "RSA"
+    private const val CERTIFICATE_TYPE = "X.509"
 
-    fun stringToPublicKey(publicKeyBytes: ByteArray?): PublicKey? {
-        var publicKey = publicKeyBytes?.toString(Charsets.UTF_8)
-        publicKey = publicKey?.replace("-----BEGIN PUBLIC KEY-----", "")
-        publicKey = publicKey?.replace("-----END PUBLIC KEY-----", "")
-        publicKey = publicKey?.replace("\n", "")
-        publicKey = publicKey?.replace("\r", "")
-        val keyBytes = Base64.decode(publicKey, Base64.DEFAULT)
-        val spec = X509EncodedKeySpec(keyBytes)
-        val keyFactory = KeyFactory.getInstance(ALGORITHM)
-        return keyFactory.generatePublic(spec)
+    fun convertToCertificate(bytes: ByteArray): X509Certificate? {
+        return try {
+            val certificateFactory = CertificateFactory.getInstance(CERTIFICATE_TYPE)
+            val certificateInputStream: InputStream = ByteArrayInputStream(bytes)
+            certificateFactory.generateCertificate(certificateInputStream) as? X509Certificate
+        } catch (e: Exception) {
+            throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+        }
     }
 
     fun encrypt(

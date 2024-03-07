@@ -1,11 +1,13 @@
 package com.fm.easypay.utils
 
+import android.content.Context
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.net.URL
 
 internal interface DownloadManager {
@@ -14,6 +16,10 @@ internal interface DownloadManager {
         byteArraySize: Int = 4096,
         callback: (ByteArray?) -> Unit,
     )
+
+    fun downloadFromLocalStorage(context: Context, fileName: String): ByteArray?
+
+    fun saveLocally(byteArray: ByteArray, context: Context, fileName: String)
 }
 
 internal class DownloadManagerImpl(
@@ -41,5 +47,20 @@ internal class DownloadManagerImpl(
             }
             callback(output.toByteArray())
         }
+    }
+
+    override fun downloadFromLocalStorage(context: Context, fileName: String): ByteArray? {
+        return try {
+            val file = File(context.filesDir, fileName)
+            file.inputStream().readBytes()
+        } catch (e: Exception) {
+            // file not yet created
+            null
+        }
+    }
+
+    override fun saveLocally(byteArray: ByteArray, context: Context, fileName: String) {
+        val file = File(context.filesDir, fileName)
+        file.writeBytes(byteArray)
     }
 }
