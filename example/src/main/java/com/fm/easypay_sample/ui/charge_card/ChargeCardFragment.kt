@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay_sample.R
 import com.fm.easypay_sample.databinding.FragmentChargeCardBinding
 import com.fm.easypay_sample.utils.ViewState
@@ -71,7 +68,7 @@ class ChargeCardFragment : Fragment() {
 
     private fun initComponents() {
         binding.btnChargeCard.setOnClickListener {
-            val secureData = binding.stfCreditCard.data
+            val secureData = binding.stfCreditCard.secureData
             viewModel.chargeCreditCard(secureData)
         }
     }

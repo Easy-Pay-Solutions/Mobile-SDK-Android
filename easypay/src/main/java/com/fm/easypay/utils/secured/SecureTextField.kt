@@ -3,18 +3,20 @@ package com.fm.easypay.utils.secured
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatEditText
 import com.fm.easypay.networking.rsa.RsaHelper
+import com.google.android.material.textfield.TextInputEditText
 import org.koin.java.KoinJavaComponent
 
 class SecureTextField @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-) : AppCompatEditText(context, attrs, defStyleAttr), SecureWidget<String> {
+) : TextInputEditText(context, attrs, defStyleAttr), SecureWidget<String> {
 
     private val rsaHelper: RsaHelper by KoinJavaComponent.inject(RsaHelper::class.java)
+    private var realData = ""
 
-    override var data: SecureData<String> = SecureData("")
+    override var secureData: SecureData<String> = SecureData("")
 
     companion object {
         private const val SECURE_INPUT_TYPE =
@@ -25,9 +27,19 @@ class SecureTextField @JvmOverloads constructor(
         inputType = SECURE_INPUT_TYPE
     }
 
+    //region Public
+
+    var realTextLengthChanged: (Int) -> Unit = {}
+
+    fun getRealTextLength(): Int = realData.length
+
+    //endregion
+
+    //region Overridden methods
+
     override fun getText(): Editable? {
         return try {
-            Editable.Factory.getInstance().newEditable(data.data)
+            Editable.Factory.getInstance().newEditable(secureData.data)
         } catch (e: NullPointerException) {
             null
         }
@@ -35,7 +47,7 @@ class SecureTextField @JvmOverloads constructor(
 
     override fun getEditableText(): Editable {
         return try {
-            Editable.Factory.getInstance().newEditable(data.data)
+            Editable.Factory.getInstance().newEditable(secureData.data)
         } catch (e: NullPointerException) {
             Editable.Factory.getInstance().newEditable("")
         }
@@ -53,6 +65,19 @@ class SecureTextField @JvmOverloads constructor(
     ) {
         if (text.isNullOrEmpty()) return
         val encryptedData = rsaHelper.encrypt(text.toString())
-        data = SecureData(encryptedData)
+        realData = text.toString()
+        secureData = SecureData(encryptedData)
+        realTextLengthChanged(realData.length)
     }
+
+    override fun addTextChangedListener(watcher: TextWatcher?) {
+        // does nothing
+    }
+
+    override fun removeTextChangedListener(watcher: TextWatcher?) {
+        // does nothing
+    }
+
+    //endregion
+
 }
