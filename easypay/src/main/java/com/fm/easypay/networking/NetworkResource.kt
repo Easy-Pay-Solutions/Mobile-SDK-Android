@@ -1,8 +1,12 @@
 package com.fm.easypay.networking
 
-import com.fm.easypay.api.EasyPayApiError
+import com.fm.easypay.exceptions.EasyPayApiException
 
-data class NetworkResource<out T>(val status: Status, val data: T?, val error: EasyPayApiError?) {
+data class NetworkResource<out T>(
+    val status: Status,
+    val data: T?,
+    val error: EasyPayApiException?,
+) {
 
     enum class Status {
         SUCCESS,
@@ -15,7 +19,7 @@ data class NetworkResource<out T>(val status: Status, val data: T?, val error: E
             return NetworkResource(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(error: EasyPayApiError, data: T? = null): NetworkResource<T> {
+        fun <T> error(error: EasyPayApiException, data: T? = null): NetworkResource<T> {
             return NetworkResource(Status.ERROR, data, error)
         }
 

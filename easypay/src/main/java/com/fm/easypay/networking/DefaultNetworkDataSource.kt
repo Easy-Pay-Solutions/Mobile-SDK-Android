@@ -4,6 +4,7 @@ import com.fm.easypay.api.EasyPayApiError
 import com.fm.easypay.api.responses.base.ApiResponse
 import com.fm.easypay.api.responses.base.ApiResult
 import com.fm.easypay.api.responses.base.TransactionResult
+import com.fm.easypay.exceptions.EasyPayApiException
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
@@ -64,7 +65,10 @@ internal class DefaultNetworkDataSource : NetworkDataSource {
             }
         }
 
-        val e = EasyPayApiError(code, msg)
+        val e = EasyPayApiException(
+            EasyPayApiError(code, msg)
+        )
+
         return NetworkResource.error(e)
     }
 

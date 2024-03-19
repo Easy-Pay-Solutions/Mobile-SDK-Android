@@ -12,7 +12,6 @@ import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
 import com.fm.easypay.repositories.charge_cc.PersonalDataParam
 import com.fm.easypay.repositories.charge_cc.PurchaseItemsParam
 import com.fm.easypay.utils.secured.SecureData
-import com.fm.easypay.utils.secured.SecureTextField
 import com.fm.easypay_sample.utils.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -63,8 +62,8 @@ class ChargeCardViewModel @Inject constructor(
     private fun prepareParams(): ChargeCreditCardBodyParams =
         ChargeCreditCardBodyParams(
             creditCardInfo = prepareCreditCardInfo(),
-            accountHolder = preparePersonalData(),
-            endCustomer = preparePersonalData(),
+            accountHolder = prepareAccountHolder(),
+            endCustomer = prepareEndCustomer(),
             amounts = prepareAmounts(),
             purchaseItems = preparePurchaseItems(),
             merchantId = 1
@@ -95,7 +94,18 @@ class ChargeCardViewModel @Inject constructor(
         totalMedicalAmount = 0.0
     )
 
-    private fun preparePersonalData(): PersonalDataParam = PersonalDataParam(
+    private fun prepareAccountHolder(): PersonalDataParam = PersonalDataParam(
+        firstName = "John",
+        lastName = "Doe",
+        company = "",
+        title = "",
+        url = "",
+        billingAddress = prepareBillingAddress(),
+        email = "robert@easypaysolutions.com",
+        phone = "8775558472"
+    )
+
+    private fun prepareEndCustomer(): PersonalDataParam = PersonalDataParam(
         firstName = "John",
         lastName = "Doe",
         company = "",

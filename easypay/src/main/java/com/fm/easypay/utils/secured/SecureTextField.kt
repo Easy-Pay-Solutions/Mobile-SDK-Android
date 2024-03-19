@@ -2,6 +2,7 @@ package com.fm.easypay.utils.secured
 
 import android.content.Context
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -19,12 +20,14 @@ class SecureTextField @JvmOverloads constructor(
     override var secureData: SecureData<String> = SecureData("")
 
     companion object {
+        private const val MAX_SECURE_LENGTH = 16
         private const val SECURE_INPUT_TYPE =
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
     }
 
     init {
         inputType = SECURE_INPUT_TYPE
+        filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_SECURE_LENGTH))
     }
 
     //region Public
@@ -63,7 +66,7 @@ class SecureTextField @JvmOverloads constructor(
         lengthBefore: Int,
         lengthAfter: Int,
     ) {
-        if (text.isNullOrEmpty()) return
+        if (text.isNullOrEmpty() || text.length > MAX_SECURE_LENGTH) return
         val encryptedData = rsaHelper.encrypt(text.toString())
         realData = text.toString()
         secureData = SecureData(encryptedData)

@@ -3,6 +3,7 @@ package com.fm.easypay.api
 import com.fm.easypay.api.responses.ChargeCreditCardResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -10,10 +11,14 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 internal class EasyPayServiceTest {
 
     private lateinit var api: EasyPayService

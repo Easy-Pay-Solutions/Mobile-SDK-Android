@@ -6,7 +6,7 @@ package com.fm.easypay.exceptions
 class EasyPaySdkException(
     val type: Type,
     cause: Throwable? = null,
-) : EasyPayException(type.message, cause) {
+) : EasyPayException(null, type.message, cause) {
 
     enum class Type(val message: String) {
         EASY_PAY_CONFIGURATION_NOT_INITIALIZED("EasyPayConfiguration not initialized."),
