@@ -6,29 +6,31 @@
     android:layout_height="match_parent"
     tools:context="com.fm.easypay_sample.ui.MainFragment">
 
-    <Button
-        android:id="@+id/btn_charge_card"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/charge_a_credit_card_example"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        <Button
+            android:id="@+id/btn_prefilled_charge_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/charge_a_prefilled_credit_card_example" />
 
-    <Button
-        android:id="@+id/btn_consent_annual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/consent_annual_example"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline" />
+        <Button
+            android:id="@+id/btn_charge_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/charge_a_credit_card_example" />
+
+        <Button
+            android:id="@+id/btn_consent_annual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/consent_annual_example" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

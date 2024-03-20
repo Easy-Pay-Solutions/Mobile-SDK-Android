@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.fm.easypay_sample.R
 import com.fm.easypay_sample.databinding.FragmentChargeCardBinding
+import com.fm.easypay_sample.utils.AlertUtils
 import com.fm.easypay_sample.utils.ViewState
 import com.fm.easypay_sample.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,8 @@ class ChargeCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val isPrefilled = arguments?.let {ChargeCardFragmentArgs.fromBundle(it).isPrefilled } ?: false
+        viewModel.setupViewData(isPrefilled)
         initFlows()
         initComponents()
     }
@@ -47,14 +50,13 @@ class ChargeCardFragment : Fragment() {
                         is ViewState.Loading -> binding.progressView.show()
                         is ViewState.Success -> {
                             it.value?.let { result ->
-                                binding.txtMain.text = result.responseMessage
+                                AlertUtils.showAlert(requireContext(), result.responseMessage)
                             }
                             binding.progressView.hide()
                         }
-
                         is ViewState.Error -> {
                             binding.progressView.hide()
-                            binding.txtMain.text = it.message
+                            AlertUtils.showAlert(requireContext(), it.message)
                         }
                     }
                 }
@@ -67,9 +69,12 @@ class ChargeCardFragment : Fragment() {
     //region Components
 
     private fun initComponents() {
-        binding.btnChargeCard.setOnClickListener {
-            val secureData = binding.stfCreditCard.secureData
-            viewModel.chargeCreditCard(secureData)
+        binding.apply {
+            layoutFields.data = viewModel.viewData
+            btnChargeCard.setOnClickListener {
+                val secureData = layoutFields.stfCardNumber.secureData
+                viewModel.chargeCreditCard(secureData)
+            }
         }
     }
 

@@ -10,12 +10,12 @@ import com.fm.easypay.repositories.charge_cc.ChargeCreditCardBodyParams
 
 internal object RegexPattern {
     const val FIRST_OR_LAST_NAME = "^[a-zA-Z0-9'\\s\\-.,&?/]*$"
-    const val COMPANY_OR_TITLE_OR_ADDRESS = "^[a-zA-Z0-9\\-.,£_&/\\s]*$"
+    const val COMPANY_OR_TITLE_OR_ADDRESS = "^[a-zA-Z0-9\\-.,#_&/\\s]*$"
     const val CITY = "^[a-zA-Z .]*$"
     const val ZIP_CODE = "^[a-zA-Z0-9- ]*$"
     const val STATE = "^[a-zA-Z\\s]*$"
-    const val SERVICE_DESCRIPTION = "^[a-zA-Z0-9 ._\\-£]*$"
-    const val CLIENT_REF_ID_OR_RPGUID = "^[a-zA-Z0-9 _,\\-£]*$"
+    const val SERVICE_DESCRIPTION = "^[a-zA-Z0-9 ._\\-#]*$"
+    const val CLIENT_REF_ID_OR_RPGUID = "^[a-zA-Z0-9 _,\\-#]*$"
     const val EMAIL = ".+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*"
     const val ONLY_NUMBERS = "^[0-9]*$"
 }

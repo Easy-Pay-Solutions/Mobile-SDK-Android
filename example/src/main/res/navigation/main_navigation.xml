@@ -21,7 +21,12 @@
         android:id="@+id/chargeCardFragment"
         android:name="com.fm.easypay_sample.ui.charge_card.ChargeCardFragment"
         android:label="fragment_charge_card"
-        tools:layout="@layout/fragment_charge_card" />
+        tools:layout="@layout/fragment_charge_card" >
+        <argument
+            android:name="isPrefilled"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
     <fragment
         android:id="@+id/consentAnnualFragment"
         android:name="com.fm.easypay_sample.ui.consent_annual.ConsentAnnualFragment"

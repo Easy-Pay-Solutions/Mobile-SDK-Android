@@ -6,7 +6,7 @@ import com.fm.easypay.api.EasyPayApiError
  * A base class for EasyPay-related exceptions.
  */
 abstract class EasyPayException(
-    easyPayError: EasyPayApiError? = null,
+    val easyPayError: EasyPayApiError? = null,
     message: String? = easyPayError?.message,
     cause: Throwable? = null,
 ) : Exception(message, cause)

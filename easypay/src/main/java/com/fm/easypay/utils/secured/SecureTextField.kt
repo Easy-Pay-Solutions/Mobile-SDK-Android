@@ -6,12 +6,13 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import androidx.appcompat.R
 import com.fm.easypay.networking.rsa.RsaHelper
 import com.google.android.material.textfield.TextInputEditText
 import org.koin.java.KoinJavaComponent
 
 class SecureTextField @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = R.attr.editTextStyle,
 ) : TextInputEditText(context, attrs, defStyleAttr), SecureWidget<String> {
 
     private val rsaHelper: RsaHelper by KoinJavaComponent.inject(RsaHelper::class.java)

@@ -31,6 +31,9 @@ class MainFragment : Fragment() {
 
     private fun initComponents() {
         binding.apply {
+            btnPrefilledChargeCard.setOnClickListener {
+                navigateToChargeCard(prefilled = true)
+            }
             btnChargeCard.setOnClickListener {
                 navigateToChargeCard()
             }
@@ -40,8 +43,8 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun navigateToChargeCard() {
-        val action = MainFragmentDirections.actionMainFragmentToChargeCardFragment()
+    private fun navigateToChargeCard(prefilled: Boolean = false) {
+        val action = MainFragmentDirections.actionMainFragmentToChargeCardFragment(prefilled)
         findNavController().navigate(action)
     }
 

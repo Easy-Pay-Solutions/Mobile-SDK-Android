@@ -1,6 +1,6 @@
 package com.fm.easypay.utils
 
-enum class VersionType {
+internal enum class VersionType {
     ACTUAL,         //version is matching
     DEPRECATED,     //minor version y differs
     OUTDATED        //major version x differs
