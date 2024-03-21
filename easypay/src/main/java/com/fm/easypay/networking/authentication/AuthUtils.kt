@@ -13,9 +13,8 @@ internal class AuthUtilsImpl : AuthUtils {
 
     @SuppressLint("HardwareIds")
     override fun getDeviceId(context: Context): String {
-        // TODO("Fix this after clarification with the client")
-//        return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
-        return "EP8392831"
+        return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+            .uppercase()
     }
 }
 
