@@ -8,6 +8,7 @@ import com.fm.easypay.api.requests.PersonalDataDto
 import com.fm.easypay.api.requests.PurchaseItemsDto
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
+import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay.utils.validation.RegexPattern.CITY
 import com.fm.easypay.utils.validation.RegexPattern.CLIENT_REF_ID_OR_RPGUID
 import com.fm.easypay.utils.validation.RegexPattern.COMPANY_OR_TITLE_OR_ADDRESS
@@ -23,6 +24,7 @@ import com.fm.easypay.utils.validation.ValidateRegex
 import com.fm.easypay.utils.validation.ValidateUrl
 
 data class ChargeCreditCardBodyParams(
+    val encryptedCardNumber: SecureData<String>,
     val creditCardInfo: CreditCardInfoParam,
     val accountHolder: PersonalDataParam,
     val endCustomer: PersonalDataParam?,
@@ -30,9 +32,9 @@ data class ChargeCreditCardBodyParams(
     val purchaseItems: PurchaseItemsParam,
     val merchantId: Int,
 ) : BaseBodyParams() {
-    internal fun toDto(encryptedAccountNumber: String): ChargeCreditCardBodyDto =
+    internal fun toDto(): ChargeCreditCardBodyDto =
         ChargeCreditCardBodyDto(
-            creditCardInfo = creditCardInfo.toDto(encryptedAccountNumber),
+            creditCardInfo = creditCardInfo.toDto(encryptedCardNumber.data),
             accountHolder = accountHolder.toDto(),
             endCustomer = endCustomer?.toDto() ?: Any(),
             amounts = amounts.toDto(),

@@ -11,7 +11,7 @@ internal class RsaHelperImpl(
 
     override fun encrypt(data: String): String {
         if (data.isEmpty()) {
-            throw EasyPaySdkException(EasyPaySdkException.Type.RSA_INPUT_DATA_EMPTY)
+            return data
         }
         val publicKey = rsaCertificateManager.getPublicKey()
         publicKey?.let {

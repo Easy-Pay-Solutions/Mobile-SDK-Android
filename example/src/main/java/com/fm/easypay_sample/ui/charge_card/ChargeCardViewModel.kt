@@ -36,8 +36,8 @@ class ChargeCardViewModel @Inject constructor(
     fun chargeCreditCard(secureData: SecureData<String>) {
         viewModelScope.launch {
             _chargeCreditCardResult.emit(ViewState.Loading())
-            val params = viewData.toChargeCreditCardBodyParams()
-            val response = chargeCreditCard.chargeCreditCard(params, secureData)
+            val params = viewData.toChargeCreditCardBodyParams(secureData)
+            val response = chargeCreditCard.chargeCreditCard(params)
             when (response.status) {
                 NetworkResource.Status.SUCCESS -> {
                     response.data?.let {

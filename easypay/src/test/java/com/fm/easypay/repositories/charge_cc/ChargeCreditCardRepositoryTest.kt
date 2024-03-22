@@ -26,7 +26,7 @@ internal class ChargeCreditCardRepositoryTest {
     @Test
     fun `chargeCreditCard() with valid params returns Success`() = runBlocking {
         val params = prepareParams()
-        val result = repository.chargeCreditCard(params, testSecureData)
+        val result = repository.chargeCreditCard(params)
         assertEquals(result.status, NetworkResource.Status.SUCCESS)
     }
 
@@ -35,7 +35,7 @@ internal class ChargeCreditCardRepositoryTest {
         runBlocking {
             val tooLongZip = "99999999999999999999999"    //should be limited to 20 digits
             val params = prepareParams(tooLongZip)
-            val result = repository.chargeCreditCard(params, testSecureData)
+            val result = repository.chargeCreditCard(params)
             assertEquals(result.status, NetworkResource.Status.ERROR)
             assertEquals(result.error?.message, "zip exceeds maximum length of 20 characters")
         }
@@ -45,7 +45,7 @@ internal class ChargeCreditCardRepositoryTest {
         runBlocking {
             val invalidZip = "999?"    //cannot contain question mark
             val params = prepareParams(invalidZip)
-            val result = repository.chargeCreditCard(params, testSecureData)
+            val result = repository.chargeCreditCard(params)
             assertEquals(result.status, NetworkResource.Status.ERROR)
             assertEquals(result.error?.message, "zip contains invalid characters")
         }
@@ -55,7 +55,7 @@ internal class ChargeCreditCardRepositoryTest {
         runBlocking {
             val invalidTotalAmount: Double = -1.0    //double cannot be negative
             val params = prepareParams(totalAmount = invalidTotalAmount)
-            val result = repository.chargeCreditCard(params, testSecureData)
+            val result = repository.chargeCreditCard(params)
             assertEquals(result.status, NetworkResource.Status.ERROR)
             assertEquals(result.error?.message, "totalAmount must be greater than 0.0")
         }
@@ -69,6 +69,7 @@ internal class ChargeCreditCardRepositoryTest {
         totalAmount: Double = 10.0
     ): ChargeCreditCardBodyParams =
         ChargeCreditCardBodyParams(
+            encryptedCardNumber = testSecureData,
             creditCardInfo = prepareCreditCardInfo(),
             accountHolder = prepareAccountHolder(zip),
             endCustomer = prepareEndCustomer(),

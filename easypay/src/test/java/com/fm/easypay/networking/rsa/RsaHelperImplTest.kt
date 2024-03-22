@@ -48,18 +48,6 @@ internal class RsaHelperImplTest {
             )
         }
     }
-
-    @Test
-    fun `encrypt() fails on empty input`() {
-        try {
-            rsaHelper.encrypt("")
-        } catch (e: EasyPaySdkException) {
-            assertEquals(
-                EasyPaySdkException.Type.RSA_INPUT_DATA_EMPTY.message,
-                e.message
-            )
-        }
-    }
 }
 
 internal class TestRsaCertificateManager : RsaCertificateManager {

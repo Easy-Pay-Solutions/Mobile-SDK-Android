@@ -6,6 +6,7 @@ import com.fm.easypay.repositories.charge_cc.ChargeCreditCardBodyParams
 import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
 import com.fm.easypay.repositories.charge_cc.PersonalDataParam
 import com.fm.easypay.repositories.charge_cc.PurchaseItemsParam
+import com.fm.easypay.utils.secured.SecureData
 
 data class ChargeCardViewData(
     var merchantId: String? = null,
@@ -55,8 +56,9 @@ data class ChargeCardViewData(
 
     //region Public
 
-    fun toChargeCreditCardBodyParams(): ChargeCreditCardBodyParams {
+    fun toChargeCreditCardBodyParams(secureData: SecureData<String>): ChargeCreditCardBodyParams {
         return ChargeCreditCardBodyParams(
+            encryptedCardNumber = secureData,
             creditCardInfo = prepareCreditCardInfo(),
             accountHolder = prepareAccountHolder(),
             endCustomer = prepareEndCustomer(),
@@ -106,7 +108,8 @@ data class ChargeCardViewData(
             customerZip.isNullOrEmpty() &&
             customerCountry.isNullOrEmpty() &&
             customerCity.isNullOrEmpty() &&
-            customerState.isNullOrEmpty()) {
+            customerState.isNullOrEmpty()
+        ) {
             return null
         }
         return PersonalDataParam(
