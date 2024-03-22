@@ -26,10 +26,11 @@ internal object ValidatorUtils {
         params: ChargeCreditCardBodyParams,
         call: suspend () -> NetworkResource<T>,
     ): NetworkResource<T> {
-        val validationError = validate(params)
-        validationError?.let {
-            return NetworkResource.error(it)
-        }
+        // TODO: Uncomment after clarifying validation approach with EP team
+//        val validationError = validate(params)
+//        validationError?.let {
+//            return NetworkResource.error(it)
+//        }
         return call()
     }
 
