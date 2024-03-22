@@ -15,8 +15,9 @@ internal data class ChargeCreditCardBodyDto(
     @SerializedName("AcctHolder")
     val accountHolder: PersonalDataDto,
 
+    // EndCustomer is optional, but API doesn't allow null values - requires empty object.
     @SerializedName("EndCustomer")
-    val endCustomer: PersonalDataDto,
+    val endCustomer: Any,
 
     @SerializedName("Amounts")
     val amounts: AmountsDto,

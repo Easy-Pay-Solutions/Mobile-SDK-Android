@@ -25,7 +25,7 @@ import com.fm.easypay.utils.validation.ValidateUrl
 data class ChargeCreditCardBodyParams(
     val creditCardInfo: CreditCardInfoParam,
     val accountHolder: PersonalDataParam,
-    val endCustomer: PersonalDataParam,
+    val endCustomer: PersonalDataParam?,
     val amounts: AmountsParam,
     val purchaseItems: PurchaseItemsParam,
     val merchantId: Int,
@@ -34,19 +34,20 @@ data class ChargeCreditCardBodyParams(
         ChargeCreditCardBodyDto(
             creditCardInfo = creditCardInfo.toDto(encryptedAccountNumber),
             accountHolder = accountHolder.toDto(),
-            endCustomer = endCustomer.toDto(),
+            endCustomer = endCustomer?.toDto() ?: Any(),
             amounts = amounts.toDto(),
             purchaseItems = purchaseItems.toDto(),
             merchantId = merchantId,
         )
 
     override fun toMappedFields(): List<MappedField> {
-        return this.javaClass.declaredFields.toList().map { MappedField(it, it.get(this)) } +
+        val list = this.javaClass.declaredFields.toList().map { MappedField(it, it.get(this)) } +
                 creditCardInfo.toMappedFields() +
                 accountHolder.toMappedFields() +
-                endCustomer.toMappedFields() +
                 amounts.toMappedFields() +
                 purchaseItems.toMappedFields()
+        endCustomer?.let { list.plus(it.toMappedFields()) }
+        return list
     }
 }
 

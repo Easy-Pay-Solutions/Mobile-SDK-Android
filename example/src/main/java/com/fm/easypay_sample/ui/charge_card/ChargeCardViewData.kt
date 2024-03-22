@@ -93,7 +93,22 @@ data class ChargeCardViewData(
         )
     }
 
-    private fun prepareEndCustomer(): PersonalDataParam {
+    private fun prepareEndCustomer(): PersonalDataParam? {
+        if (customerFirstName.isNullOrEmpty() &&
+            customerLastName.isNullOrEmpty() &&
+            customerCompany.isNullOrEmpty() &&
+            customerTitle.isNullOrEmpty() &&
+            customerUrl.isNullOrEmpty() &&
+            customerEmail.isNullOrEmpty() &&
+            customerPhone.isNullOrEmpty() &&
+            customerAddress1.isNullOrEmpty() &&
+            customerAddress2.isNullOrEmpty() &&
+            customerZip.isNullOrEmpty() &&
+            customerCountry.isNullOrEmpty() &&
+            customerCity.isNullOrEmpty() &&
+            customerState.isNullOrEmpty()) {
+            return null
+        }
         return PersonalDataParam(
             firstName = customerFirstName ?: "",
             lastName = customerLastName ?: "",
