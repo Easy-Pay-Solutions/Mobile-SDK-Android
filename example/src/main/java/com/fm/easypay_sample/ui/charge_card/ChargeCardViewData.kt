@@ -16,8 +16,6 @@ data class ChargeCardViewData(
     var holderFirstName: String? = null,
     var holderLastName: String? = null,
     var holderCompany: String? = null,
-    var holderTitle: String? = null,
-    var holderUrl: String? = null,
     var holderPhone: String? = null,
     var holderEmail: String? = null,
     var holderAddress1: String? = null,
@@ -29,8 +27,6 @@ data class ChargeCardViewData(
     var customerFirstName: String? = null,
     var customerLastName: String? = null,
     var customerCompany: String? = null,
-    var customerTitle: String? = null,
-    var customerUrl: String? = null,
     var customerPhone: String? = null,
     var customerEmail: String? = null,
     var customerAddress1: String? = null,
@@ -42,13 +38,6 @@ data class ChargeCardViewData(
     var totalAmount: String? = null,
     var salesAmount: String? = null,
     var surcharge: String? = null,
-    var tip: String? = null,
-    var cashBack: String? = null,
-    var clinicAmount: String? = null,
-    var visionAmount: String? = null,
-    var prescriptionAmount: String? = null,
-    var dentalAmount: String? = null,
-    var totalMedicalAmount: String? = null,
     var serviceDescription: String? = null,
     var clientRefId: String? = null,
     var rpguid: String? = null,
@@ -85,13 +74,6 @@ data class ChargeCardViewData(
             totalAmount = totalAmount?.toDouble() ?: 0.0,
             salesTax = salesAmount?.toDouble(),
             surcharge = surcharge?.toDouble(),
-            tip = tip?.toDouble(),
-            cashback = cashBack?.toDouble(),
-            clinicAmount = clinicAmount?.toDouble(),
-            visionAmount = visionAmount?.toDouble(),
-            prescriptionAmount = prescriptionAmount?.toDouble(),
-            dentalAmount = dentalAmount?.toDouble(),
-            totalMedicalAmount = totalMedicalAmount?.toDouble()
         )
     }
 
@@ -99,8 +81,6 @@ data class ChargeCardViewData(
         if (customerFirstName.isNullOrEmpty() &&
             customerLastName.isNullOrEmpty() &&
             customerCompany.isNullOrEmpty() &&
-            customerTitle.isNullOrEmpty() &&
-            customerUrl.isNullOrEmpty() &&
             customerEmail.isNullOrEmpty() &&
             customerPhone.isNullOrEmpty() &&
             customerAddress1.isNullOrEmpty() &&
@@ -116,8 +96,6 @@ data class ChargeCardViewData(
             firstName = customerFirstName ?: "",
             lastName = customerLastName ?: "",
             company = customerCompany,
-            title = customerTitle,
-            url = customerUrl,
             billingAddress = prepareBillingAddress(
                 customerAddress1,
                 customerAddress2,
@@ -136,8 +114,6 @@ data class ChargeCardViewData(
             firstName = holderFirstName ?: "",
             lastName = holderLastName ?: "",
             company = holderCompany,
-            title = holderTitle,
-            url = holderUrl,
             billingAddress = prepareBillingAddress(
                 holderAddress1,
                 holderAddress2,

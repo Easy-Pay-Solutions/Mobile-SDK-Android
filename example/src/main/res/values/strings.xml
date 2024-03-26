@@ -16,8 +16,6 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="company">Company</string>
-    <string name="title">Title</string>
-    <string name="url">URL</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="billing_address">Billing Address</string>
@@ -33,13 +31,6 @@
     <string name="total_amount">Total amount</string>
     <string name="sales_amount">Sales amount</string>
     <string name="surcharge">Surcharge</string>
-    <string name="tip">Tip</string>
-    <string name="cash_back">Cash back</string>
-    <string name="clinic_amount">Clinic amount</string>
-    <string name="vision_amount">Vision amount</string>
-    <string name="prescription_amount">Prescription amount</string>
-    <string name="dental_amount">Dental amount</string>
-    <string name="total_medical_amount">Total medical amount</string>
     <string name="purchase_items">Purchase Items</string>
     <string name="service_description">Service Description</string>
     <string name="client_ref_id">ClientRefId</string>

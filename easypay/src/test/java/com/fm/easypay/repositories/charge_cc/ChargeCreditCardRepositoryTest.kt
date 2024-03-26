@@ -66,7 +66,7 @@ internal class ChargeCreditCardRepositoryTest {
 
     private fun prepareParams(
         zip: String = "04005",
-        totalAmount: Double = 10.0
+        totalAmount: Double = 10.0,
     ): ChargeCreditCardBodyParams =
         ChargeCreditCardBodyParams(
             encryptedCardNumber = testSecureData,
@@ -94,13 +94,6 @@ internal class ChargeCreditCardRepositoryTest {
         totalAmount = totalAmount,
         salesTax = 0.0,
         surcharge = 0.0,
-        tip = 0.0,
-        cashback = 0.0,
-        clinicAmount = 0.0,
-        visionAmount = 0.0,
-        prescriptionAmount = 0.0,
-        dentalAmount = 0.0,
-        totalMedicalAmount = 0.0
     )
 
     private fun prepareAccountHolder(zip: String): PersonalDataParam =
@@ -108,8 +101,6 @@ internal class ChargeCreditCardRepositoryTest {
             firstName = "John",
             lastName = "Doe",
             company = "",
-            title = "",
-            url = "",
             billingAddress = prepareBillingAddress(zip),
             email = "robert@easypaysolutions.com",
             phone = "8775558472"
@@ -119,8 +110,6 @@ internal class ChargeCreditCardRepositoryTest {
         firstName = "John",
         lastName = "Doe",
         company = "",
-        title = "",
-        url = "",
         billingAddress = prepareBillingAddress(),
         email = "robert@easypaysolutions.com",
         phone = "8775558472"

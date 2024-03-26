@@ -1,6 +1,5 @@
 package com.fm.easypay.utils.validation
 
-import android.webkit.URLUtil
 import com.fm.easypay.api.responses.base.ApiResult
 import com.fm.easypay.exceptions.EasyPayApiException
 import com.fm.easypay.networking.NetworkResource
@@ -10,7 +9,7 @@ import com.fm.easypay.repositories.charge_cc.ChargeCreditCardBodyParams
 
 internal object RegexPattern {
     const val FIRST_OR_LAST_NAME = "^[a-zA-Z0-9'\\s\\-.,&?/]*$"
-    const val COMPANY_OR_TITLE_OR_ADDRESS = "^[a-zA-Z0-9\\-.,#_&/\\s]*$"
+    const val COMPANY_OR_ADDRESS = "^[a-zA-Z0-9\\-.,#_&/\\s]*$"
     const val CITY = "^[a-zA-Z .]*$"
     const val ZIP_CODE = "^[a-zA-Z0-9- ]*$"
     const val STATE = "^[a-zA-Z\\s]*$"
@@ -46,10 +45,6 @@ internal object ValidatorUtils {
                         validateRegex(mappedField, annotation)?.let { return it }
                     }
 
-                    is ValidateUrl -> {
-                        validateUrl(mappedField)?.let { return it }
-                    }
-
                     is ValidateDoubleGreaterThanZero -> {
                         validateDoubleGreaterThanZero(mappedField)?.let { return it }
                     }
@@ -67,20 +62,6 @@ internal object ValidatorUtils {
         return if (!isValid) {
             EasyPayApiException(
                 message = "${mappedField.field.name} must be greater than 0.0"
-            )
-        } else {
-            null
-        }
-    }
-
-    private fun validateUrl(mappedField: MappedField): EasyPayApiException? {
-        var isValid = true
-        if (mappedField.value is String && mappedField.value.isNotEmpty()) {
-            isValid = URLUtil.isValidUrl(mappedField.value)
-        }
-        return if (!isValid) {
-            EasyPayApiException(
-                message = "${mappedField.field.name} contains invalid URL format"
             )
         } else {
             null

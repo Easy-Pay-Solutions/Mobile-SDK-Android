@@ -101,18 +101,6 @@
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:mainText="@={data.holderTitle}"
-                app:title="@string/title" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.holderUrl}"
-                app:title="@string/url" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:mainText="@={data.holderPhone}"
                 app:title="@string/phone" />
 
@@ -213,18 +201,6 @@
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:mainText="@={data.customerTitle}"
-                app:title="@string/title" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.customerUrl}"
-                app:title="@string/url" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:mainText="@={data.customerPhone}"
                 app:title="@string/phone" />
 
@@ -321,48 +297,6 @@
                 android:layout_height="wrap_content"
                 app:mainText="@={data.surcharge}"
                 app:title="@string/surcharge" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.tip}"
-                app:title="@string/tip" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.cashBack}"
-                app:title="@string/cash_back" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.clinicAmount}"
-                app:title="@string/clinic_amount" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.visionAmount}"
-                app:title="@string/vision_amount" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.prescriptionAmount}"
-                app:title="@string/prescription_amount" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.dentalAmount}"
-                app:title="@string/dental_amount" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mainText="@={data.totalMedicalAmount}"
-                app:title="@string/total_medical_amount" />
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
