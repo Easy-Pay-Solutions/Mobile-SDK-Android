@@ -1,4 +1,4 @@
-package com.fm.easypay.repositories.charge_cc
+package com.fm.easypay.repositories.consent_annual.create
 
 import com.fm.easypay.api.EasyPayApiHelper
 import com.fm.easypay.api.requests.ChargeCreditCardRequest
@@ -8,58 +8,66 @@ import com.fm.easypay.api.responses.ChargeCreditCardResult
 import com.fm.easypay.api.responses.ConsentAnnualQueryResult
 import com.fm.easypay.api.responses.CreateAnnualConsentResult
 import com.fm.easypay.networking.NetworkResource
+import com.fm.easypay.repositories.charge_cc.BillingAddressParam
+import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
+import com.fm.easypay.repositories.charge_cc.PersonalDataParam
 import com.fm.easypay.utils.secured.SecureData
-import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.Date
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ChargeCreditCardRepositoryTest {
+internal class CreateAnnualConsentRepositoryTest {
 
     private val apiHelper = TestApiHelper()
-    private val repository: ChargeCreditCardRepository = ChargeCreditCardRepositoryImpl(apiHelper)
+    private val repository: CreateAnnualConsentRepository =
+        CreateAnnualConsentRepositoryImpl(apiHelper)
     private val testSecureData = SecureData("encryptedData")
 
     //region Tests
 
     @Test
-    fun `chargeCreditCard() with valid params returns Success`() = runBlocking {
+    fun `createAnnualConsent() with valid params returns Success`() = runBlocking {
         val params = prepareParams()
-        val result = repository.chargeCreditCard(params)
-        assertEquals(result.status, NetworkResource.Status.SUCCESS)
+        val result = repository.createAnnualConsent(params)
+        TestCase.assertEquals(result.status, NetworkResource.Status.SUCCESS)
     }
 
     @Test
-    fun `chargeCreditCard() with too long ZIP parameter returns Error for MaxLength`() =
+    fun `createAnnualConsent() with too long ZIP parameter returns Error for MaxLength`() =
         runBlocking {
             val tooLongZip = "99999999999999999999999"    //should be limited to 20 digits
             val params = prepareParams(tooLongZip)
-            val result = repository.chargeCreditCard(params)
-            assertEquals(result.status, NetworkResource.Status.ERROR)
-            assertEquals(result.error?.message, "zip exceeds maximum length of 20 characters")
+            val result = repository.createAnnualConsent(params)
+            TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
+            TestCase.assertEquals(
+                result.error?.message,
+                "zip exceeds maximum length of 20 characters"
+            )
         }
 
     @Test
-    fun `chargeCreditCard() with invalid characters in ZIP returns Error for InvalidCharacters`() =
+    fun `createAnnualConsent() with invalid characters in ZIP returns Error for InvalidCharacters`() =
         runBlocking {
             val invalidZip = "999?"    //cannot contain question mark
             val params = prepareParams(invalidZip)
-            val result = repository.chargeCreditCard(params)
-            assertEquals(result.status, NetworkResource.Status.ERROR)
-            assertEquals(result.error?.message, "zip contains invalid characters")
+            val result = repository.createAnnualConsent(params)
+            TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
+            TestCase.assertEquals(result.error?.message, "zip contains invalid characters")
         }
 
     @Test
-    fun `chargeCreditCard() with negative TotalAmount returns Error for DoubleNotGreaterThanZero`() =
+    fun `chargeCreditCard() with negative LimitPerCharge returns Error for DoubleNotGreaterThanZero`() =
         runBlocking {
-            val invalidTotalAmount: Double = -1.0    //double cannot be negative
-            val params = prepareParams(totalAmount = invalidTotalAmount)
-            val result = repository.chargeCreditCard(params)
-            assertEquals(result.status, NetworkResource.Status.ERROR)
-            assertEquals(result.error?.message, "totalAmount must be greater than 0.0")
+            val invalidLimitPerCharge: Double = -1.0    //double cannot be negative
+            val params = prepareParams(limitPerCharge = invalidLimitPerCharge)
+            val result = repository.createAnnualConsent(params)
+            TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
+            TestCase.assertEquals(result.error?.message, "limitPerCharge must be greater than 0.0")
         }
 
     //endregion
@@ -68,34 +76,31 @@ internal class ChargeCreditCardRepositoryTest {
 
     private fun prepareParams(
         zip: String = "04005",
-        totalAmount: Double = 10.0,
-    ): ChargeCreditCardBodyParams =
-        ChargeCreditCardBodyParams(
+        limitPerCharge: Double = 10.0,
+    ): CreateAnnualConsentBodyParams =
+        CreateAnnualConsentBodyParams(
             encryptedCardNumber = testSecureData,
             creditCardInfo = prepareCreditCardInfo(),
             accountHolder = prepareAccountHolder(zip),
             endCustomer = prepareEndCustomer(),
-            amounts = prepareAmounts(totalAmount),
-            purchaseItems = preparePurchaseItems(),
-            merchantId = 1
+            consentCreator = prepareConsentCreator(limitPerCharge),
         )
+
+    private fun prepareConsentCreator(limitPerCharge: Double): ConsentCreatorParam = ConsentCreatorParam(
+        merchantId = 1,
+        serviceDescription = "Service Description",
+        clientRefId = "Client Ref Id",
+        rpguid = "RPGUID",
+        startDate = Date(),
+        numDays = 365,
+        limitPerCharge = limitPerCharge,
+        limitLifeTime = 100.0
+    )
 
     private fun prepareCreditCardInfo(): CreditCardInfoParam = CreditCardInfoParam(
         expMonth = 10,
         expYear = 2026,
         csv = "999"
-    )
-
-    private fun preparePurchaseItems(): PurchaseItemsParam = PurchaseItemsParam(
-        serviceDescription = "FROM API TESTER",
-        clientRefId = "12456",
-        rpguid = "3d3424a6-c5f3-4c28"
-    )
-
-    private fun prepareAmounts(totalAmount: Double): AmountsParam = AmountsParam(
-        totalAmount = totalAmount,
-        salesTax = 0.0,
-        surcharge = 0.0,
     )
 
     private fun prepareAccountHolder(zip: String): PersonalDataParam =
@@ -130,15 +135,15 @@ internal class ChargeCreditCardRepositoryTest {
     private class TestApiHelper : EasyPayApiHelper {
         override suspend fun getConsentAnnuals(request: ConsentAnnualQueryRequest): NetworkResource<ConsentAnnualQueryResult> {
             // not needed for this test
-            return NetworkResource.success(mock())
+            return NetworkResource.success(Mockito.mock())
         }
 
         override suspend fun chargeCreditCard(request: ChargeCreditCardRequest): NetworkResource<ChargeCreditCardResult> {
-            return NetworkResource.success(mock())
+            return NetworkResource.success(Mockito.mock())
         }
 
         override suspend fun createAnnualConsent(request: CreateAnnualConsentRequest): NetworkResource<CreateAnnualConsentResult> {
-            return NetworkResource.success(mock())
+            return NetworkResource.success(Mockito.mock())
         }
     }
 

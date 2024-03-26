@@ -5,7 +5,6 @@ import com.fm.easypay.exceptions.EasyPayApiException
 import com.fm.easypay.networking.NetworkResource
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
-import com.fm.easypay.repositories.charge_cc.ChargeCreditCardBodyParams
 
 internal object RegexPattern {
     const val FIRST_OR_LAST_NAME = "^[a-zA-Z0-9'\\s\\-.,&?/]*$"
@@ -22,7 +21,7 @@ internal object RegexPattern {
 internal object ValidatorUtils {
 
     suspend fun <T : ApiResult> validate(
-        params: ChargeCreditCardBodyParams,
+        params: BaseBodyParams,
         call: suspend () -> NetworkResource<T>,
     ): NetworkResource<T> {
         // TODO: Uncomment after clarifying validation approach with EP team
