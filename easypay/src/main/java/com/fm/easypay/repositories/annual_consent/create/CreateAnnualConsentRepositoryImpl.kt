@@ -1,8 +1,8 @@
-package com.fm.easypay.repositories.consent_annual.create
+package com.fm.easypay.repositories.annual_consent.create
 
 import com.fm.easypay.api.EasyPayApiHelper
-import com.fm.easypay.api.requests.CreateAnnualConsentRequest
-import com.fm.easypay.api.responses.CreateAnnualConsentResult
+import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentRequest
+import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResult
 import com.fm.easypay.networking.NetworkResource
 import com.fm.easypay.utils.validation.ValidatorUtils
 

@@ -1,6 +1,6 @@
 package com.fm.easypay.repositories.charge_cc
 
-import com.fm.easypay.api.responses.ChargeCreditCardResult
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResult
 import com.fm.easypay.networking.NetworkResource
 import org.koin.java.KoinJavaComponent
 

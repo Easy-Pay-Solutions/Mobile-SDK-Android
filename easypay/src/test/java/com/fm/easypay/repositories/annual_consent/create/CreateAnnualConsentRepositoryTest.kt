@@ -1,12 +1,12 @@
-package com.fm.easypay.repositories.consent_annual.create
+package com.fm.easypay.repositories.annual_consent.create
 
 import com.fm.easypay.api.EasyPayApiHelper
-import com.fm.easypay.api.requests.ChargeCreditCardRequest
-import com.fm.easypay.api.requests.ConsentAnnualQueryRequest
-import com.fm.easypay.api.requests.CreateAnnualConsentRequest
-import com.fm.easypay.api.responses.ChargeCreditCardResult
-import com.fm.easypay.api.responses.ConsentAnnualQueryResult
-import com.fm.easypay.api.responses.CreateAnnualConsentResult
+import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardRequest
+import com.fm.easypay.api.requests.annual_consent.ListAnnualConsentsRequest
+import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentRequest
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResult
+import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResult
+import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResult
 import com.fm.easypay.networking.NetworkResource
 import com.fm.easypay.repositories.charge_cc.BillingAddressParam
 import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
@@ -133,7 +133,7 @@ internal class CreateAnnualConsentRepositoryTest {
         )
 
     private class TestApiHelper : EasyPayApiHelper {
-        override suspend fun getConsentAnnuals(request: ConsentAnnualQueryRequest): NetworkResource<ConsentAnnualQueryResult> {
+        override suspend fun listAnnualConsents(request: ListAnnualConsentsRequest): NetworkResource<ListAnnualConsentsResult> {
             // not needed for this test
             return NetworkResource.success(Mockito.mock())
         }

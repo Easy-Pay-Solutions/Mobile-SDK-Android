@@ -1,7 +1,7 @@
-package com.fm.easypay.repositories.consent_annual.create
+package com.fm.easypay.repositories.annual_consent.create
 
-import com.fm.easypay.api.requests.ConsentCreatorDto
-import com.fm.easypay.api.requests.CreateAnnualConsentBodyDto
+import com.fm.easypay.api.requests.annual_consent.ConsentCreatorDto
+import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
 import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam

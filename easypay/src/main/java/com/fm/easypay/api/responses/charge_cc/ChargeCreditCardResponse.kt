@@ -1,4 +1,4 @@
-package com.fm.easypay.api.responses
+package com.fm.easypay.api.responses.charge_cc
 
 import com.fm.easypay.api.responses.base.ApiResponse
 import com.fm.easypay.api.responses.base.TransactionResult

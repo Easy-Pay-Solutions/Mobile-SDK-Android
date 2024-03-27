@@ -1,4 +1,4 @@
-package com.fm.easypay.api.requests
+package com.fm.easypay.api.requests.charge_cc
 
 import com.fm.easypay.api.requests.base.ApiRequest
 import com.google.gson.annotations.SerializedName

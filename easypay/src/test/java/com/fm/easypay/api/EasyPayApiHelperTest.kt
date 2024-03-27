@@ -1,15 +1,15 @@
 package com.fm.easypay.api
 
-import com.fm.easypay.api.requests.ChargeCreditCardBodyDto
-import com.fm.easypay.api.requests.ChargeCreditCardRequest
-import com.fm.easypay.api.requests.CreateAnnualConsentBodyDto
-import com.fm.easypay.api.requests.CreateAnnualConsentRequest
-import com.fm.easypay.api.requests.base.EasyPayQuery
-import com.fm.easypay.api.responses.ChargeCreditCardResponse
-import com.fm.easypay.api.responses.ChargeCreditCardResult
-import com.fm.easypay.api.responses.ConsentAnnualQueryResponse
-import com.fm.easypay.api.responses.CreateAnnualConsentResponse
-import com.fm.easypay.api.responses.CreateAnnualConsentResult
+import com.fm.easypay.api.requests.annual_consent.ConsentAnnualQuery
+import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
+import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentRequest
+import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardBodyDto
+import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardRequest
+import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
+import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResult
+import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResponse
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResult
 import com.fm.easypay.networking.DefaultNetworkDataSource
 import com.fm.easypay.networking.NetworkResource
 import com.fm.easypay.networking.authentication.AuthHelper
@@ -48,7 +48,7 @@ internal class EasyPayApiHelperTest {
 
     @Test
     fun `chargeCreditCard() returns Error from API`() = runBlocking {
-       initHelperWith(TestApiErrorEasyPayService())
+        initHelperWith(TestApiErrorEasyPayService())
         val result = executeChargeCreditCard()
         assertEquals(result.status, NetworkResource.Status.ERROR)
     }
@@ -196,10 +196,10 @@ internal class EasyPayApiHelperTest {
     }
 
     private abstract class TestEasyPayService : EasyPayService {
-        override suspend fun getConsentAnnuals(
+        override suspend fun listAnnualConsents(
             sessKey: String,
-            query: EasyPayQuery,
-        ): Response<ConsentAnnualQueryResponse> {
+            query: ConsentAnnualQuery,
+        ): Response<ListAnnualConsentsResponse> {
             return mock()
         }
     }

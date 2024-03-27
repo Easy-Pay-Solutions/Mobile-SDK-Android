@@ -1,11 +1,11 @@
 package com.fm.easypay.api
 
-import com.fm.easypay.api.requests.ChargeCreditCardBodyDto
-import com.fm.easypay.api.requests.CreateAnnualConsentBodyDto
-import com.fm.easypay.api.requests.base.EasyPayQuery
-import com.fm.easypay.api.responses.ChargeCreditCardResponse
-import com.fm.easypay.api.responses.ConsentAnnualQueryResponse
-import com.fm.easypay.api.responses.CreateAnnualConsentResponse
+import com.fm.easypay.api.requests.annual_consent.ConsentAnnualQuery
+import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
+import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardBodyDto
+import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
+import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResponse
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
@@ -18,10 +18,10 @@ internal interface EasyPayService {
     }
 
     @POST("Query/ConsentAnnual")
-    suspend fun getConsentAnnuals(
+    suspend fun listAnnualConsents(
         @Header(AUTH_HEADER_NAME) sessKey: String,
-        @Body query: EasyPayQuery,
-    ): Response<ConsentAnnualQueryResponse>
+        @Body query: ConsentAnnualQuery,
+    ): Response<ListAnnualConsentsResponse>
 
     @POST("CardSale/Manual")
     suspend fun cardSaleManual(
@@ -29,7 +29,7 @@ internal interface EasyPayService {
         @Body body: ChargeCreditCardBodyDto,
     ): Response<ChargeCreditCardResponse>
 
-    @POST("ConsentAnnual/Create_MAN")
+    @POST("ListAnnualConsents/Create_MAN")
     suspend fun createAnnualConsent(
         @Header(AUTH_HEADER_NAME) sessKey: String,
         @Body body: CreateAnnualConsentBodyDto,

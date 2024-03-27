@@ -1,11 +1,11 @@
 package com.fm.easypay.repositories.charge_cc
 
-import com.fm.easypay.api.requests.AmountsDto
-import com.fm.easypay.api.requests.BillingAddressDto
-import com.fm.easypay.api.requests.ChargeCreditCardBodyDto
-import com.fm.easypay.api.requests.CreditCardInfoDto
-import com.fm.easypay.api.requests.PersonalDataDto
-import com.fm.easypay.api.requests.PurchaseItemsDto
+import com.fm.easypay.api.requests.charge_cc.AmountsDto
+import com.fm.easypay.api.requests.charge_cc.BillingAddressDto
+import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardBodyDto
+import com.fm.easypay.api.requests.charge_cc.CreditCardInfoDto
+import com.fm.easypay.api.requests.charge_cc.PersonalDataDto
+import com.fm.easypay.api.requests.charge_cc.PurchaseItemsDto
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
 import com.fm.easypay.utils.secured.SecureData

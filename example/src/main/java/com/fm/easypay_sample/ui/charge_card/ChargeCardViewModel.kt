@@ -2,7 +2,7 @@ package com.fm.easypay_sample.ui.charge_card
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fm.easypay.api.responses.ChargeCreditCardResult
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResult
 import com.fm.easypay.networking.NetworkResource
 import com.fm.easypay.repositories.charge_cc.ChargeCreditCard
 import com.fm.easypay.utils.secured.SecureData

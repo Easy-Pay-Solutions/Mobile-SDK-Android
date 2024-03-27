@@ -4,7 +4,7 @@ import android.content.Context
 import com.fm.easypay.api.ApiModule
 import com.fm.easypay.networking.NetworkingModule
 import com.fm.easypay.repositories.charge_cc.ChargeCreditCardModule
-import com.fm.easypay.repositories.consent_annual.ConsentAnnualModule
+import com.fm.easypay.repositories.annual_consent.ConsentAnnualModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

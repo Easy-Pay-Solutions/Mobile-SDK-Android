@@ -1,6 +1,8 @@
-package com.fm.easypay.api.requests
+package com.fm.easypay.api.requests.annual_consent
 
 import com.fm.easypay.api.requests.base.ApiRequest
+import com.fm.easypay.api.requests.charge_cc.CreditCardInfoDto
+import com.fm.easypay.api.requests.charge_cc.PersonalDataDto
 import com.google.gson.annotations.SerializedName
 
 internal class CreateAnnualConsentRequest(

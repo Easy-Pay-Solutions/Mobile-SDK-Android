@@ -1,7 +1,7 @@
 package com.fm.easypay.api
 
-import com.fm.easypay.api.responses.ChargeCreditCardResponse
-import com.fm.easypay.api.responses.CreateAnnualConsentResponse
+import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
+import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.ExperimentalCoroutinesApi

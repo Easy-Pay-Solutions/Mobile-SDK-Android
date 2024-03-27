@@ -1,4 +1,4 @@
-package com.fm.easypay.api.responses
+package com.fm.easypay.api.responses.annual_consent
 
 import com.fm.easypay.api.responses.base.ApiResponse
 import com.fm.easypay.api.responses.base.ApiResult
