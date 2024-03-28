@@ -53,7 +53,7 @@ data class ChargeCardViewData(
             endCustomer = prepareEndCustomer(),
             amounts = prepareAmounts(),
             purchaseItems = preparePurchaseItems(),
-            merchantId = merchantId?.toInt() ?: 0
+            merchantId = merchantId?.toIntOrNull() ?: 0
         )
     }
 
@@ -71,9 +71,9 @@ data class ChargeCardViewData(
 
     private fun prepareAmounts(): AmountsParam {
         return AmountsParam(
-            totalAmount = totalAmount?.toDouble() ?: 0.0,
-            salesTax = salesAmount?.toDouble(),
-            surcharge = surcharge?.toDouble(),
+            totalAmount = totalAmount?.toDoubleOrNull() ?: 0.0,
+            salesTax = salesAmount?.toDoubleOrNull(),
+            surcharge = surcharge?.toDoubleOrNull(),
         )
     }
 
@@ -147,8 +147,8 @@ data class ChargeCardViewData(
 
     private fun prepareCreditCardInfo(): CreditCardInfoParam {
         return CreditCardInfoParam(
-            expMonth = expMonth?.toInt() ?: 0,
-            expYear = expYear?.toInt() ?: 0,
+            expMonth = expMonth?.toIntOrNull() ?: 0,
+            expYear = expYear?.toIntOrNull() ?: 0,
             csv = cvv ?: ""
         )
     }

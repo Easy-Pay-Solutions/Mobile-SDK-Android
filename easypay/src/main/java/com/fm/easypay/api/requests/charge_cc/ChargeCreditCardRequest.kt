@@ -94,31 +94,31 @@ internal data class AmountsDto(
     val totalAmount: Double,
 
     @SerializedName("SalesTax")
-    val salesTax: Double? = null,
+    val salesTax: Double,
 
     @SerializedName("Surcharge")
-    val surcharge: Double? = null,
+    val surcharge: Double,
 
     @SerializedName("Tip")
-    val tip: Double? = null,
+    val tip: Double,
 
     @SerializedName("CashBack")
-    val cashback: Double? = null,
+    val cashback: Double,
 
     @SerializedName("ClinicAmount")
-    val clinicAmount: Double? = null,
+    val clinicAmount: Double,
 
     @SerializedName("VisionAmount")
-    val visionAmount: Double? = null,
+    val visionAmount: Double,
 
     @SerializedName("PrescriptionAmount")
-    val prescriptionAmount: Double? = null,
+    val prescriptionAmount: Double,
 
     @SerializedName("DentalAmount")
-    val dentalAmount: Double? = null,
+    val dentalAmount: Double,
 
     @SerializedName("TotalMedicalAmount")
-    val totalMedicalAmount: Double? = null,
+    val totalMedicalAmount: Double,
 )
 
 internal data class PurchaseItemsDto(

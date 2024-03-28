@@ -160,8 +160,8 @@ data class AmountsParam(
 ) : BaseBodyParams() {
     internal fun toDto(): AmountsDto = AmountsDto(
         totalAmount = totalAmount,
-        salesTax = salesTax,
-        surcharge = surcharge,
+        salesTax = salesTax ?: 0.0,
+        surcharge = surcharge ?: 0.0,
         tip = 0.0,
         cashback = 0.0,
         clinicAmount = 0.0,
