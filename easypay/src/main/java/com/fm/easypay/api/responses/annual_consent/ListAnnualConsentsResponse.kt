@@ -2,6 +2,7 @@ package com.fm.easypay.api.responses.annual_consent
 
 import com.fm.easypay.api.responses.base.ApiResponse
 import com.fm.easypay.api.responses.base.ApiResult
+import com.fm.easypay.utils.DateUtils
 import com.google.gson.annotations.SerializedName
 
 internal data class ListAnnualConsentsResponse(
@@ -9,7 +10,7 @@ internal data class ListAnnualConsentsResponse(
     override val result: ListAnnualConsentsResult,
 ) : ApiResponse<ListAnnualConsentsResult>(result)
 
-data class ListAnnualConsentsResult(
+data class ListAnnualConsentsResult internal constructor(
     @SerializedName("FunctionOk")
     override val functionOk: Boolean,
 
@@ -32,9 +33,13 @@ data class ListAnnualConsentsResult(
     errorCode,
     errorMessage,
     responseMessage
-)
+) {
+    override fun parseIfNeeded() {
+        consents.forEach { it.parseDates() }
+    }
+}
 
-data class AnnualConsent(
+data class AnnualConsent internal constructor(
     @SerializedName("AcctHolderFirstName")
     val accountHolderFirstName: String,
 
@@ -53,9 +58,8 @@ data class AnnualConsent(
     @SerializedName("CreatedBy")
     val createdBy: String,
 
-    // TODO: Parse to date
     @SerializedName("CreatedOn")
-    val createdOn: String,
+    var createdOn: String,
 
     @SerializedName("CustID")
     val customerId: Int,
@@ -63,9 +67,8 @@ data class AnnualConsent(
     @SerializedName("CustomerRefID")
     val customerReferenceId: String,
 
-    // TODO: Parse to date
     @SerializedName("EndDate")
-    val endDate: String,
+    var endDate: String,
 
     @SerializedName("ID")
     val id: Int,
@@ -91,7 +94,12 @@ data class AnnualConsent(
     @SerializedName("ServiceDescrip")
     val serviceDescription: String,
 
-    // TODO: Parse to date
     @SerializedName("StartDate")
-    val startDate: String,
-)
+    var startDate: String,
+) {
+    internal fun parseDates() {
+        createdOn = DateUtils.convertToUtcFromServer(createdOn) ?: ""
+        endDate = DateUtils.convertToUtcFromServer(endDate) ?: ""
+        startDate = DateUtils.convertToUtcFromServer(startDate) ?: ""
+    }
+}

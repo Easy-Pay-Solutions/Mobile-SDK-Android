@@ -129,7 +129,6 @@ internal class ChargeCreditCardRepositoryTest {
 
     private class TestApiHelper : EasyPayApiHelper {
         override suspend fun listAnnualConsents(request: ListAnnualConsentsRequest): NetworkResource<ListAnnualConsentsResult> {
-            // not needed for this test
             return NetworkResource.success(mock())
         }
 

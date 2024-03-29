@@ -22,6 +22,7 @@ internal class DefaultNetworkDataSource : NetworkDataSource {
 
             val body = response.body() ?: return error(0, "empty_response", null)
             val result = body.result
+            result.parseIfNeeded()
 
             if (!result.functionOk) {
                 return error(result.errorCode, result.errorMessage, null)

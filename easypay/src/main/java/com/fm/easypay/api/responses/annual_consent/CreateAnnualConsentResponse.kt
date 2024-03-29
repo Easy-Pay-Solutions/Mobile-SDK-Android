@@ -9,7 +9,7 @@ internal data class CreateAnnualConsentResponse(
     override val result: CreateAnnualConsentResult,
 ) : ApiResponse<CreateAnnualConsentResult>(result)
 
-data class CreateAnnualConsentResult(
+data class CreateAnnualConsentResult internal constructor(
     @SerializedName("FunctionOk")
     override val functionOk: Boolean,
 

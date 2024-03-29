@@ -9,7 +9,7 @@ internal data class ChargeCreditCardResponse(
     override val result: ChargeCreditCardResult,
 ) : ApiResponse<ChargeCreditCardResult>(result)
 
-data class ChargeCreditCardResult(
+data class ChargeCreditCardResult internal constructor(
     @SerializedName("FunctionOk")
     override val functionOk: Boolean,
 

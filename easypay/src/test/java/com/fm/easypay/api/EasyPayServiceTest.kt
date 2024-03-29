@@ -2,6 +2,7 @@ package com.fm.easypay.api
 
 import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
 import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
+import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -100,6 +101,40 @@ internal class EasyPayServiceTest {
         server.enqueue(response)
 
         val data = api.createAnnualConsent("sessKey", mock())
+        server.takeRequest()
+
+        assert(data.errorBody() != null)
+        assert(data.isSuccessful.not())
+        assertEquals(data.code(), 404)
+    }
+
+    //endregion
+
+    //region ListAnnualConsents tests
+
+    @Test
+    fun `listAnnualConsents() returns Success`() = runBlocking {
+        val responseBody: ListAnnualConsentsResponse = mock()
+        val json = gson.toJson(responseBody)
+        val response = MockResponse()
+        response.setBody(json)
+        server.enqueue(response)
+
+        val data = api.listAnnualConsents("sessKey", mock())
+        server.takeRequest()
+
+        assert(data.errorBody() == null)
+        assertEquals(data.body(), responseBody)
+        assert(data.code() == 200)
+    }
+
+    @Test
+    fun `listAnnualConsents() returns Error`() = runBlocking {
+        val response = MockResponse()
+        response.setResponseCode(404)
+        server.enqueue(response)
+
+        val data = api.listAnnualConsents("sessKey", mock())
         server.takeRequest()
 
         assert(data.errorBody() != null)

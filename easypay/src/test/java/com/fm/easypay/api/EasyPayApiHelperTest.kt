@@ -3,11 +3,13 @@ package com.fm.easypay.api
 import com.fm.easypay.api.requests.annual_consent.ConsentAnnualQuery
 import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
 import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentRequest
+import com.fm.easypay.api.requests.annual_consent.ListAnnualConsentsRequest
 import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardBodyDto
 import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardRequest
 import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
 import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResult
 import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResponse
+import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResult
 import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
 import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResult
 import com.fm.easypay.networking.DefaultNetworkDataSource
@@ -87,6 +89,31 @@ internal class EasyPayApiHelperTest {
 
     //endregion
 
+    //region ListAnnualConsents tests
+
+    @Test
+    fun `listAnnualConsents() returns Success`() = runBlocking {
+        initHelperWith(TestSuccessEasyPayService())
+        val result = executeListAnnualConsents()
+        assertEquals(result.status, NetworkResource.Status.SUCCESS)
+    }
+
+    @Test
+    fun `listAnnualConsents() returns Error from API`() = runBlocking {
+        initHelperWith(TestApiErrorEasyPayService())
+        val result = executeListAnnualConsents()
+        assertEquals(result.status, NetworkResource.Status.ERROR)
+    }
+
+    @Test
+    fun `listAnnualConsents() returns Error from SDK`() = runBlocking {
+        initHelperWith(TestSdkErrorEasyPayService())
+        val result = executeListAnnualConsents()
+        assertEquals(result.status, NetworkResource.Status.ERROR)
+    }
+
+    //endregion
+
     //region Helpers
 
     private suspend fun executeChargeCreditCard(): NetworkResource<ChargeCreditCardResult> {
@@ -99,6 +126,11 @@ internal class EasyPayApiHelperTest {
         return easyPayApiHelper.createAnnualConsent(request)
     }
 
+    private suspend fun executeListAnnualConsents(): NetworkResource<ListAnnualConsentsResult> {
+        val request = ListAnnualConsentsRequest(userDataPresent = true, mock())
+        return easyPayApiHelper.listAnnualConsents(request)
+    }
+
     private fun initHelperWith(easyPayService: EasyPayService) {
         easyPayApiHelper = EasyPayApiHelperImpl(
             easyPayService,
@@ -107,7 +139,17 @@ internal class EasyPayApiHelperTest {
         )
     }
 
-    private class TestSdkErrorEasyPayService : TestEasyPayService() {
+    private class TestSdkErrorEasyPayService : EasyPayService {
+        override suspend fun listAnnualConsents(
+            sessKey: String,
+            query: ConsentAnnualQuery,
+        ): Response<ListAnnualConsentsResponse> {
+            return Response.error(
+                400,
+                "{\"key\":[\"test\"]}".toResponseBody("application/json".toMediaTypeOrNull())
+            )
+        }
+
         override suspend fun cardSaleManual(
             sessKey: String,
             body: ChargeCreditCardBodyDto,
@@ -129,7 +171,18 @@ internal class EasyPayApiHelperTest {
         }
     }
 
-    private class TestApiErrorEasyPayService : TestEasyPayService() {
+    private class TestApiErrorEasyPayService : EasyPayService {
+        override suspend fun listAnnualConsents(
+            sessKey: String,
+            query: ConsentAnnualQuery,
+        ): Response<ListAnnualConsentsResponse> {
+            val result = TestHelper.prepareListAnnualConsentsResult(
+                functionOk = false
+            )
+            val response = ListAnnualConsentsResponse(result)
+            return Response.success(response)
+        }
+
         override suspend fun cardSaleManual(
             sessKey: String,
             body: ChargeCreditCardBodyDto,
@@ -154,7 +207,14 @@ internal class EasyPayApiHelperTest {
         }
     }
 
-    private class TestDeclinedEasyPayService : TestEasyPayService() {
+    private class TestDeclinedEasyPayService : EasyPayService {
+        override suspend fun listAnnualConsents(
+            sessKey: String,
+            query: ConsentAnnualQuery,
+        ): Response<ListAnnualConsentsResponse> {
+            return mock()   // not used
+        }
+
         override suspend fun cardSaleManual(
             sessKey: String,
             body: ChargeCreditCardBodyDto,
@@ -175,7 +235,16 @@ internal class EasyPayApiHelperTest {
         }
     }
 
-    private class TestSuccessEasyPayService : TestEasyPayService() {
+    private class TestSuccessEasyPayService : EasyPayService {
+        override suspend fun listAnnualConsents(
+            sessKey: String,
+            query: ConsentAnnualQuery,
+        ): Response<ListAnnualConsentsResponse> {
+            val result = TestHelper.prepareListAnnualConsentsResult()
+            val response = ListAnnualConsentsResponse(result)
+            return Response.success(response)
+        }
+
         override suspend fun cardSaleManual(
             sessKey: String,
             body: ChargeCreditCardBodyDto,
@@ -192,15 +261,6 @@ internal class EasyPayApiHelperTest {
             val result = TestHelper.prepareCreateAnnualConsentResult()
             val response = CreateAnnualConsentResponse(result)
             return Response.success(response)
-        }
-    }
-
-    private abstract class TestEasyPayService : EasyPayService {
-        override suspend fun listAnnualConsents(
-            sessKey: String,
-            query: ConsentAnnualQuery,
-        ): Response<ListAnnualConsentsResponse> {
-            return mock()
         }
     }
 
@@ -252,6 +312,19 @@ internal class EasyPayApiHelperTest {
                 preConsentAuthMessage = "",
                 preConsentAuthSuccess = functionOk,
                 preConsentAuthTxId = 0
+            )
+        }
+
+        fun prepareListAnnualConsentsResult(
+            functionOk: Boolean = true,
+        ): ListAnnualConsentsResult {
+            return ListAnnualConsentsResult(
+                functionOk = functionOk,
+                errorCode = 0,
+                errorMessage = "",
+                responseMessage = "",
+                numRecords = 0,
+                consents = emptyList()
             )
         }
     }
