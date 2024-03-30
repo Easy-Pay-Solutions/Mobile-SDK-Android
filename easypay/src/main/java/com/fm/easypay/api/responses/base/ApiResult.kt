@@ -1,6 +1,6 @@
 package com.fm.easypay.api.responses.base
 
-abstract class ApiResult(
+abstract class ApiResult internal constructor(
     open val functionOk: Boolean,
     open val errorCode: Int,
     open val errorMessage: String,

@@ -1,6 +1,6 @@
 package com.fm.easypay.api.responses.base
 
-abstract class TransactionResult(
+abstract class TransactionResult internal constructor(
     functionOk: Boolean,
     errorCode: Int,
     errorMessage: String,
