@@ -3,10 +3,12 @@ package com.fm.easypay.api
 import com.fm.easypay.api.requests.annual_consent.CancelAnnualConsentBodyDto
 import com.fm.easypay.api.requests.annual_consent.ConsentAnnualQuery
 import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
+import com.fm.easypay.api.requests.annual_consent.ProcessPaymentAnnualBodyDto
 import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardBodyDto
 import com.fm.easypay.api.responses.annual_consent.CancelAnnualConsentResponse
 import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
 import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResponse
+import com.fm.easypay.api.responses.annual_consent.ProcessPaymentAnnualResponse
 import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -42,4 +44,10 @@ internal interface EasyPayService {
         @Header(AUTH_HEADER_NAME) sessKey: String,
         @Body body: CancelAnnualConsentBodyDto,
     ): Response<CancelAnnualConsentResponse>
+
+    @POST("ConsentAnnual/ProcPayment")
+    suspend fun processPaymentAnnual(
+        @Header(AUTH_HEADER_NAME) sessKey: String,
+        @Body body: ProcessPaymentAnnualBodyDto,
+    ): Response<ProcessPaymentAnnualResponse>
 }

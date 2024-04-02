@@ -6,6 +6,8 @@ import com.fm.easypay.api.requests.annual_consent.ConsentAnnualQuery
 import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
 import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentRequest
 import com.fm.easypay.api.requests.annual_consent.ListAnnualConsentsRequest
+import com.fm.easypay.api.requests.annual_consent.ProcessPaymentAnnualBodyDto
+import com.fm.easypay.api.requests.annual_consent.ProcessPaymentAnnualRequest
 import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardBodyDto
 import com.fm.easypay.api.requests.charge_cc.ChargeCreditCardRequest
 import com.fm.easypay.api.responses.annual_consent.CancelAnnualConsentResponse
@@ -14,6 +16,8 @@ import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResponse
 import com.fm.easypay.api.responses.annual_consent.CreateAnnualConsentResult
 import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResponse
 import com.fm.easypay.api.responses.annual_consent.ListAnnualConsentsResult
+import com.fm.easypay.api.responses.annual_consent.ProcessPaymentAnnualResponse
+import com.fm.easypay.api.responses.annual_consent.ProcessPaymentAnnualResult
 import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResponse
 import com.fm.easypay.api.responses.charge_cc.ChargeCreditCardResult
 import com.fm.easypay.networking.DefaultNetworkDataSource
@@ -143,6 +147,38 @@ internal class EasyPayApiHelperTest {
 
     //endregion
 
+    //region ProcessPaymentAnnual tests
+
+    @Test
+    fun `processPaymentAnnual() returns Success`() = runBlocking {
+        initHelperWith(TestSuccessEasyPayService())
+        val result = executeProcessPaymentAnnual()
+        assertEquals(result.status, NetworkResource.Status.SUCCESS)
+    }
+
+    @Test
+    fun `processPaymentAnnual() returns Declined`() = runBlocking {
+        initHelperWith(TestDeclinedEasyPayService())
+        val result = executeProcessPaymentAnnual()
+        assertEquals(result.status, NetworkResource.Status.DECLINED)
+    }
+
+    @Test
+    fun `processPaymentAnnual() returns Error from API`() = runBlocking {
+        initHelperWith(TestApiErrorEasyPayService())
+        val result = executeProcessPaymentAnnual()
+        assertEquals(result.status, NetworkResource.Status.ERROR)
+    }
+
+    @Test
+    fun `processPaymentAnnual() returns Error from SDK`() = runBlocking {
+        initHelperWith(TestSdkErrorEasyPayService())
+        val result = executeProcessPaymentAnnual()
+        assertEquals(result.status, NetworkResource.Status.ERROR)
+    }
+
+    //endregion
+
     //region Helpers
 
     private suspend fun executeChargeCreditCard(): NetworkResource<ChargeCreditCardResult> {
@@ -163,6 +199,11 @@ internal class EasyPayApiHelperTest {
     private suspend fun executeCancelAnnualConsent(): NetworkResource<CancelAnnualConsentResult> {
         val request = CancelAnnualConsentRequest(userDataPresent = true, mock())
         return easyPayApiHelper.cancelAnnualConsent(request)
+    }
+
+    private suspend fun executeProcessPaymentAnnual(): NetworkResource<ProcessPaymentAnnualResult> {
+        val request = ProcessPaymentAnnualRequest(userDataPresent = true, mock())
+        return easyPayApiHelper.processPaymentAnnual(request)
     }
 
     private fun initHelperWith(easyPayService: EasyPayService) {
@@ -208,6 +249,16 @@ internal class EasyPayApiHelperTest {
             sessKey: String,
             body: CancelAnnualConsentBodyDto,
         ): Response<CancelAnnualConsentResponse> {
+            return Response.error(
+                400,
+                "{\"key\":[\"test\"]}".toResponseBody("application/json".toMediaTypeOrNull())
+            )
+        }
+
+        override suspend fun processPaymentAnnual(
+            sessKey: String,
+            body: ProcessPaymentAnnualBodyDto,
+        ): Response<ProcessPaymentAnnualResponse> {
             return Response.error(
                 400,
                 "{\"key\":[\"test\"]}".toResponseBody("application/json".toMediaTypeOrNull())
@@ -260,6 +311,18 @@ internal class EasyPayApiHelperTest {
             val response = CancelAnnualConsentResponse(result)
             return Response.success(response)
         }
+
+        override suspend fun processPaymentAnnual(
+            sessKey: String,
+            body: ProcessPaymentAnnualBodyDto,
+        ): Response<ProcessPaymentAnnualResponse> {
+            val result = TestHelper.prepareProcessPaymentAnnualResult(
+                functionOk = false,
+                txApproved = false
+            )
+            val response = ProcessPaymentAnnualResponse(result)
+            return Response.success(response)
+        }
     }
 
     private class TestDeclinedEasyPayService : EasyPayService {
@@ -294,6 +357,18 @@ internal class EasyPayApiHelperTest {
             body: CancelAnnualConsentBodyDto,
         ): Response<CancelAnnualConsentResponse> {
             return mock()   // not used
+        }
+
+        override suspend fun processPaymentAnnual(
+            sessKey: String,
+            body: ProcessPaymentAnnualBodyDto,
+        ): Response<ProcessPaymentAnnualResponse> {
+            val result = TestHelper.prepareProcessPaymentAnnualResult(
+                functionOk = true,
+                txApproved = false
+            )
+            val response = ProcessPaymentAnnualResponse(result)
+            return Response.success(response)
         }
     }
 
@@ -333,6 +408,15 @@ internal class EasyPayApiHelperTest {
             val response = CancelAnnualConsentResponse(result)
             return Response.success(response)
         }
+
+        override suspend fun processPaymentAnnual(
+            sessKey: String,
+            body: ProcessPaymentAnnualBodyDto,
+        ): Response<ProcessPaymentAnnualResponse> {
+            val result = TestHelper.prepareProcessPaymentAnnualResult()
+            val response = ProcessPaymentAnnualResponse(result)
+            return Response.success(response)
+        }
     }
 
     private class TestAuthHelper : AuthHelper {
@@ -364,9 +448,32 @@ internal class EasyPayApiHelperTest {
                 cvvResult = "",
                 isPartialApproval = false,
                 requiresVoiceAuth = false,
-                responseApprovedAmount = 0,
-                responseAuthorizedAmount = 0,
-                responseBalanceAmount = 0
+                responseApprovedAmount = 0.0,
+                responseAuthorizedAmount = 0.0,
+                responseBalanceAmount = 0.0
+            )
+        }
+
+        fun prepareProcessPaymentAnnualResult(
+            functionOk: Boolean = true,
+            txApproved: Boolean = true,
+        ): ProcessPaymentAnnualResult {
+            return ProcessPaymentAnnualResult(
+                functionOk = functionOk,
+                errorCode = 0,
+                errorMessage = "",
+                responseMessage = "APPROVED OK4501",
+                txApproved = txApproved,
+                txId = 64,
+                txCode = "OK4501",
+                avsResult = "Y",
+                acquirerResponseEmv = null,
+                cvvResult = "",
+                isPartialApproval = false,
+                requiresVoiceAuth = false,
+                responseApprovedAmount = 0.0,
+                responseAuthorizedAmount = 0.0,
+                responseBalanceAmount = 0.0
             )
         }
 

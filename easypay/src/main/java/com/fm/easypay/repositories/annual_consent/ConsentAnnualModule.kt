@@ -6,6 +6,8 @@ import com.fm.easypay.repositories.annual_consent.create.CreateAnnualConsentRepo
 import com.fm.easypay.repositories.annual_consent.create.CreateAnnualConsentRepositoryImpl
 import com.fm.easypay.repositories.annual_consent.list.ListAnnualConsentsRepository
 import com.fm.easypay.repositories.annual_consent.list.ListAnnualConsentsRepositoryImpl
+import com.fm.easypay.repositories.annual_consent.process_payment.ProcessPaymentAnnualRepository
+import com.fm.easypay.repositories.annual_consent.process_payment.ProcessPaymentAnnualRepositoryImpl
 import org.koin.dsl.module
 
 internal object ConsentAnnualModule {
@@ -14,5 +16,6 @@ internal object ConsentAnnualModule {
         single<ListAnnualConsentsRepository> { ListAnnualConsentsRepositoryImpl(get()) }
         single<CreateAnnualConsentRepository> { CreateAnnualConsentRepositoryImpl(get()) }
         single<CancelAnnualConsentRepository> { CancelAnnualConsentRepositoryImpl(get()) }
+        single<ProcessPaymentAnnualRepository> { ProcessPaymentAnnualRepositoryImpl(get()) }
     }
 }

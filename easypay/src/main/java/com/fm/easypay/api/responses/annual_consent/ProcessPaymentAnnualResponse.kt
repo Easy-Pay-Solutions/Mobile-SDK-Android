@@ -1,15 +1,15 @@
-package com.fm.easypay.api.responses.charge_cc
+package com.fm.easypay.api.responses.annual_consent
 
 import com.fm.easypay.api.responses.base.ApiResponse
 import com.fm.easypay.api.responses.base.TransactionResult
 import com.google.gson.annotations.SerializedName
 
-internal data class ChargeCreditCardResponse(
-    @SerializedName("CreditCardSale_ManualResult")
-    override val result: ChargeCreditCardResult,
-) : ApiResponse<ChargeCreditCardResult>(result)
+internal data class ProcessPaymentAnnualResponse(
+    @SerializedName("ConsentAnnual_ProcPaymentResult")
+    override val result: ProcessPaymentAnnualResult,
+) : ApiResponse<ProcessPaymentAnnualResult>(result)
 
-data class ChargeCreditCardResult internal constructor(
+data class ProcessPaymentAnnualResult internal constructor(
     @SerializedName("FunctionOk")
     override val functionOk: Boolean,
 
