@@ -20,6 +20,7 @@ import com.fm.easypay.utils.validation.RegexPattern.STATE
 import com.fm.easypay.utils.validation.RegexPattern.ZIP_CODE
 import com.fm.easypay.utils.validation.ValidateDoubleGreaterThanZero
 import com.fm.easypay.utils.validation.ValidateLength
+import com.fm.easypay.utils.validation.ValidateNotBlank
 import com.fm.easypay.utils.validation.ValidateRegex
 
 data class ChargeCreditCardBodyParams(
@@ -60,6 +61,7 @@ data class CreditCardInfoParam(
     val expYear: Int,
 
     @ValidateLength(maxLength = 4)
+    @ValidateNotBlank
     val csv: String,
 ) : BaseBodyParams() {
     internal fun toDto(encryptedAccountNumber: String): CreditCardInfoDto = CreditCardInfoDto(

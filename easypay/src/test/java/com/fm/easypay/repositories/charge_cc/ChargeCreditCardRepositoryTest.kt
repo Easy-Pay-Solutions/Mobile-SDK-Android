@@ -55,6 +55,16 @@ internal class ChargeCreditCardRepositoryTest {
             assertEquals(result.error?.message, "totalAmount must be greater than 0.0")
         }
 
+    @Test
+    fun `chargeCreditCard() with blank CSV returns Error for NotBlank`() =
+        runBlocking {
+            val invalidCsv = ""     //CSV cannot be blank
+            val params = prepareParams(csv = invalidCsv)
+            val result = repository.chargeCreditCard(params)
+            assertEquals(result.status, NetworkResource.Status.ERROR)
+            assertEquals(result.error?.message, "csv cannot be blank")
+        }
+
     //endregion
 
     //region Private
@@ -62,10 +72,11 @@ internal class ChargeCreditCardRepositoryTest {
     private fun prepareParams(
         zip: String = "04005",
         totalAmount: Double = 10.0,
+        csv: String = "999"
     ): ChargeCreditCardBodyParams =
         ChargeCreditCardBodyParams(
             encryptedCardNumber = testSecureData,
-            creditCardInfo = prepareCreditCardInfo(),
+            creditCardInfo = prepareCreditCardInfo(csv),
             accountHolder = prepareAccountHolder(zip),
             endCustomer = prepareEndCustomer(),
             amounts = prepareAmounts(totalAmount),
@@ -73,10 +84,10 @@ internal class ChargeCreditCardRepositoryTest {
             merchantId = 1
         )
 
-    private fun prepareCreditCardInfo(): CreditCardInfoParam = CreditCardInfoParam(
+    private fun prepareCreditCardInfo(csv: String): CreditCardInfoParam = CreditCardInfoParam(
         expMonth = 10,
         expYear = 2026,
-        csv = "999"
+        csv = csv
     )
 
     private fun preparePurchaseItems(): PurchaseItemsParam = PurchaseItemsParam(

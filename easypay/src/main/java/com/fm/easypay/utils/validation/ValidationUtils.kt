@@ -24,11 +24,10 @@ internal object ValidatorUtils {
         params: BaseBodyParams,
         call: suspend () -> NetworkResource<T>,
     ): NetworkResource<T> {
-        // TODO: Uncomment after clarifying validation approach with EP team
-//        val validationError = validate(params)
-//        validationError?.let {
-//            return NetworkResource.error(it)
-//        }
+        val validationError = validate(params)
+        validationError?.let {
+            return NetworkResource.error(it)
+        }
         return call()
     }
 
@@ -36,21 +35,40 @@ internal object ValidatorUtils {
         dataClass.toMappedFields().forEach { mappedField ->
             mappedField.field.annotations.forEach { annotation ->
                 when (annotation) {
-                    is ValidateLength -> {
-                        validateLength(mappedField, annotation)?.let { return it }
-                    }
+                    // TODO: Uncomment after clarifying validation approach with EP team
+//                    is ValidateLength -> {
+//                        validateLength(mappedField, annotation)?.let { return it }
+//                    }
+//
+//                    is ValidateRegex -> {
+//                        validateRegex(mappedField, annotation)?.let { return it }
+//                    }
+//
+//                    is ValidateDoubleGreaterThanZero -> {
+//                        validateDoubleGreaterThanZero(mappedField)?.let { return it }
+//                    }
 
-                    is ValidateRegex -> {
-                        validateRegex(mappedField, annotation)?.let { return it }
-                    }
-
-                    is ValidateDoubleGreaterThanZero -> {
-                        validateDoubleGreaterThanZero(mappedField)?.let { return it }
+                    is ValidateNotBlank -> {
+                        validateNotBlank(mappedField)?.let { return it }
                     }
                 }
             }
         }
         return null
+    }
+
+    private fun validateNotBlank(mappedField: MappedField): EasyPayApiException? {
+        var isValid = true
+        if (mappedField.value is String) {
+            isValid = mappedField.value.isNotBlank()
+        }
+        return if (!isValid) {
+            EasyPayApiException(
+                message = "${mappedField.field.name} cannot be blank"
+            )
+        } else {
+            null
+        }
     }
 
     private fun validateDoubleGreaterThanZero(mappedField: MappedField): EasyPayApiException? {

@@ -11,3 +11,7 @@ internal annotation class ValidateRegex(val regex: String)
 @Retention
 @Target(AnnotationTarget.FIELD)
 internal annotation class ValidateDoubleGreaterThanZero
+
+@Retention
+@Target(AnnotationTarget.FIELD)
+internal annotation class ValidateNotBlank

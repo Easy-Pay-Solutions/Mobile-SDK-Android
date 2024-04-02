@@ -54,13 +54,23 @@ internal class CreateAnnualConsentRepositoryTest {
         }
 
     @Test
-    fun `chargeCreditCard() with negative LimitPerCharge returns Error for DoubleNotGreaterThanZero`() =
+    fun `createAnnualConsent() with negative LimitPerCharge returns Error for DoubleNotGreaterThanZero`() =
         runBlocking {
             val invalidLimitPerCharge: Double = -1.0    //double cannot be negative
             val params = prepareParams(limitPerCharge = invalidLimitPerCharge)
             val result = repository.createAnnualConsent(params)
             TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
             TestCase.assertEquals(result.error?.message, "limitPerCharge must be greater than 0.0")
+        }
+
+    @Test
+    fun `createAnnualConsent() with blank CSV returns Error for NotBlank`() =
+        runBlocking {
+            val invalidCsv = ""     //CSV cannot be blank
+            val params = prepareParams(csv = invalidCsv)
+            val result = repository.createAnnualConsent(params)
+            TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
+            TestCase.assertEquals(result.error?.message, "csv cannot be blank")
         }
 
     //endregion
@@ -70,10 +80,11 @@ internal class CreateAnnualConsentRepositoryTest {
     private fun prepareParams(
         zip: String = "04005",
         limitPerCharge: Double = 10.0,
+        csv: String = "999"
     ): CreateAnnualConsentBodyParams =
         CreateAnnualConsentBodyParams(
             encryptedCardNumber = testSecureData,
-            creditCardInfo = prepareCreditCardInfo(),
+            creditCardInfo = prepareCreditCardInfo(csv),
             accountHolder = prepareAccountHolder(zip),
             endCustomer = prepareEndCustomer(),
             consentCreator = prepareConsentCreator(limitPerCharge),
@@ -91,10 +102,10 @@ internal class CreateAnnualConsentRepositoryTest {
             limitLifeTime = 100.0
         )
 
-    private fun prepareCreditCardInfo(): CreditCardInfoParam = CreditCardInfoParam(
+    private fun prepareCreditCardInfo(csv: String): CreditCardInfoParam = CreditCardInfoParam(
         expMonth = 10,
         expYear = 2026,
-        csv = "999"
+        csv = csv
     )
 
     private fun prepareAccountHolder(zip: String): PersonalDataParam =
