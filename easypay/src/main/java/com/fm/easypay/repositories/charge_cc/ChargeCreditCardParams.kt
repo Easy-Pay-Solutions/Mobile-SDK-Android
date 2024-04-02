@@ -21,7 +21,6 @@ import com.fm.easypay.utils.validation.RegexPattern.ZIP_CODE
 import com.fm.easypay.utils.validation.ValidateDoubleGreaterThanZero
 import com.fm.easypay.utils.validation.ValidateLength
 import com.fm.easypay.utils.validation.ValidateRegex
-import java.math.BigDecimal
 
 data class ChargeCreditCardBodyParams(
     val encryptedCardNumber: SecureData<String>,
@@ -160,16 +159,16 @@ data class AmountsParam(
     val surcharge: Double? = null,
 ) : BaseBodyParams() {
     internal fun toDto(): AmountsDto = AmountsDto(
-        totalAmount = BigDecimal(totalAmount),
-        salesTax = BigDecimal(salesTax ?: 0.0),
-        surcharge = BigDecimal(surcharge ?: 0.0),
-        tip = 0.0,
-        cashback = 0.0,
-        clinicAmount = 0.0,
-        visionAmount = 0.0,
-        prescriptionAmount = 0.0,
-        dentalAmount = 0.0,
-        totalMedicalAmount = 0.0,
+        totalAmount = totalAmount.toBigDecimal().toPlainString(),
+        salesTax = (salesTax ?: 0.0).toBigDecimal().toPlainString(),
+        surcharge = (surcharge ?: 0.0).toBigDecimal().toPlainString(),
+        tip = 0.0.toBigDecimal().toPlainString(),
+        cashback = 0.0.toBigDecimal().toPlainString(),
+        clinicAmount = 0.0.toBigDecimal().toPlainString(),
+        visionAmount = 0.0.toBigDecimal().toPlainString(),
+        prescriptionAmount = 0.0.toBigDecimal().toPlainString(),
+        dentalAmount = 0.0.toBigDecimal().toPlainString(),
+        totalMedicalAmount = 0.0.toBigDecimal().toPlainString(),
     )
 
     override fun toMappedFields(): List<MappedField> {

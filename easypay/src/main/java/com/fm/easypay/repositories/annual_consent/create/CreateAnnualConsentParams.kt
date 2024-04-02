@@ -67,8 +67,8 @@ data class ConsentCreatorParam(
         rpguid = rpguid,
         startDate = "\\/Date(${startDate.time})\\/",
         numDays = numDays,
-        limitPerCharge = limitPerCharge,
-        limitLifeTime = limitLifeTime,
+        limitPerCharge = limitPerCharge.toBigDecimal().toPlainString(),
+        limitLifeTime = limitLifeTime.toBigDecimal().toPlainString(),
     )
 
     override fun toMappedFields(): List<MappedField> {

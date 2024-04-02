@@ -2,7 +2,6 @@ package com.fm.easypay.api.requests.annual_consent
 
 import com.fm.easypay.api.requests.base.ApiRequest
 import com.google.gson.annotations.SerializedName
-import java.math.BigDecimal
 
 internal data class ProcessPaymentAnnualRequest(
     override val userDataPresent: Boolean,
@@ -14,5 +13,5 @@ internal data class ProcessPaymentAnnualBodyDto(
     val consentId: Int,
 
     @SerializedName("ProcessAmount")
-    val processAmount: BigDecimal,
+    val processAmount: String,
 )

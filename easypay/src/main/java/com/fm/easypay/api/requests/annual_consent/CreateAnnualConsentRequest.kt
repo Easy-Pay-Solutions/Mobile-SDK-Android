@@ -46,8 +46,8 @@ internal data class ConsentCreatorDto(
     val numDays: Int,
 
     @SerializedName("LimitPerCharge")
-    val limitPerCharge: Double,
+    val limitPerCharge: String,
 
     @SerializedName("LimitLifeTime")
-    val limitLifeTime: Double,
+    val limitLifeTime: String,
 )

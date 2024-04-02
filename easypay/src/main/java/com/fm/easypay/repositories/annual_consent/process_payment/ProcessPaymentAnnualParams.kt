@@ -3,7 +3,6 @@ package com.fm.easypay.repositories.annual_consent.process_payment
 import com.fm.easypay.api.requests.annual_consent.ProcessPaymentAnnualBodyDto
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
-import java.math.BigDecimal
 
 data class ProcessPaymentAnnualParams(
     val consentId: Int,
@@ -15,6 +14,6 @@ data class ProcessPaymentAnnualParams(
 
     internal fun toDto(): ProcessPaymentAnnualBodyDto = ProcessPaymentAnnualBodyDto(
         consentId = consentId,
-        processAmount = BigDecimal(processAmount),
+        processAmount = processAmount.toBigDecimal().toPlainString(),
     )
 }

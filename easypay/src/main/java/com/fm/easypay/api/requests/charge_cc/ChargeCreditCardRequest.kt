@@ -2,7 +2,6 @@ package com.fm.easypay.api.requests.charge_cc
 
 import com.fm.easypay.api.requests.base.ApiRequest
 import com.google.gson.annotations.SerializedName
-import java.math.BigDecimal
 
 internal data class ChargeCreditCardRequest(
     override val userDataPresent: Boolean,
@@ -92,34 +91,34 @@ internal data class BillingAddressDto(
 
 internal data class AmountsDto(
     @SerializedName("TotalAmt")
-    val totalAmount: BigDecimal,
+    val totalAmount: String,
 
     @SerializedName("SalesTax")
-    val salesTax: BigDecimal,
+    val salesTax: String,
 
     @SerializedName("Surcharge")
-    val surcharge: BigDecimal,
+    val surcharge: String,
 
     @SerializedName("Tip")
-    val tip: Double,
+    val tip: String,
 
     @SerializedName("CashBack")
-    val cashback: Double,
+    val cashback: String,
 
     @SerializedName("ClinicAmount")
-    val clinicAmount: Double,
+    val clinicAmount: String,
 
     @SerializedName("VisionAmount")
-    val visionAmount: Double,
+    val visionAmount: String,
 
     @SerializedName("PrescriptionAmount")
-    val prescriptionAmount: Double,
+    val prescriptionAmount: String,
 
     @SerializedName("DentalAmount")
-    val dentalAmount: Double,
+    val dentalAmount: String,
 
     @SerializedName("TotalMedicalAmount")
-    val totalMedicalAmount: Double,
+    val totalMedicalAmount: String,
 )
 
 internal data class PurchaseItemsDto(
