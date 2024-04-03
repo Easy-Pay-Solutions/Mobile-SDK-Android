@@ -21,6 +21,7 @@ android {
 
         buildConfigField("String", "SESSION_KEY", "\"${System.getenv("SESSION_KEY") ?: ""}\"")
         buildConfigField("String", "HMAC_SECRET", "\"${System.getenv("HMAC_SECRET") ?: ""}\"")
+        buildConfigField("String", "APP_CENTER_SECRET", "\"${System.getenv("APP_CENTER_SECRET") ?: ""}\"")
     }
     buildFeatures {
         buildConfig = true
@@ -68,6 +69,10 @@ dependencies {
     val hiltVersion = "2.50"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    val appCenterSdkVersion = "5.0.4"
+    implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
+    implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 }
 
 // Allow references to generated code
