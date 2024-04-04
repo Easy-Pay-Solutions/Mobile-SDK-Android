@@ -7,7 +7,7 @@
             <pin digest="SHA-256">SDG5orEv8iX6MNenIAxa8nQFNpROB/6+llsZdXHZNqs=</pin>
         </pin-set>
         <trust-anchors>
-            <certificates src="@raw/easypay_cert"/>
+            <certificates src="@raw/easypay_cert" />
         </trust-anchors>
     </domain-config>
     <domain-config>
@@ -17,11 +17,12 @@
             <pin digest="SHA-256">SDG5orEv8iX6MNenIAxa8nQFNpROB/6+llsZdXHZNqs=</pin>
         </pin-set>
         <trust-anchors>
-            <certificates src="@raw/easypay_api_cert"/>
+            <certificates src="@raw/easypay_api_cert" />
         </trust-anchors>
     </domain-config>
     <base-config>
         <trust-anchors>
+            <certificates src="@raw/charles_proxy_cert" />
             <certificates
                 src="user"
                 tools:ignore="AcceptsUserCertificates" />
