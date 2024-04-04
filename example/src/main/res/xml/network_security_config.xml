@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config xmlns:tools="http://schemas.android.com/tools">
+    <domain-config>
+        <domain includeSubdomains="true">easypaysoftware.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">YftxEQ88FkvrzqQlAq/pqA/5CEvoit6onS2+iXqLWm0=</pin>
+            <pin digest="SHA-256">SDG5orEv8iX6MNenIAxa8nQFNpROB/6+llsZdXHZNqs=</pin>
+        </pin-set>
+        <trust-anchors>
+            <certificates src="@raw/easypay_cert"/>
+        </trust-anchors>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">easypay5.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">6p4zhiQLiN37517vaAh2KXc1zi0uxik7tvP6Ak8EFJA=</pin>
+            <pin digest="SHA-256">SDG5orEv8iX6MNenIAxa8nQFNpROB/6+llsZdXHZNqs=</pin>
+        </pin-set>
+        <trust-anchors>
+            <certificates src="@raw/easypay_api_cert"/>
+        </trust-anchors>
+    </domain-config>
     <base-config>
         <trust-anchors>
             <certificates
