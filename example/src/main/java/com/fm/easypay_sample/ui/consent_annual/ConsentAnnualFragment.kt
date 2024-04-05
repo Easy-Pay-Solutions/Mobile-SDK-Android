@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.fm.easypay.api.responses.annual_consent.AnnualConsent
 import com.fm.easypay_sample.R
 import com.fm.easypay_sample.databinding.FragmentConsentAnnualBinding
 import com.fm.easypay_sample.utils.AlertUtils
@@ -23,7 +24,7 @@ class ConsentAnnualFragment : Fragment() {
     private val viewModel: ConsentAnnualViewModel by viewModels { defaultViewModelProviderFactory }
     private val consentsAdapter = ConsentAnnualAdapter(
         onDeleteClickedCallback = { viewModel.deleteConsent(it) },
-        onChargeClickedCallback = { viewModel.chargeConsent(it) }
+        onChargeClickedCallback = { chargeConsent(it) }
     )
 
     //region Lifecycle methods
@@ -121,6 +122,23 @@ class ConsentAnnualFragment : Fragment() {
         val action =
             ConsentAnnualFragmentDirections.actionConsentAnnualFragmentToAddAnnualConsentFragment()
         findNavController().navigate(action)
+    }
+
+    //endregion
+
+    //region Private
+
+    private fun chargeConsent(consent: AnnualConsent) {
+        AlertUtils.showInputAlert(
+            requireContext(),
+            title = R.string.charge_a_card,
+            message = R.string.enter_charge_amount,
+            inputHintText = R.string.charge_amount,
+            positiveText = R.string.charge,
+            onPositive = { amount ->
+                viewModel.chargeConsent(consent, amount.toDouble())
+            }
+        )
     }
 
     //endregion

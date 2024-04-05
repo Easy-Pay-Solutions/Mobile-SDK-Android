@@ -8,7 +8,8 @@ import com.fm.easypay.repositories.MappedField
 
 internal object RegexPattern {
     const val FIRST_OR_LAST_NAME = "^[a-zA-Z0-9'\\s\\-.,&?/]*$"
-    const val COMPANY_OR_ADDRESS = "^[a-zA-Z0-9\\-.,#_&/\\s]*$"
+    const val ADDRESS1 = "^[a-zA-Z0-9\\-.,#_/\\s]*$"
+    const val COMPANY_OR_ADDRESS2 = "^[a-zA-Z0-9\\-.,#_&/\\s]*$"
     const val CITY = "^[a-zA-Z .]*$"
     const val ZIP_CODE = "^[a-zA-Z0-9- ]*$"
     const val STATE = "^[a-zA-Z\\s]*$"

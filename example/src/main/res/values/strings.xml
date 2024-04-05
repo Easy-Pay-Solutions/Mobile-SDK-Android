@@ -45,4 +45,8 @@
     <string name="num_days">Num days</string>
     <string name="limit_per_charge">Limit per charge</string>
     <string name="limit_lifetime">Limit Life Time</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_charge_amount">Please enter the charge amount below.</string>
+    <string name="charge_a_card">Charge a card</string>
+    <string name="charge_amount">Charge amount</string>
 </resources>

@@ -82,10 +82,10 @@ class ConsentAnnualViewModel @Inject constructor(
         }
     }
 
-    fun chargeConsent(consent: AnnualConsent) {
+    fun chargeConsent(consent: AnnualConsent, amount: Double) {
         viewModelScope.launch {
             _processPaymentAnnualResult.emit(ViewState.Loading())
-            val params = ProcessPaymentAnnualParams(consentId = consent.id, processAmount = 5.0)
+            val params = ProcessPaymentAnnualParams(consentId = consent.id, processAmount = amount)
             val response = processPaymentAnnual.processPaymentAnnual(params)
             when (response.status) {
                 NetworkResource.Status.SUCCESS -> {

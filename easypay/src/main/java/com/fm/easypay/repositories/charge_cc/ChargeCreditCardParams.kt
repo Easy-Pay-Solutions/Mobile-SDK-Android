@@ -9,9 +9,10 @@ import com.fm.easypay.api.requests.charge_cc.PurchaseItemsDto
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
 import com.fm.easypay.utils.secured.SecureData
+import com.fm.easypay.utils.validation.RegexPattern.ADDRESS1
 import com.fm.easypay.utils.validation.RegexPattern.CITY
 import com.fm.easypay.utils.validation.RegexPattern.CLIENT_REF_ID_OR_RPGUID
-import com.fm.easypay.utils.validation.RegexPattern.COMPANY_OR_ADDRESS
+import com.fm.easypay.utils.validation.RegexPattern.COMPANY_OR_ADDRESS2
 import com.fm.easypay.utils.validation.RegexPattern.EMAIL
 import com.fm.easypay.utils.validation.RegexPattern.FIRST_OR_LAST_NAME
 import com.fm.easypay.utils.validation.RegexPattern.ONLY_NUMBERS
@@ -86,7 +87,7 @@ data class PersonalDataParam(
     val lastName: String,
 
     @ValidateLength(maxLength = 100)
-    @ValidateRegex(regex = COMPANY_OR_ADDRESS)
+    @ValidateRegex(regex = COMPANY_OR_ADDRESS2)
     val company: String? = null,
 
     val billingAddress: BillingAddressParam,
@@ -118,11 +119,11 @@ data class PersonalDataParam(
 
 data class BillingAddressParam(
     @ValidateLength(maxLength = 100)
-    @ValidateRegex(regex = COMPANY_OR_ADDRESS)
+    @ValidateRegex(regex = ADDRESS1)
     val address1: String,
 
     @ValidateLength(maxLength = 100)
-    @ValidateRegex(regex = COMPANY_OR_ADDRESS)
+    @ValidateRegex(regex = COMPANY_OR_ADDRESS2)
     val address2: String? = null,
 
     @ValidateLength(maxLength = 75)
