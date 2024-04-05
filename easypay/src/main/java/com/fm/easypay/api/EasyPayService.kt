@@ -33,7 +33,7 @@ internal interface EasyPayService {
         @Body body: ChargeCreditCardBodyDto,
     ): Response<ChargeCreditCardResponse>
 
-    @POST("ListAnnualConsents/Create_MAN")
+    @POST("ConsentAnnual/Create_MAN")
     suspend fun createAnnualConsent(
         @Header(AUTH_HEADER_NAME) sessKey: String,
         @Body body: CreateAnnualConsentBodyDto,

@@ -34,7 +34,7 @@ internal data class ConsentCreatorDto(
     val serviceDescription: String? = null,
 
     @SerializedName("CustomerRefID")
-    val clientRefId: String? = null,
+    val customerReferenceId: String? = null,
 
     @SerializedName("RPGUID")
     val rpguid: String? = null,

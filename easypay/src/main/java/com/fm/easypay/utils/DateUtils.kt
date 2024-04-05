@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
-import kotlin.math.roundToLong
 
 internal object DateUtils {
 
@@ -34,5 +33,9 @@ internal object DateUtils {
         return serverDate
             .replace("/Date(", "")
             .replace(")/", "")
+    }
+
+    fun parseDateForApi(startDate: Date): String {
+        return """\/Date(${startDate.time})\/"""
     }
 }

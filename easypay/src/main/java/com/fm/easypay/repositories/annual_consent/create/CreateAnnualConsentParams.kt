@@ -6,6 +6,7 @@ import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
 import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
 import com.fm.easypay.repositories.charge_cc.PersonalDataParam
+import com.fm.easypay.utils.DateUtils
 import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay.utils.validation.RegexPattern
 import com.fm.easypay.utils.validation.ValidateDoubleGreaterThanZero
@@ -46,7 +47,7 @@ data class ConsentCreatorParam(
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)
-    val clientRefId: String? = null,
+    val customerReferenceId: String? = null,
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)
@@ -63,9 +64,9 @@ data class ConsentCreatorParam(
     internal fun toDto(): ConsentCreatorDto = ConsentCreatorDto(
         merchantId = merchantId,
         serviceDescription = serviceDescription,
-        clientRefId = clientRefId,
+        customerReferenceId = customerReferenceId,
         rpguid = rpguid,
-        startDate = "\\/Date(${startDate.time})\\/",
+        startDate = DateUtils.parseDateForApi(startDate),
         numDays = numDays,
         limitPerCharge = limitPerCharge.toBigDecimal().toPlainString(),
         limitLifeTime = limitLifeTime.toBigDecimal().toPlainString(),

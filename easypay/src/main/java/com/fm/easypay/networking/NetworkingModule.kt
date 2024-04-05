@@ -18,7 +18,6 @@ import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 internal object NetworkingModule {
 
@@ -61,7 +60,7 @@ internal object NetworkingModule {
         Retrofit.Builder()
             .baseUrl(apiUrl)
             .client(apiClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(CustomGsonConverterFactory(gson))
             .build()
 
     private fun provideNetworkDataSource(): NetworkDataSource = DefaultNetworkDataSource()

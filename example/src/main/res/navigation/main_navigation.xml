@@ -31,5 +31,14 @@
         android:id="@+id/consentAnnualFragment"
         android:name="com.fm.easypay_sample.ui.consent_annual.ConsentAnnualFragment"
         android:label="fragment_consent_annual"
-        tools:layout="@layout/fragment_consent_annual" />
+        tools:layout="@layout/fragment_consent_annual" >
+        <action
+            android:id="@+id/action_consentAnnualFragment_to_addAnnualConsentFragment"
+            app:destination="@id/addAnnualConsentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAnnualConsentFragment"
+        android:name="com.fm.easypay_sample.ui.consent_annual.add.AddAnnualConsentFragment"
+        android:label="fragment_add_annual_consent"
+        tools:layout="@layout/fragment_add_annual_consent" />
 </navigation>

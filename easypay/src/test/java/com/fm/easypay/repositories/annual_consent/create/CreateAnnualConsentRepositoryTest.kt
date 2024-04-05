@@ -94,7 +94,7 @@ internal class CreateAnnualConsentRepositoryTest {
         ConsentCreatorParam(
             merchantId = 1,
             serviceDescription = "Service Description",
-            clientRefId = "Client Ref Id",
+            customerReferenceId = "Client Ref Id",
             rpguid = "RPGUID",
             startDate = Date(),
             numDays = 365,

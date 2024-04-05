@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">EasyPaySDK</string>
     <string name="charge_a_credit_card_example">Charge a Credit Card example</string>
-    <string name="consent_annual_example">Consent Annual example</string>
+    <string name="consent_annual_example">Annual Consents example</string>
     <string name="charge_credit_card">Charge Credit Card</string>
     <string name="credit_card">Credit card number</string>
     <string name="charge_a_prefilled_credit_card_example">[Pre-filled] Charge a credit card example</string>
@@ -36,4 +36,13 @@
     <string name="client_ref_id">ClientRefId</string>
     <string name="rpguid">RPGUID</string>
     <string name="submit">Submit</string>
+    <string name="consent_id">Consent ID</string>
+    <string name="delete">Delete</string>
+    <string name="charge">Charge</string>
+    <string name="add_a_card">Add a card</string>
+    <string name="consent_creator">Consent Creator</string>
+    <string name="start_date">Start Date</string>
+    <string name="num_days">Num days</string>
+    <string name="limit_per_charge">Limit per charge</string>
+    <string name="limit_lifetime">Limit Life Time</string>
 </resources>
