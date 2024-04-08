@@ -36,18 +36,17 @@ internal object ValidatorUtils {
         dataClass.toMappedFields().forEach { mappedField ->
             mappedField.field.annotations.forEach { annotation ->
                 when (annotation) {
-                    // TODO: Uncomment after clarifying validation approach with EP team
-//                    is ValidateLength -> {
-//                        validateLength(mappedField, annotation)?.let { return it }
-//                    }
-//
-//                    is ValidateRegex -> {
-//                        validateRegex(mappedField, annotation)?.let { return it }
-//                    }
-//
-//                    is ValidateDoubleGreaterThanZero -> {
-//                        validateDoubleGreaterThanZero(mappedField)?.let { return it }
-//                    }
+                    is ValidateLength -> {
+                        validateLength(mappedField, annotation)?.let { return it }
+                    }
+
+                    is ValidateRegex -> {
+                        validateRegex(mappedField, annotation)?.let { return it }
+                    }
+
+                    is ValidateDoubleGreaterThanZero -> {
+                        validateDoubleGreaterThanZero(mappedField)?.let { return it }
+                    }
 
                     is ValidateNotBlank -> {
                         validateNotBlank(mappedField)?.let { return it }
