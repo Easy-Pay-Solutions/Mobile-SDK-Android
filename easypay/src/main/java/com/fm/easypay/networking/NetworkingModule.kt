@@ -35,7 +35,7 @@ internal object NetworkingModule {
         single { provideSdkPreferences(androidContext()) }
     }
 
-    private fun provideGson(): Gson = GsonBuilder().create()
+    private fun provideGson(): Gson = GsonBuilder().disableHtmlEscaping().create()
 
     // TODO: Implement proper certificate pinning
     private fun provideCertificatePinner(): CertificatePinner = CertificatePinner

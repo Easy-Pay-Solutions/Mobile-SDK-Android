@@ -44,13 +44,12 @@ data class ChargeCreditCardBodyParams(
         )
 
     override fun toMappedFields(): List<MappedField> {
-        val list = this.javaClass.declaredFields.toList().map { MappedField(it, it.get(this)) } +
+        return javaClass.declaredFields.toList().map { MappedField(it, it.get(this)) } +
                 creditCardInfo.toMappedFields() +
                 accountHolder.toMappedFields() +
+                (endCustomer?.toMappedFields() ?: listOf()) +
                 amounts.toMappedFields() +
                 purchaseItems.toMappedFields()
-        endCustomer?.let { list.plus(it.toMappedFields()) }
-        return list
     }
 }
 
