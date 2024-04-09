@@ -3,10 +3,11 @@ package com.fm.easypay
 import android.content.Context
 import com.fm.easypay.api.ApiModule
 import com.fm.easypay.networking.NetworkingModule
-import com.fm.easypay.repositories.charge_cc.ChargeCreditCardModule
 import com.fm.easypay.repositories.annual_consent.ConsentAnnualModule
+import com.fm.easypay.repositories.charge_cc.ChargeCreditCardModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.error.ApplicationAlreadyStartedException
 
 /**
  * Entry-point to the EasyPay SDK.
@@ -30,14 +31,18 @@ class EasyPay private constructor() {
         }
 
         private fun initModules(context: Context) {
-            startKoin {
-                androidContext(context)
-                modules(
-                    NetworkingModule.networkingModules,
-                    ApiModule.apiModules,
-                    ConsentAnnualModule.consentAnnualModules,
-                    ChargeCreditCardModule.chargeCreditCardModules
-                )
+            try {
+                startKoin {
+                    androidContext(context)
+                    modules(
+                        NetworkingModule.networkingModules,
+                        ApiModule.apiModules,
+                        ConsentAnnualModule.consentAnnualModules,
+                        ChargeCreditCardModule.chargeCreditCardModules
+                    )
+                }
+            } catch (e: ApplicationAlreadyStartedException) {
+                e.printStackTrace()
             }
         }
     }

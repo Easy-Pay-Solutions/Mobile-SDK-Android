@@ -4,6 +4,7 @@ import com.fm.easypay.api.EasyPayApiHelper
 import com.fm.easypay.api.requests.annual_consent.ProcessPaymentAnnualRequest
 import com.fm.easypay.api.responses.annual_consent.ProcessPaymentAnnualResult
 import com.fm.easypay.networking.NetworkResource
+import com.fm.easypay.utils.validation.ValidatorUtils
 
 internal class ProcessPaymentAnnualRepositoryImpl(
     private val apiHelper: EasyPayApiHelper,
@@ -11,11 +12,11 @@ internal class ProcessPaymentAnnualRepositoryImpl(
 
     override suspend fun processPaymentAnnual(
         params: ProcessPaymentAnnualParams,
-    ): NetworkResource<ProcessPaymentAnnualResult> {
+    ): NetworkResource<ProcessPaymentAnnualResult> = ValidatorUtils.validate(params) {
         val request = ProcessPaymentAnnualRequest(
             userDataPresent = true,
             body = params.toDto(),
         )
-        return apiHelper.processPaymentAnnual(request)
+        apiHelper.processPaymentAnnual(request)
     }
 }

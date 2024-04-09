@@ -12,6 +12,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "SESSION_KEY_FOR_TESTS", "\"${System.getenv("SESSION_KEY") ?: ""}\"")
+        buildConfigField("String", "HMAC_SECRET_FOR_TESTS", "\"${System.getenv("HMAC_SECRET") ?: ""}\"")
     }
     buildFeatures {
         buildConfig = true
@@ -57,8 +60,9 @@ dependencies {
     implementation("androidx.test:core-ktx:1.5.0")
 
     // Tests
-    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.10.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
