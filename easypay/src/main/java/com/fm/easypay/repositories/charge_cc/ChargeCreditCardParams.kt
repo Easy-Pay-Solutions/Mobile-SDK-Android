@@ -55,9 +55,11 @@ data class ChargeCreditCardBodyParams(
 
 data class CreditCardInfoParam(
     @ValidateLength(maxLength = 2)
+    @ValidateNotBlank
     val expMonth: Int,
 
     @ValidateLength(maxLength = 4)
+    @ValidateNotBlank
     val expYear: Int,
 
     @ValidateLength(maxLength = 4)
@@ -79,10 +81,12 @@ data class CreditCardInfoParam(
 data class PersonalDataParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = FIRST_OR_LAST_NAME)
+    @ValidateNotBlank
     val firstName: String,
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = FIRST_OR_LAST_NAME)
+    @ValidateNotBlank
     val lastName: String,
 
     @ValidateLength(maxLength = 100)
@@ -119,6 +123,7 @@ data class PersonalDataParam(
 data class BillingAddressParam(
     @ValidateLength(maxLength = 100)
     @ValidateRegex(regex = ADDRESS1)
+    @ValidateNotBlank
     val address1: String,
 
     @ValidateLength(maxLength = 100)
@@ -135,6 +140,7 @@ data class BillingAddressParam(
 
     @ValidateLength(maxLength = 20)
     @ValidateRegex(regex = ZIP_CODE)
+    @ValidateNotBlank
     val zip: String,
 
     @ValidateLength(maxLength = 75)

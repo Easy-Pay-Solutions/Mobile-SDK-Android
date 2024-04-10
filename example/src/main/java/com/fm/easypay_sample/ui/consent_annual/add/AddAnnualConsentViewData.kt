@@ -7,6 +7,7 @@ import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
 import com.fm.easypay.repositories.charge_cc.PersonalDataParam
 import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay_sample.utils.DateUtils
+import com.fm.easypay_sample.utils.toNullIfBlank
 import java.util.Date
 
 data class AddAnnualConsentViewData(
@@ -65,9 +66,9 @@ data class AddAnnualConsentViewData(
     private fun prepareConsentCreator(): ConsentCreatorParam {
         return ConsentCreatorParam(
             merchantId = merchantId?.toIntOrNull() ?: 0,
-            serviceDescription = serviceDescription,
-            customerReferenceId = customerReferenceId,
-            rpguid = rpguid,
+            serviceDescription = serviceDescription?.toNullIfBlank(),
+            customerReferenceId = customerReferenceId?.toNullIfBlank(),
+            rpguid = rpguid?.toNullIfBlank(),
             startDate = startDate?.let { DateUtils.parseDate(it) } ?: Date(),
             numDays = numDays?.toIntOrNull() ?: 0,
             limitPerCharge = limitPerCharge?.toDoubleOrNull() ?: 0.0,
@@ -93,7 +94,7 @@ data class AddAnnualConsentViewData(
         return PersonalDataParam(
             firstName = customerFirstName ?: "",
             lastName = customerLastName ?: "",
-            company = customerCompany,
+            company = customerCompany?.toNullIfBlank(),
             billingAddress = prepareBillingAddress(
                 customerAddress1,
                 customerAddress2,
@@ -102,8 +103,8 @@ data class AddAnnualConsentViewData(
                 customerZip,
                 customerCountry
             ),
-            email = customerEmail,
-            phone = customerPhone
+            email = customerEmail?.toNullIfBlank(),
+            phone = customerPhone?.toNullIfBlank()
         )
     }
 
@@ -111,7 +112,7 @@ data class AddAnnualConsentViewData(
         return PersonalDataParam(
             firstName = holderFirstName ?: "",
             lastName = holderLastName ?: "",
-            company = holderCompany,
+            company = holderCompany?.toNullIfBlank(),
             billingAddress = prepareBillingAddress(
                 holderAddress1,
                 holderAddress2,
@@ -120,8 +121,8 @@ data class AddAnnualConsentViewData(
                 holderZip,
                 holderCountry
             ),
-            email = holderEmail,
-            phone = holderPhone
+            email = holderEmail?.toNullIfBlank(),
+            phone = holderPhone?.toNullIfBlank()
         )
     }
 
@@ -135,11 +136,11 @@ data class AddAnnualConsentViewData(
     ): BillingAddressParam {
         return BillingAddressParam(
             address1 = address1 ?: "",
-            address2 = address2,
-            city = city,
-            state = state,
+            address2 = address2?.toNullIfBlank(),
+            city = city?.toNullIfBlank(),
+            state = state?.toNullIfBlank(),
             zip = zip ?: "",
-            country = country
+            country = country?.toNullIfBlank()
         )
     }
 

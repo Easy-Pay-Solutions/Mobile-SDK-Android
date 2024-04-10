@@ -7,6 +7,7 @@ import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
 import com.fm.easypay.repositories.charge_cc.PersonalDataParam
 import com.fm.easypay.repositories.charge_cc.PurchaseItemsParam
 import com.fm.easypay.utils.secured.SecureData
+import com.fm.easypay_sample.utils.toNullIfBlank
 
 data class ChargeCardViewData(
     var merchantId: String? = null,
@@ -63,9 +64,9 @@ data class ChargeCardViewData(
 
     private fun preparePurchaseItems(): PurchaseItemsParam {
         return PurchaseItemsParam(
-            serviceDescription = serviceDescription,
-            clientRefId = clientRefId,
-            rpguid = rpguid
+            serviceDescription = serviceDescription?.toNullIfBlank(),
+            clientRefId = clientRefId?.toNullIfBlank(),
+            rpguid = rpguid?.toNullIfBlank()
         )
     }
 
@@ -95,7 +96,7 @@ data class ChargeCardViewData(
         return PersonalDataParam(
             firstName = customerFirstName ?: "",
             lastName = customerLastName ?: "",
-            company = customerCompany,
+            company = customerCompany?.toNullIfBlank(),
             billingAddress = prepareBillingAddress(
                 customerAddress1,
                 customerAddress2,
@@ -104,8 +105,8 @@ data class ChargeCardViewData(
                 customerZip,
                 customerCountry
             ),
-            email = customerEmail,
-            phone = customerPhone
+            email = customerEmail?.toNullIfBlank(),
+            phone = customerPhone?.toNullIfBlank()
         )
     }
 
@@ -113,7 +114,7 @@ data class ChargeCardViewData(
         return PersonalDataParam(
             firstName = holderFirstName ?: "",
             lastName = holderLastName ?: "",
-            company = holderCompany,
+            company = holderCompany?.toNullIfBlank(),
             billingAddress = prepareBillingAddress(
                 holderAddress1,
                 holderAddress2,
@@ -122,8 +123,8 @@ data class ChargeCardViewData(
                 holderZip,
                 holderCountry
             ),
-            email = holderEmail,
-            phone = holderPhone
+            email = holderEmail?.toNullIfBlank(),
+            phone = holderPhone?.toNullIfBlank()
         )
     }
 
@@ -137,11 +138,11 @@ data class ChargeCardViewData(
     ): BillingAddressParam {
         return BillingAddressParam(
             address1 = address1 ?: "",
-            address2 = address2,
-            city = city,
-            state = state,
+            address2 = address2?.toNullIfBlank(),
+            city = city?.toNullIfBlank(),
+            state = state?.toNullIfBlank(),
             zip = zip ?: "",
-            country = country
+            country = country?.toNullIfBlank()
         )
     }
 
