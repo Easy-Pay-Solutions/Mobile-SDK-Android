@@ -2,6 +2,7 @@ package com.fm.easypay
 
 import com.fm.easypay.exceptions.EasyPaySdkException
 import com.fm.easypay.networking.rsa.RsaCertificateManager
+import com.fm.easypay.networking.rsa.RsaCertificateStatus
 import com.fm.easypay.utils.VersionManager
 import org.koin.java.KoinJavaComponent
 
@@ -50,4 +51,7 @@ data class EasyPayConfiguration internal constructor(
     fun getSessionKey(): String = sessionKey
 
     fun getHmacSecret(): String = hmacSecret
+
+    fun getRsaCertificateFetchingStatus(): RsaCertificateStatus? =
+        rsaCertificateManager.certificateStatus
 }

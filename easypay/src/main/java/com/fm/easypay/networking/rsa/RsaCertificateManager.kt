@@ -14,6 +14,7 @@ import java.util.Date
 
 internal interface RsaCertificateManager {
     var certificate: X509Certificate?
+    var certificateStatus: RsaCertificateStatus?
 
     @Throws(EasyPaySdkException::class)
     fun fetchCertificate()
@@ -28,6 +29,7 @@ internal class RsaCertificateManagerImpl(
 ) : RsaCertificateManager {
 
     override var certificate: X509Certificate? = null
+    override var certificateStatus: RsaCertificateStatus? = null
 
     companion object {
         private const val RSA_CERTIFICATE_FILE_NAME = "mobile.easypay5.com.cer"
@@ -48,8 +50,15 @@ internal class RsaCertificateManagerImpl(
     //region Private
 
     private fun fetchCertificateFromLocalStorage() {
+        certificateStatus = RsaCertificateStatus.LOADING
         downloadManager.downloadFromLocalStorage(context, RSA_CERTIFICATE_FILE_NAME)?.let {
-            parseBytes(it)
+            try {
+                parseBytes(it)
+                certificateStatus = RsaCertificateStatus.SUCCESS
+            } catch (e: EasyPaySdkException) {
+                certificateStatus = RsaCertificateStatus.FAILED
+                throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+            }
         }
     }
 
@@ -60,14 +69,22 @@ internal class RsaCertificateManagerImpl(
     }
 
     private fun fetchCertificateFromUrl() {
+        certificateStatus = RsaCertificateStatus.LOADING
         CoroutineScope(ioDispatcher).launch {
             downloadManager.downloadFrom(RSA_CERTIFICATE_URL) { bytes ->
                 if (bytes == null) {
+                    certificateStatus = RsaCertificateStatus.FAILED
                     throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_FETCH_FAILED)
                 }
                 downloadManager.saveLocally(bytes, context, RSA_CERTIFICATE_FILE_NAME)
-                parseBytes(bytes)
-                sdkPreferences.setLastRsaCertificateFetch(Date().time)
+                try {
+                    parseBytes(bytes)
+                    certificateStatus = RsaCertificateStatus.SUCCESS
+                    sdkPreferences.setLastRsaCertificateFetch(Date().time)
+                } catch (e: EasyPaySdkException) {
+                    certificateStatus = RsaCertificateStatus.FAILED
+                    throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+                }
             }
         }
     }

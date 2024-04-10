@@ -10,7 +10,7 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import javax.crypto.Cipher
 
-object RsaUtils {
+internal object RsaUtils {
 
     private const val TRANSFORMATION = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding"
     private const val CERTIFICATE_TYPE = "X.509"
