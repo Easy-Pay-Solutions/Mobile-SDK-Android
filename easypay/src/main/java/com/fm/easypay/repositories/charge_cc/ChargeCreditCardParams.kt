@@ -17,7 +17,7 @@ import com.fm.easypay.utils.validation.RegexPattern.EMAIL
 import com.fm.easypay.utils.validation.RegexPattern.FIRST_OR_LAST_NAME
 import com.fm.easypay.utils.validation.RegexPattern.ONLY_NUMBERS
 import com.fm.easypay.utils.validation.RegexPattern.SERVICE_DESCRIPTION
-import com.fm.easypay.utils.validation.RegexPattern.STATE
+import com.fm.easypay.utils.validation.RegexPattern.COUNTRY_OR_STATE
 import com.fm.easypay.utils.validation.RegexPattern.ZIP_CODE
 import com.fm.easypay.utils.validation.ValidateDoubleGreaterThanZero
 import com.fm.easypay.utils.validation.ValidateLength
@@ -135,7 +135,7 @@ data class BillingAddressParam(
     val city: String? = null,
 
     @ValidateLength(maxLength = 75)
-    @ValidateRegex(regex = STATE)
+    @ValidateRegex(regex = COUNTRY_OR_STATE)
     val state: String? = null,
 
     @ValidateLength(maxLength = 20)
@@ -144,6 +144,7 @@ data class BillingAddressParam(
     val zip: String,
 
     @ValidateLength(maxLength = 75)
+    @ValidateRegex(regex = COUNTRY_OR_STATE)
     val country: String? = null,
 ) : BaseBodyParams() {
     internal fun toDto(): BillingAddressDto = BillingAddressDto(
