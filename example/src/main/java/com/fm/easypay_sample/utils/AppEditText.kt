@@ -1,6 +1,7 @@
 package com.fm.easypay_sample.utils
 
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -66,6 +67,12 @@ class AppEditText @JvmOverloads constructor(
             view.binding.etInput.addTextChangedListener {
                 attrChange.onChange()
             }
+        }
+
+        @BindingAdapter("inputType")
+        @JvmStatic
+        fun setInputType(view: AppEditText, inputType: Int) {
+            view.binding.etInput.inputType = inputType
         }
     }
 }

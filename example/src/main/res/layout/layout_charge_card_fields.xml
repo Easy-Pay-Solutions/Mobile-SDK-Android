@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.text.InputType" />
+
         <variable
             name="data"
             type="com.fm.easypay_sample.ui.charge_card.ChargeCardViewData" />
@@ -29,6 +31,7 @@
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
                 app:mainText="@={data.merchantId}"
                 app:title="@string/merchant_id" />
 
@@ -48,12 +51,14 @@
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
                 app:mainText="@={data.expMonth}"
                 app:title="@string/exp_month" />
 
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
                 app:mainText="@={data.expYear}"
                 app:title="@string/exp_year" />
 
@@ -283,18 +288,21 @@
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:mainText="@={data.totalAmount}"
                 app:title="@string/total_amount" />
 
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:mainText="@={data.salesAmount}"
                 app:title="@string/sales_amount" />
 
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:mainText="@={data.surcharge}"
                 app:title="@string/surcharge" />
         </LinearLayout>

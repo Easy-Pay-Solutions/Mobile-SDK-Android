@@ -14,7 +14,7 @@ internal object RegexPattern {
     const val ZIP_CODE = "^[a-zA-Z0-9- ]*$"
     const val COUNTRY_OR_STATE = "^[a-zA-Z\\s]*$"
     const val SERVICE_DESCRIPTION = "^[a-zA-Z0-9 ._\\-#]*$"
-    const val CLIENT_REF_ID_OR_RPGUID = "^[a-zA-Z0-9 ._,\\-#]*$"
+    const val CLIENT_REF_ID_OR_RPGUID = "^[a-zA-Z0-9 ._,=&\\-#]*$"
     const val EMAIL = ".+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*"
     const val ONLY_NUMBERS = "^[0-9]*$"
 }
