@@ -5,7 +5,9 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
+import android.view.View
 import androidx.appcompat.R
 import com.fm.easypay.networking.rsa.RsaHelper
 import com.google.android.material.textfield.TextInputEditText
@@ -23,10 +25,11 @@ class SecureTextField @JvmOverloads constructor(
     companion object {
         private const val MAX_SECURE_LENGTH = 16
         private const val SECURE_INPUT_TYPE =
-            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
     }
 
     init {
+        transformationMethod = AsteriskPasswordTransformationMethod()
         inputType = SECURE_INPUT_TYPE
         filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_SECURE_LENGTH))
     }
@@ -80,6 +83,29 @@ class SecureTextField @JvmOverloads constructor(
 
     override fun removeTextChangedListener(watcher: TextWatcher?) {
         // does nothing
+    }
+
+    //endregion
+
+    //region AsteriskPasswordTransformationMethod
+
+    internal class AsteriskPasswordTransformationMethod : PasswordTransformationMethod() {
+
+        override fun getTransformation(source: CharSequence, view: View): CharSequence {
+            return PasswordCharSequence(source)
+        }
+
+        inner class PasswordCharSequence(private val source: CharSequence) : CharSequence {
+
+            override val length: Int
+                get() = source.length
+
+            override fun get(index: Int): Char = '•'
+
+            override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
+                return source.subSequence(startIndex, endIndex)
+            }
+        }
     }
 
     //endregion
