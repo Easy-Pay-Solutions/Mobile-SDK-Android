@@ -1,10 +1,12 @@
 package com.fm.easypay_sample.ui.charge_card
 
+import com.fm.easypay.repositories.charge_cc.AccountHolderBillingAddressParam
+import com.fm.easypay.repositories.charge_cc.AccountHolderDataParam
 import com.fm.easypay.repositories.charge_cc.AmountsParam
-import com.fm.easypay.repositories.charge_cc.BillingAddressParam
 import com.fm.easypay.repositories.charge_cc.ChargeCreditCardBodyParams
 import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
-import com.fm.easypay.repositories.charge_cc.PersonalDataParam
+import com.fm.easypay.repositories.charge_cc.EndCustomerBillingAddressParam
+import com.fm.easypay.repositories.charge_cc.EndCustomerDataParam
 import com.fm.easypay.repositories.charge_cc.PurchaseItemsParam
 import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay_sample.utils.toNullIfBlank
@@ -78,7 +80,7 @@ data class ChargeCardViewData(
         )
     }
 
-    private fun prepareEndCustomer(): PersonalDataParam? {
+    private fun prepareEndCustomer(): EndCustomerDataParam? {
         if (customerFirstName.isNullOrEmpty() &&
             customerLastName.isNullOrEmpty() &&
             customerCompany.isNullOrEmpty() &&
@@ -93,11 +95,11 @@ data class ChargeCardViewData(
         ) {
             return null
         }
-        return PersonalDataParam(
-            firstName = customerFirstName ?: "",
-            lastName = customerLastName ?: "",
+        return EndCustomerDataParam(
+            firstName = customerFirstName?.toNullIfBlank(),
+            lastName = customerLastName?.toNullIfBlank(),
             company = customerCompany?.toNullIfBlank(),
-            billingAddress = prepareBillingAddress(
+            billingAddress = prepareEndCustomerBillingAddress(
                 customerAddress1,
                 customerAddress2,
                 customerCity,
@@ -110,12 +112,12 @@ data class ChargeCardViewData(
         )
     }
 
-    private fun prepareAccountHolder(): PersonalDataParam {
-        return PersonalDataParam(
-            firstName = holderFirstName ?: "",
-            lastName = holderLastName ?: "",
+    private fun prepareAccountHolder(): AccountHolderDataParam {
+        return AccountHolderDataParam(
+            firstName = holderFirstName?.toNullIfBlank(),
+            lastName = holderLastName?.toNullIfBlank(),
             company = holderCompany?.toNullIfBlank(),
-            billingAddress = prepareBillingAddress(
+            billingAddress = prepareAccountHolderBillingAddress(
                 holderAddress1,
                 holderAddress2,
                 holderCity,
@@ -128,15 +130,33 @@ data class ChargeCardViewData(
         )
     }
 
-    private fun prepareBillingAddress(
+    private fun prepareAccountHolderBillingAddress(
         address1: String?,
         address2: String?,
         city: String?,
         state: String?,
         zip: String?,
         country: String?,
-    ): BillingAddressParam {
-        return BillingAddressParam(
+    ): AccountHolderBillingAddressParam {
+        return AccountHolderBillingAddressParam(
+            address1 = address1 ?: "",
+            address2 = address2?.toNullIfBlank(),
+            city = city?.toNullIfBlank(),
+            state = state?.toNullIfBlank(),
+            zip = zip ?: "",
+            country = country?.toNullIfBlank()
+        )
+    }
+
+    private fun prepareEndCustomerBillingAddress(
+        address1: String?,
+        address2: String?,
+        city: String?,
+        state: String?,
+        zip: String?,
+        country: String?,
+    ): EndCustomerBillingAddressParam {
+        return EndCustomerBillingAddressParam(
             address1 = address1 ?: "",
             address2 = address2?.toNullIfBlank(),
             city = city?.toNullIfBlank(),

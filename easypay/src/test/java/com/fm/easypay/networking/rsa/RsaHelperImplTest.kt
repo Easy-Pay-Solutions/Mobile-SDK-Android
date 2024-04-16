@@ -58,6 +58,8 @@ internal class TestRsaCertificateManager : RsaCertificateManager {
     }
 
     override var certificate: X509Certificate? = null
+    override var certificateStatus: RsaCertificateStatus? = null
+
     lateinit var privateKey: PrivateKey
     private var publicKey: PublicKey? = null
 

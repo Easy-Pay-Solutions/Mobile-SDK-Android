@@ -1,6 +1,7 @@
 package com.fm.easypay.repositories.charge_cc
 
 import com.fm.easypay.networking.NetworkResource
+import com.fm.easypay.utils.ChargeCreditCardHelper.prepareParams
 import com.fm.easypay.utils.TestApiHelper
 import com.fm.easypay.utils.secured.SecureData
 import junit.framework.TestCase.assertEquals
@@ -20,7 +21,7 @@ internal class ChargeCreditCardRepositoryTest {
 
     @Test
     fun `chargeCreditCard() with valid params returns Success`() = runBlocking {
-        val params = prepareParams()
+        val params = prepareParams(testSecureData)
         val result = repository.chargeCreditCard(params)
         assertEquals(result.status, NetworkResource.Status.SUCCESS)
     }
@@ -29,7 +30,7 @@ internal class ChargeCreditCardRepositoryTest {
     fun `chargeCreditCard() with too long ZIP parameter returns Error for MaxLength`() =
         runBlocking {
             val tooLongZip = "99999999999999999999999"    //should be limited to 20 digits
-            val params = prepareParams(tooLongZip)
+            val params = prepareParams(testSecureData, zip = tooLongZip)
             val result = repository.chargeCreditCard(params)
             assertEquals(result.status, NetworkResource.Status.ERROR)
             assertEquals(result.error?.message, "zip exceeds maximum length of 20 characters")
@@ -39,7 +40,7 @@ internal class ChargeCreditCardRepositoryTest {
     fun `chargeCreditCard() with invalid characters in ZIP returns Error for InvalidCharacters`() =
         runBlocking {
             val invalidZip = "999?"    //cannot contain question mark
-            val params = prepareParams(invalidZip)
+            val params = prepareParams(testSecureData, zip = invalidZip)
             val result = repository.chargeCreditCard(params)
             assertEquals(result.status, NetworkResource.Status.ERROR)
             assertEquals(result.error?.message, "zip contains invalid characters")
@@ -49,87 +50,20 @@ internal class ChargeCreditCardRepositoryTest {
     fun `chargeCreditCard() with negative TotalAmount returns Error for DoubleNotGreaterThanZero`() =
         runBlocking {
             val invalidTotalAmount: Double = -1.0    //double cannot be negative
-            val params = prepareParams(totalAmount = invalidTotalAmount)
+            val params = prepareParams(testSecureData, totalAmount = invalidTotalAmount)
             val result = repository.chargeCreditCard(params)
             assertEquals(result.status, NetworkResource.Status.ERROR)
             assertEquals(result.error?.message, "totalAmount must be greater than 0.0")
         }
 
     @Test
-    fun `chargeCreditCard() with blank CSV returns Error for NotBlank`() =
-        runBlocking {
-            val invalidCsv = ""     //CSV cannot be blank
-            val params = prepareParams(csv = invalidCsv)
-            val result = repository.chargeCreditCard(params)
-            assertEquals(result.status, NetworkResource.Status.ERROR)
-            assertEquals(result.error?.message, "csv cannot be blank")
-        }
-
-    //endregion
-
-    //region Private
-
-    private fun prepareParams(
-        zip: String = "04005",
-        totalAmount: Double = 10.0,
-        csv: String = "999"
-    ): ChargeCreditCardBodyParams =
-        ChargeCreditCardBodyParams(
-            encryptedCardNumber = testSecureData,
-            creditCardInfo = prepareCreditCardInfo(csv),
-            accountHolder = prepareAccountHolder(zip),
-            endCustomer = prepareEndCustomer(),
-            amounts = prepareAmounts(totalAmount),
-            purchaseItems = preparePurchaseItems(),
-            merchantId = 1
-        )
-
-    private fun prepareCreditCardInfo(csv: String): CreditCardInfoParam = CreditCardInfoParam(
-        expMonth = 10,
-        expYear = 2026,
-        csv = csv
-    )
-
-    private fun preparePurchaseItems(): PurchaseItemsParam = PurchaseItemsParam(
-        serviceDescription = "FROM API TESTER",
-        clientRefId = "12456",
-        rpguid = "3d3424a6-c5f3-4c28"
-    )
-
-    private fun prepareAmounts(totalAmount: Double): AmountsParam = AmountsParam(
-        totalAmount = totalAmount,
-        salesTax = 0.0,
-        surcharge = 0.0,
-    )
-
-    private fun prepareAccountHolder(zip: String): PersonalDataParam =
-        PersonalDataParam(
-            firstName = "John",
-            lastName = "Doe",
-            company = "",
-            billingAddress = prepareBillingAddress(zip),
-            email = "robert@easypaysolutions.com",
-            phone = "8775558472"
-        )
-
-    private fun prepareEndCustomer(): PersonalDataParam = PersonalDataParam(
-        firstName = "John",
-        lastName = "Doe",
-        company = "",
-        billingAddress = prepareBillingAddress(),
-        email = "robert@easypaysolutions.com",
-        phone = "8775558472"
-    )
-
-    private fun prepareBillingAddress(zip: String = "04005"): BillingAddressParam =
-        BillingAddressParam(
-            address1 = "123 Fake St.",
-            address2 = "",
-            city = "PORTLAND",
-            state = "ME",
-            zip = zip,
-            country = "USA"
-        )
+    fun `chargeCreditCard() with blank CSV returns Error for NotBlank`() = runBlocking {
+        val invalidCsv = ""     //CSV cannot be blank
+        val params = prepareParams(testSecureData, csv = invalidCsv)
+        val result = repository.chargeCreditCard(params)
+        assertEquals(result.status, NetworkResource.Status.ERROR)
+        assertEquals(result.error?.message, "csv cannot be blank")
+    }
 
     //endregion
 

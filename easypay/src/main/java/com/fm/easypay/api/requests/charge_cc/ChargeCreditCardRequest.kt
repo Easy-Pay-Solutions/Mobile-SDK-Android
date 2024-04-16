@@ -45,10 +45,10 @@ internal data class CreditCardInfoDto(
 
 internal data class PersonalDataDto(
     @SerializedName("Firstname")
-    val firstName: String,
+    val firstName: String? = null,
 
     @SerializedName("Lastname")
-    val lastName: String,
+    val lastName: String? = null,
 
     @SerializedName("Company")
     val company: String? = null,

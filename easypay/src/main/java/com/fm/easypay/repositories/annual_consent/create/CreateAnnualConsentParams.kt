@@ -4,8 +4,9 @@ import com.fm.easypay.api.requests.annual_consent.ConsentCreatorDto
 import com.fm.easypay.api.requests.annual_consent.CreateAnnualConsentBodyDto
 import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
+import com.fm.easypay.repositories.charge_cc.AccountHolderDataParam
 import com.fm.easypay.repositories.charge_cc.CreditCardInfoParam
-import com.fm.easypay.repositories.charge_cc.PersonalDataParam
+import com.fm.easypay.repositories.charge_cc.EndCustomerDataParam
 import com.fm.easypay.utils.DateUtils
 import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay.utils.validation.RegexPattern
@@ -17,8 +18,8 @@ import java.util.Date
 data class CreateAnnualConsentBodyParams(
     val encryptedCardNumber: SecureData<String>,
     val creditCardInfo: CreditCardInfoParam,
-    val accountHolder: PersonalDataParam,
-    val endCustomer: PersonalDataParam?,
+    val accountHolder: AccountHolderDataParam,
+    val endCustomer: EndCustomerDataParam?,
     val consentCreator: ConsentCreatorParam,
 ) : BaseBodyParams() {
     internal fun toDto(): CreateAnnualConsentBodyDto = CreateAnnualConsentBodyDto(

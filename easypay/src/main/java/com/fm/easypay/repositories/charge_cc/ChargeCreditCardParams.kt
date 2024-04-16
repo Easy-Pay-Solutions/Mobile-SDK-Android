@@ -10,14 +10,15 @@ import com.fm.easypay.repositories.BaseBodyParams
 import com.fm.easypay.repositories.MappedField
 import com.fm.easypay.utils.secured.SecureData
 import com.fm.easypay.utils.validation.RegexPattern.ADDRESS1
+import com.fm.easypay.utils.validation.RegexPattern.ADDRESS2
 import com.fm.easypay.utils.validation.RegexPattern.CITY
 import com.fm.easypay.utils.validation.RegexPattern.CLIENT_REF_ID_OR_RPGUID
-import com.fm.easypay.utils.validation.RegexPattern.COMPANY_OR_ADDRESS2
+import com.fm.easypay.utils.validation.RegexPattern.COMPANY
+import com.fm.easypay.utils.validation.RegexPattern.COUNTRY_OR_STATE
 import com.fm.easypay.utils.validation.RegexPattern.EMAIL
 import com.fm.easypay.utils.validation.RegexPattern.FIRST_OR_LAST_NAME
 import com.fm.easypay.utils.validation.RegexPattern.ONLY_NUMBERS
 import com.fm.easypay.utils.validation.RegexPattern.SERVICE_DESCRIPTION
-import com.fm.easypay.utils.validation.RegexPattern.COUNTRY_OR_STATE
 import com.fm.easypay.utils.validation.RegexPattern.ZIP_CODE
 import com.fm.easypay.utils.validation.ValidateDoubleGreaterThanZero
 import com.fm.easypay.utils.validation.ValidateLength
@@ -27,8 +28,8 @@ import com.fm.easypay.utils.validation.ValidateRegex
 data class ChargeCreditCardBodyParams(
     val encryptedCardNumber: SecureData<String>,
     val creditCardInfo: CreditCardInfoParam,
-    val accountHolder: PersonalDataParam,
-    val endCustomer: PersonalDataParam?,
+    val accountHolder: AccountHolderDataParam,
+    val endCustomer: EndCustomerDataParam?,
     val amounts: AmountsParam,
     val purchaseItems: PurchaseItemsParam,
     val merchantId: Int,
@@ -55,11 +56,9 @@ data class ChargeCreditCardBodyParams(
 
 data class CreditCardInfoParam(
     @ValidateLength(maxLength = 2)
-    @ValidateNotBlank
     val expMonth: Int,
 
     @ValidateLength(maxLength = 4)
-    @ValidateNotBlank
     val expYear: Int,
 
     @ValidateLength(maxLength = 4)
@@ -78,22 +77,20 @@ data class CreditCardInfoParam(
     }
 }
 
-data class PersonalDataParam(
+data class AccountHolderDataParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = FIRST_OR_LAST_NAME)
-    @ValidateNotBlank
-    val firstName: String,
+    val firstName: String? = null,
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = FIRST_OR_LAST_NAME)
-    @ValidateNotBlank
-    val lastName: String,
+    val lastName: String? = null,
 
     @ValidateLength(maxLength = 100)
-    @ValidateRegex(regex = COMPANY_OR_ADDRESS2)
+    @ValidateRegex(regex = COMPANY)
     val company: String? = null,
 
-    val billingAddress: BillingAddressParam,
+    val billingAddress: AccountHolderBillingAddressParam,
 
     @ValidateLength(maxLength = 150)
     @ValidateRegex(regex = EMAIL)
@@ -120,14 +117,14 @@ data class PersonalDataParam(
     }
 }
 
-data class BillingAddressParam(
+data class AccountHolderBillingAddressParam(
     @ValidateLength(maxLength = 100)
     @ValidateRegex(regex = ADDRESS1)
     @ValidateNotBlank
     val address1: String,
 
     @ValidateLength(maxLength = 100)
-    @ValidateRegex(regex = COMPANY_OR_ADDRESS2)
+    @ValidateRegex(regex = ADDRESS2)
     val address2: String? = null,
 
     @ValidateLength(maxLength = 75)
@@ -141,6 +138,85 @@ data class BillingAddressParam(
     @ValidateLength(maxLength = 20)
     @ValidateRegex(regex = ZIP_CODE)
     @ValidateNotBlank
+    val zip: String,
+
+    @ValidateLength(maxLength = 75)
+    @ValidateRegex(regex = COUNTRY_OR_STATE)
+    val country: String? = null,
+) : BaseBodyParams() {
+    internal fun toDto(): BillingAddressDto = BillingAddressDto(
+        address1 = address1,
+        address2 = address2,
+        city = city,
+        state = state,
+        zip = zip,
+        country = country,
+    )
+
+    override fun toMappedFields(): List<MappedField> {
+        return this.javaClass.declaredFields.toList().map { MappedField(it, it.get(this)) }
+    }
+}
+
+data class EndCustomerDataParam(
+    @ValidateLength(maxLength = 75)
+    @ValidateRegex(regex = FIRST_OR_LAST_NAME)
+    val firstName: String? = null,
+
+    @ValidateLength(maxLength = 75)
+    @ValidateRegex(regex = FIRST_OR_LAST_NAME)
+    val lastName: String? = null,
+
+    @ValidateLength(maxLength = 100)
+    @ValidateRegex(regex = COMPANY)
+    val company: String? = null,
+
+    val billingAddress: EndCustomerBillingAddressParam,
+
+    @ValidateLength(maxLength = 150)
+    @ValidateRegex(regex = EMAIL)
+    val email: String? = null,
+
+    @ValidateLength(maxLength = 16)
+    @ValidateRegex(regex = ONLY_NUMBERS)
+    val phone: String? = null,
+) : BaseBodyParams() {
+    internal fun toDto(): PersonalDataDto = PersonalDataDto(
+        firstName = firstName,
+        lastName = lastName,
+        company = company,
+        title = "",
+        url = "",
+        billingAddress = billingAddress.toDto(),
+        email = email,
+        phone = phone,
+    )
+
+    override fun toMappedFields(): List<MappedField> {
+        return this.javaClass.declaredFields.toList().map { MappedField(it, it.get(this)) } +
+                billingAddress.toMappedFields()
+    }
+}
+
+data class EndCustomerBillingAddressParam(
+    @ValidateLength(maxLength = 100)
+    @ValidateRegex(regex = ADDRESS1)
+    val address1: String,
+
+    @ValidateLength(maxLength = 100)
+    @ValidateRegex(regex = ADDRESS2)
+    val address2: String? = null,
+
+    @ValidateLength(maxLength = 75)
+    @ValidateRegex(regex = CITY)
+    val city: String? = null,
+
+    @ValidateLength(maxLength = 75)
+    @ValidateRegex(regex = COUNTRY_OR_STATE)
+    val state: String? = null,
+
+    @ValidateLength(maxLength = 20)
+    @ValidateRegex(regex = ZIP_CODE)
     val zip: String,
 
     @ValidateLength(maxLength = 75)
