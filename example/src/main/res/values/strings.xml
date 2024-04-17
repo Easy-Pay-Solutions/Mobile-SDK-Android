@@ -34,6 +34,7 @@
     <string name="purchase_items">Purchase Items</string>
     <string name="service_description">Service Description</string>
     <string name="client_ref_id">ClientRefId</string>
+    <string name="customer_ref_id">Customer Ref ID</string>
     <string name="rpguid">RPGUID</string>
     <string name="submit">Submit</string>
     <string name="consent_id">Consent ID</string>

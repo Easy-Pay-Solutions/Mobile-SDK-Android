@@ -10,8 +10,12 @@ object DateUtils {
 
     @SuppressLint("SimpleDateFormat")
     fun parseDate(date: String): Date? {
-        val format = SimpleDateFormat(USER_DATE_FORMAT)
-        return format.parse(date)
+        return try {
+            val format = SimpleDateFormat(USER_DATE_FORMAT)
+            format.parse(date)
+        } catch (e: Exception) {
+            null
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

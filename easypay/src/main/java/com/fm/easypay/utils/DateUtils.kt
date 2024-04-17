@@ -36,6 +36,6 @@ internal object DateUtils {
     }
 
     fun parseDateForApi(startDate: Date): String {
-        return """\/Date(${startDate.time})\/"""
+        return """\/Date(${startDate.time / 1000})\/"""
     }
 }

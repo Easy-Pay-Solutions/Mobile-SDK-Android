@@ -295,7 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerReferenceId}"
-                app:title="@string/client_ref_id" />
+                app:title="@string/customer_ref_id" />
 
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
