@@ -43,7 +43,6 @@
     <string name="add_a_card">Add a card</string>
     <string name="consent_creator">Consent Creator</string>
     <string name="start_date">Start Date</string>
-    <string name="num_days">Num days</string>
     <string name="limit_per_charge">Limit per charge</string>
     <string name="limit_lifetime">Limit Life Time</string>
     <string name="cancel">Cancel</string>

@@ -2,6 +2,7 @@ package com.fm.easypay.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
 
@@ -36,6 +37,6 @@ internal object DateUtils {
     }
 
     fun parseDateForApi(startDate: Date): String {
-        return """\/Date(${startDate.time / 1000})\/"""
+        return """\/Date(${startDate.time})\/"""
     }
 }

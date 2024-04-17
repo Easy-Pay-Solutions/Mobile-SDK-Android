@@ -42,7 +42,6 @@ data class AddAnnualConsentViewData(
     var serviceDescription: String? = null,
     var customerReferenceId: String? = null,
     var rpguid: String? = null,
-    var numDays: String? = null,
     var limitPerCharge: String? = null,
     var limitLifeTime: String? = null,
     var startDate: String? = null,
@@ -72,7 +71,6 @@ data class AddAnnualConsentViewData(
             customerReferenceId = customerReferenceId?.toNullIfBlank(),
             rpguid = rpguid?.toNullIfBlank(),
             startDate = startDate?.let { DateUtils.parseDate(it) } ?: Date(),
-            numDays = numDays?.toIntOrNull() ?: 0,
             limitPerCharge = limitPerCharge?.toDoubleOrNull() ?: 0.0,
             limitLifeTime = limitLifeTime?.toDoubleOrNull() ?: 0.0
         )

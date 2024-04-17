@@ -312,13 +312,6 @@
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
-                app:mainText="@={data.numDays}"
-                app:title="@string/num_days" />
-
-            <com.fm.easypay_sample.utils.AppEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:mainText="@={data.limitPerCharge}"
                 app:title="@string/limit_per_charge" />

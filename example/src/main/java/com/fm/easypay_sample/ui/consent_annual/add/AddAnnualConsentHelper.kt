@@ -35,7 +35,6 @@ object AddAnnualConsentHelper {
         serviceDescription = "FROM API TESTER",
         customerReferenceId = "12456",
         rpguid = "3d3424a6-c5f3-4c28",
-        numDays = "365",
         limitPerCharge = "1000.0",
         limitLifeTime = "100000.0",
         startDate = getTomorrowDate()

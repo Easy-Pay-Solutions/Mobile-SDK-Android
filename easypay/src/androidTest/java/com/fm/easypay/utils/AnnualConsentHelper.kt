@@ -6,7 +6,9 @@ import com.fm.easypay.utils.ChargeCreditCardHelper.prepareAccountHolder
 import com.fm.easypay.utils.ChargeCreditCardHelper.prepareCreditCardInfo
 import com.fm.easypay.utils.ChargeCreditCardHelper.prepareEndCustomer
 import com.fm.easypay.utils.secured.SecureData
+import java.util.Calendar
 import java.util.Date
+import java.util.GregorianCalendar
 
 internal object AnnualConsentHelper {
     fun prepareParams(
@@ -30,7 +32,6 @@ internal object AnnualConsentHelper {
             customerReferenceId = "Client Ref Id",
             rpguid = "RPGUID",
             startDate = Date(),
-            numDays = 365,
             limitPerCharge = limitPerCharge,
             limitLifeTime = 100.0
         )

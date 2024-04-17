@@ -53,7 +53,6 @@ data class ConsentCreatorParam(
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)
     val rpguid: String? = null,
     val startDate: Date,
-    val numDays: Int,
 
     @ValidateDoubleGreaterThanZero
     val limitPerCharge: Double,
@@ -67,7 +66,7 @@ data class ConsentCreatorParam(
         customerReferenceId = customerReferenceId,
         rpguid = rpguid,
         startDate = DateUtils.parseDateForApi(startDate),
-        numDays = numDays,
+        numDays = 365,
         limitPerCharge = limitPerCharge.toBigDecimal().toPlainString(),
         limitLifeTime = limitLifeTime.toBigDecimal().toPlainString(),
     )
