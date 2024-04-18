@@ -29,6 +29,7 @@ class SecureTextField @JvmOverloads constructor(
     }
 
     init {
+        isSingleLine = true
         transformationMethod = AsteriskPasswordTransformationMethod()
         inputType = SECURE_INPUT_TYPE
         filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_SECURE_LENGTH))

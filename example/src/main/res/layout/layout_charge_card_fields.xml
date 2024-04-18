@@ -45,8 +45,7 @@
                 android:id="@+id/stf_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:singleLine="true" />
+                android:imeOptions="actionNext" />
 
             <com.fm.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
