@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fm.easypay_sample.R
 import com.fm.easypay_sample.databinding.FragmentAddAnnualConsentBinding
+import com.fm.easypay_sample.ui.charge_card.ChargeCardFragmentArgs
 import com.fm.easypay_sample.utils.AlertUtils
 import com.fm.easypay_sample.utils.ViewState
 import com.fm.easypay_sample.utils.viewBinding
@@ -38,6 +39,9 @@ class AddAnnualConsentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val isPrefilled =
+            arguments?.let { AddAnnualConsentFragmentArgs.fromBundle(it).isPrefilled } ?: false
+        viewModel.setupViewData(isPrefilled)
         initComponents()
     }
 

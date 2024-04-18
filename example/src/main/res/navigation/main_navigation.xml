@@ -35,10 +35,19 @@
         <action
             android:id="@+id/action_consentAnnualFragment_to_addAnnualConsentFragment"
             app:destination="@id/addAnnualConsentFragment" />
+        <argument
+            android:name="isPrefilled"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/addAnnualConsentFragment"
         android:name="com.fm.easypay_sample.ui.consent_annual.add.AddAnnualConsentFragment"
         android:label="fragment_add_annual_consent"
-        tools:layout="@layout/fragment_add_annual_consent" />
+        tools:layout="@layout/fragment_add_annual_consent" >
+        <argument
+            android:name="isPrefilled"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>

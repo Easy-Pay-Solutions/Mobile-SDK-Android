@@ -37,6 +37,9 @@ class MainFragment : Fragment() {
             btnChargeCard.setOnClickListener {
                 navigateToChargeCard()
             }
+            btnPrefilledConsentAnnual.setOnClickListener {
+                navigateToConsentAnnual(prefilled = true)
+            }
             btnConsentAnnual.setOnClickListener {
                 navigateToConsentAnnual()
             }
@@ -48,8 +51,8 @@ class MainFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun navigateToConsentAnnual() {
-        val action = MainFragmentDirections.actionMainFragmentToConsentAnnualFragment()
+    private fun navigateToConsentAnnual(prefilled: Boolean = false) {
+        val action = MainFragmentDirections.actionMainFragmentToConsentAnnualFragment(prefilled)
         findNavController().navigate(action)
     }
 }

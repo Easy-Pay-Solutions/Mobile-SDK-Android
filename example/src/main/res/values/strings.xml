@@ -3,6 +3,7 @@
     <string name="charge_a_credit_card_example">Charge a Credit Card example</string>
     <string name="consent_annual_example">Annual Consents example</string>
     <string name="charge_credit_card">Charge Credit Card</string>
+    <string name="prefilled_consent_annual_example">[Pre-filled] Annual Consents example</string>
     <string name="credit_card">Credit card number</string>
     <string name="charge_a_prefilled_credit_card_example">[Pre-filled] Charge a credit card example</string>
     <string name="ok">OK</string>

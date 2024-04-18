@@ -20,13 +20,18 @@ class AddAnnualConsentViewModel @Inject constructor(
     private val createAnnualConsent: CreateAnnualConsent,
 ) : ViewModel() {
 
-    var viewData: AddAnnualConsentViewData = AddAnnualConsentHelper.getPrefilledViewData()
+    lateinit var viewData: AddAnnualConsentViewData
         private set
 
     private val _createAnnualConsentResult = MutableSharedFlow<CreateAnnualConsentState>()
     val createAnnualConsentResult: SharedFlow<CreateAnnualConsentState> = _createAnnualConsentResult
 
     //region Public methods
+
+    fun setupViewData(isPrefilled: Boolean) {
+        viewData =
+            if (isPrefilled) AddAnnualConsentHelper.getPrefilledViewData() else AddAnnualConsentViewData()
+    }
 
     fun createAnnualConsent(secureData: SecureData<String>) {
         viewModelScope.launch {

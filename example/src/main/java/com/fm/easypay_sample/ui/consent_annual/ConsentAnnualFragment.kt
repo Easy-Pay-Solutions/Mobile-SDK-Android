@@ -119,8 +119,10 @@ class ConsentAnnualFragment : Fragment() {
     //region Navigation
 
     private fun navigateToAddCard() {
-        val action =
-            ConsentAnnualFragmentDirections.actionConsentAnnualFragmentToAddAnnualConsentFragment()
+        val isPrefilled =
+            arguments?.let { ConsentAnnualFragmentArgs.fromBundle(it).isPrefilled } ?: false
+        val action = ConsentAnnualFragmentDirections
+            .actionConsentAnnualFragmentToAddAnnualConsentFragment(isPrefilled)
         findNavController().navigate(action)
     }
 
