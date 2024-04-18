@@ -6,7 +6,7 @@ import java.util.Date
 
 object DateUtils {
 
-    private const val USER_DATE_FORMAT = "yyyy-MM-dd"
+    private const val USER_DATE_FORMAT = "MM-dd-yyyy"
 
     @SuppressLint("SimpleDateFormat")
     fun parseDate(date: String): Date? {
