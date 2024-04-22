@@ -1,6 +1,7 @@
 package com.fm.easypay.utils
 
 import android.content.Context
+import io.sentry.Sentry
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +56,7 @@ internal class DownloadManagerImpl(
             file.inputStream().readBytes()
         } catch (e: Exception) {
             // file not yet created
+            Sentry.captureException(e)
             null
         }
     }

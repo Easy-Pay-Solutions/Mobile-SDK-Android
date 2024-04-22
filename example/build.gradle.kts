@@ -19,9 +19,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("String", "SENTRY_DSN", "\"${System.getenv("SENTRY_DSN") ?: ""}\"")
         buildConfigField("String", "SESSION_KEY", "\"${System.getenv("SESSION_KEY") ?: ""}\"")
         buildConfigField("String", "HMAC_SECRET", "\"${System.getenv("HMAC_SECRET") ?: ""}\"")
-        buildConfigField("String", "APP_CENTER_SECRET", "\"${System.getenv("APP_CENTER_SECRET") ?: ""}\"")
     }
     buildFeatures {
         buildConfig = true
@@ -52,7 +52,7 @@ dependencies {
 
     implementation(project(":easypay"))
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -70,11 +70,6 @@ dependencies {
     val hiltVersion = "2.51.1"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-
-    // AppCenter Analytics & Crashes
-    val appCenterSdkVersion = "5.0.4"
-    implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
-    implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 }
 
 // Allow references to generated code

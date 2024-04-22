@@ -7,6 +7,7 @@ import com.fm.easypay.api.responses.base.TransactionResult
 import com.fm.easypay.exceptions.EasyPayApiException
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.sentry.Sentry
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -17,7 +18,15 @@ internal class DefaultNetworkDataSource : NetworkDataSource {
         try {
             val response: Response<X> = call()
             if (!response.isSuccessful) {
-                return error(response.code(), response.message(), response.errorBody())
+                val error: NetworkResource<T> = error(
+                    response.code(),
+                    response.message(),
+                    response.errorBody()
+                )
+                error.error?.let {
+                    Sentry.captureException(it)
+                }
+                return error
             }
 
             val body = response.body() ?: return error(0, "empty_response", null)
@@ -30,6 +39,7 @@ internal class DefaultNetworkDataSource : NetworkDataSource {
 
             return NetworkResource.success(result)
         } catch (e: Exception) {
+            Sentry.captureException(e)
             return error(0, e.message ?: e.toString(), null)
         }
     }
@@ -61,8 +71,8 @@ internal class DefaultNetworkDataSource : NetworkDataSource {
                 val type = object : TypeToken<ResponseError?>() {}.type
                 val errorResponse: ResponseError? = Gson().fromJson(msg, type)
                 errorResponse?.error?.let { e -> msg = e }
-            } catch (_: Exception) {
-                // does nothing
+            } catch (e: Exception) {
+                Sentry.captureException(e)
             }
         }
 

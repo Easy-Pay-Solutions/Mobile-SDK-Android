@@ -4,6 +4,7 @@ import android.content.Context
 import com.fm.easypay.exceptions.EasyPaySdkException
 import com.fm.easypay.utils.DownloadManager
 import com.fm.easypay.utils.SdkPreferences
+import io.sentry.Sentry
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +58,9 @@ internal class RsaCertificateManagerImpl(
                 certificateStatus = RsaCertificateStatus.SUCCESS
             } catch (e: EasyPaySdkException) {
                 certificateStatus = RsaCertificateStatus.FAILED
-                throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+                val exception = EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+                Sentry.captureException(exception)
+                throw exception
             }
         }
     }
@@ -83,7 +86,9 @@ internal class RsaCertificateManagerImpl(
                     sdkPreferences.setLastRsaCertificateFetch(Date().time)
                 } catch (e: EasyPaySdkException) {
                     certificateStatus = RsaCertificateStatus.FAILED
-                    throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+                    val exception = EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+                    Sentry.captureException(exception)
+                    throw exception
                 }
             }
         }

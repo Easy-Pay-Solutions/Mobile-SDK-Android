@@ -12,14 +12,14 @@ EasyPay library offers access to the EasyPay API for seamless integration with A
 
 ### Get started
 
-1. Prerequisites - get HMAC secret and API key from EasyPay.
+1. Prerequisites - get API key, HMAC secret and optional Sentry DSN from EasyPay.
 
 2. Configure the EasyPay class at the very beginning of the application lifecycle, e.g. in the main Application class (in the onCreate() method).
 ```
 class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        EasyPay.init(applicationContext, "YOUR_API_KEY", "YOUR_HMAC_SECRET")
+        EasyPay.init(applicationContext, "YOUR_API_KEY", "YOUR_HMAC_SECRET", "SENTRY_DSN")
     }
 }
 ```
@@ -168,14 +168,14 @@ More information about consuming the API response can be found in the [EasyPay R
 ### EasyPaySdkException
 Exceptions that are thrown by the SDK.
 
-| Exception name                         |                                                                   Suggested solution                                                                   |
-|----------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| EASY_PAY_CONFIGURATION_NOT_INITIALIZED |                                                   Check if EasyPay.init(...) method has been called.                                                   |
-| MISSED_SESSION_KEY                     |                                    Check if correct SESSION_KEY has been provided in the EasyPay.init(...) method.                                     |
-| MISSED_HMAC_SECRET                     |                                    Check if correct HMAC_SECRET has been provided in the EasyPay.init(...) method.                                     |
-| RSA_CERTIFICATE_NOT_FETCHED            | RSA certificate might not be fetched yet. Check the status by calling the EasyPayConfiguration.getInstance().getRsaCertificateFetchingStatus() method. |
-| RSA_CERTIFICATE_FETCH_FAILED           |                                                                    Contact EasyPay.                                                                    |
-| RSA_CERTIFICATE_PARSING_ERROR          |                                                                    Contact EasyPay.                                                                    |
+| Exception name                         | Suggested solution                                                                                                                                           |
+|----------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| EASY_PAY_CONFIGURATION_NOT_INITIALIZED | Check if ```EasyPay.init(...)``` method has been called.                                                                                                     |
+| MISSED_SESSION_KEY                     | Check if correct SESSION_KEY has been provided in the ```EasyPay.init(...)``` method.                                                                        |
+| MISSED_HMAC_SECRET                     | Check if correct HMAC_SECRET has been provided in the ```EasyPay.init(...)``` method.                                                                        |
+| RSA_CERTIFICATE_NOT_FETCHED            | RSA certificate might not be fetched yet. Check the status by calling the ```EasyPayConfiguration.getInstance().getRsaCertificateFetchingStatus()``` method. |
+| RSA_CERTIFICATE_FETCH_FAILED           | Contact EasyPay.                                                                                                                                             |
+| RSA_CERTIFICATE_PARSING_ERROR          | Contact EasyPay.                                                                                                                                             |
 
 ### EasyPayApiException
 Exceptions that are thrown by the EasyPay API.

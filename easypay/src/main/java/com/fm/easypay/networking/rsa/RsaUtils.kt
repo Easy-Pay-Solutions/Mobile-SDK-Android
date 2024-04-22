@@ -2,6 +2,7 @@ package com.fm.easypay.networking.rsa
 
 import android.util.Base64
 import com.fm.easypay.exceptions.EasyPaySdkException
+import io.sentry.Sentry
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.security.PrivateKey
@@ -21,7 +22,10 @@ internal object RsaUtils {
             val certificateInputStream: InputStream = ByteArrayInputStream(bytes)
             certificateFactory.generateCertificate(certificateInputStream) as? X509Certificate
         } catch (e: Exception) {
-            throw EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+            val exception =
+                EasyPaySdkException(EasyPaySdkException.Type.RSA_CERTIFICATE_PARSING_ERROR)
+            Sentry.captureException(exception)
+            throw exception
         }
     }
 
