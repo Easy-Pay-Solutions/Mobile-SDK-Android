@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fm.easypay_sample.ui.consent_annual.add.AddAnnualConsentFragment">
+    tools:context="com.easypay_sample.ui.consent_annual.add.AddAnnualConsentFragment">
 
     <ScrollView
         android:layout_width="match_parent"

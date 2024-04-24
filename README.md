@@ -131,7 +131,7 @@ SDK contains component called SecureTextField prepared to ensure safe input of n
 
 SecureTextField supports only XML layout configuration:
 ```
-<com.fm.easypay.utils.secured.SecureTextField
+<com.easypaysolutions.utils.secured.SecureTextField
     ... />
 ```
 

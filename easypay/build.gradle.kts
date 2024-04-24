@@ -1,10 +1,13 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.vanniktech.maven.publish") version "0.28.0"
 }
 
 android {
-    namespace = "com.fm.easypay"
+    namespace = "com.easypaysolutions"
     compileSdk = 34
 
     defaultConfig {
@@ -12,9 +15,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        buildConfigField("String", "SESSION_KEY_FOR_TESTS", "\"${System.getenv("SESSION_KEY") ?: ""}\"")
-        buildConfigField("String", "HMAC_SECRET_FOR_TESTS", "\"${System.getenv("HMAC_SECRET") ?: ""}\"")
     }
     buildFeatures {
         buildConfig = true
@@ -28,6 +28,16 @@ android {
                 "\"https://easypay5.com/APIcardProcMobile/\""
             )
             buildConfigField("String", "API_VERSION", "\"v1.0.0\"")
+            buildConfigField(
+                "String",
+                "SESSION_KEY_FOR_TESTS",
+                "\"${System.getenv("SESSION_KEY") ?: ""}\""
+            )
+            buildConfigField(
+                "String",
+                "HMAC_SECRET_FOR_TESTS",
+                "\"${System.getenv("HMAC_SECRET") ?: ""}\""
+            )
         }
         release {
             buildConfigField(
@@ -36,7 +46,7 @@ android {
                 "\"https://easypay5.com/APIcardProcMobile/\""
             )
             buildConfigField("String", "API_VERSION", "\"v1.0.0\"")
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -50,6 +60,16 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+}
+
+mavenPublishing {
+    configure(
+        AndroidSingleVariantLibrary(
+            variant = "release",
+            sourcesJar = true,
+            publishJavadocJar = true,
+        )
+    )
 }
 
 dependencies {

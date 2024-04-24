@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.fm.easypay.api.responses.annual_consent.AnnualConsent" />
+            type="com.easypaysolutions.api.responses.annual_consent.AnnualConsent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"

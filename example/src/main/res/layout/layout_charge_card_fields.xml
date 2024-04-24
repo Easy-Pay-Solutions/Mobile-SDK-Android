@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="com.fm.easypay_sample.ui.charge_card.ChargeCardViewData" />
+            type="com.easypay_sample.ui.charge_card.ChargeCardViewData" />
     </data>
 
     <LinearLayout
@@ -28,7 +28,7 @@
                 android:text="@string/credit_card_details"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
@@ -41,27 +41,27 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/credit_card_number" />
 
-            <com.fm.easypay.utils.secured.SecureTextField
+            <com.easypaysolutions.utils.secured.SecureTextField
                 android:id="@+id/stf_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
                 app:mainText="@={data.expMonth}"
                 app:title="@string/exp_month" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
                 app:mainText="@={data.expYear}"
                 app:title="@string/exp_year" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.cvv}"
@@ -84,31 +84,31 @@
                 android:text="@string/account_holder"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderFirstName}"
                 app:title="@string/first_name" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderLastName}"
                 app:title="@string/last_name" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderCompany}"
                 app:title="@string/company" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderPhone}"
                 app:title="@string/phone" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderEmail}"
@@ -131,37 +131,37 @@
                 android:text="@string/billing_address"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderAddress1}"
                 app:title="@string/address_1" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderAddress2}"
                 app:title="@string/address_2" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderCity}"
                 app:title="@string/city" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderState}"
                 app:title="@string/state" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderZip}"
                 app:title="@string/zip" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.holderCountry}"
@@ -184,31 +184,31 @@
                 android:text="@string/end_customer"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerFirstName}"
                 app:title="@string/first_name" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerLastName}"
                 app:title="@string/last_name" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerCompany}"
                 app:title="@string/company" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerPhone}"
                 app:title="@string/phone" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerEmail}"
@@ -231,37 +231,37 @@
                 android:text="@string/end_customer_billing_address"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerAddress1}"
                 app:title="@string/address_1" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerAddress2}"
                 app:title="@string/address_2" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerCity}"
                 app:title="@string/city" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerState}"
                 app:title="@string/state" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerZip}"
                 app:title="@string/zip" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.customerCountry}"
@@ -284,21 +284,21 @@
                 android:text="@string/amounts"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:mainText="@={data.totalAmount}"
                 app:title="@string/total_amount" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:mainText="@={data.salesAmount}"
                 app:title="@string/sales_amount" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
@@ -322,19 +322,19 @@
                 android:text="@string/purchase_items"
                 android:textSize="22sp" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.serviceDescription}"
                 app:title="@string/service_description" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.clientRefId}"
                 app:title="@string/client_ref_id" />
 
-            <com.fm.easypay_sample.utils.AppEditText
+            <com.easypay_sample.utils.AppEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mainText="@={data.rpguid}"

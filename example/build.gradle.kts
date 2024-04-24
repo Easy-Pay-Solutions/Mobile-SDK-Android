@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.fm.easypay_sample"
+    namespace = "com.easypay_sample"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.fm.easypay_sample"
+        applicationId = "com.easypay_sample"
         minSdk = 23
         targetSdk = 34
         versionCode = 1
