@@ -20,7 +20,7 @@ import com.easypaysolutions.utils.validation.RegexPattern.FIRST_OR_LAST_NAME
 import com.easypaysolutions.utils.validation.RegexPattern.ONLY_NUMBERS
 import com.easypaysolutions.utils.validation.RegexPattern.SERVICE_DESCRIPTION
 import com.easypaysolutions.utils.validation.RegexPattern.ZIP_CODE
-import com.easypaysolutions.utils.validation.ValidateDoubleGreaterThanZero
+import com.easypaysolutions.utils.validation.ValidateNumberGreaterThanZero
 import com.easypaysolutions.utils.validation.ValidateLength
 import com.easypaysolutions.utils.validation.ValidateNotBlank
 import com.easypaysolutions.utils.validation.ValidateRegex
@@ -55,9 +55,11 @@ data class ChargeCreditCardBodyParams(
 }
 
 data class CreditCardInfoParam(
+    @ValidateNumberGreaterThanZero
     @ValidateLength(maxLength = 2)
     val expMonth: Int,
 
+    @ValidateNumberGreaterThanZero
     @ValidateLength(maxLength = 4)
     val expYear: Int,
 
@@ -238,7 +240,7 @@ data class EndCustomerBillingAddressParam(
 }
 
 data class AmountsParam(
-    @ValidateDoubleGreaterThanZero
+    @ValidateNumberGreaterThanZero
     val totalAmount: Double,
     val salesTax: Double? = null,
     val surcharge: Double? = null,

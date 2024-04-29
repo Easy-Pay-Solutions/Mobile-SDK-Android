@@ -10,7 +10,7 @@ import com.easypaysolutions.repositories.charge_cc.EndCustomerDataParam
 import com.easypaysolutions.utils.DateUtils
 import com.easypaysolutions.utils.secured.SecureData
 import com.easypaysolutions.utils.validation.RegexPattern
-import com.easypaysolutions.utils.validation.ValidateDoubleGreaterThanZero
+import com.easypaysolutions.utils.validation.ValidateNumberGreaterThanZero
 import com.easypaysolutions.utils.validation.ValidateLength
 import com.easypaysolutions.utils.validation.ValidateRegex
 import java.util.Date
@@ -54,10 +54,10 @@ data class ConsentCreatorParam(
     val rpguid: String? = null,
     val startDate: Date,
 
-    @ValidateDoubleGreaterThanZero
+    @ValidateNumberGreaterThanZero
     val limitPerCharge: Double,
 
-    @ValidateDoubleGreaterThanZero
+    @ValidateNumberGreaterThanZero
     val limitLifeTime: Double,
 ) : BaseBodyParams() {
     internal fun toDto(): ConsentCreatorDto = ConsentCreatorDto(

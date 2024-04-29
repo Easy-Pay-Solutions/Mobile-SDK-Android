@@ -10,7 +10,7 @@ internal annotation class ValidateRegex(val regex: String)
 
 @Retention
 @Target(AnnotationTarget.FIELD)
-internal annotation class ValidateDoubleGreaterThanZero
+internal annotation class ValidateNumberGreaterThanZero
 
 @Retention
 @Target(AnnotationTarget.FIELD)

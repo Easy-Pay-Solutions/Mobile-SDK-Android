@@ -45,8 +45,8 @@ internal object ValidatorUtils {
                         validateRegex(mappedField, annotation)?.let { return it }
                     }
 
-                    is ValidateDoubleGreaterThanZero -> {
-                        validateDoubleGreaterThanZero(mappedField)?.let { return it }
+                    is ValidateNumberGreaterThanZero -> {
+                        validateNumberGreaterThanZero(mappedField)?.let { return it }
                     }
 
                     is ValidateNotBlank -> {
@@ -72,14 +72,17 @@ internal object ValidatorUtils {
         }
     }
 
-    private fun validateDoubleGreaterThanZero(mappedField: MappedField): EasyPayApiException? {
+    private fun validateNumberGreaterThanZero(mappedField: MappedField): EasyPayApiException? {
         var isValid = true
         if (mappedField.value is Double) {
             isValid = mappedField.value > 0
         }
+        if (mappedField.value is Int) {
+            isValid = mappedField.value > 0
+        }
         return if (!isValid) {
             EasyPayApiException(
-                message = "${mappedField.field.name} must be greater than 0.0"
+                message = "${mappedField.field.name} must be greater than 0"
             )
         } else {
             null
