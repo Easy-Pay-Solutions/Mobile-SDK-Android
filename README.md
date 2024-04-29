@@ -4,13 +4,25 @@ EasyPay library offers access to the EasyPay API for seamless integration with A
 
 [General Easy Pay Developer Documentation](https://easypaysoftware.com/en/home)
 
+## Installation
+
 ### Requirements
 
 * Android 6.0 (API level 23) and above
 * Gradle 8.2 and above
 * Android Gradle Plugin 8.2.1
 
-### Get started
+### Configuration
+
+Add `easypay` to your dependencies in the `build.gradle` file.
+
+```
+dependencies {
+    implementation 'com.easypaysolutions:easypay:0.0.1'
+}
+```
+
+## Get started
 
 1. Prerequisites - get API key, HMAC secret and optional Sentry DSN from EasyPay.
 
