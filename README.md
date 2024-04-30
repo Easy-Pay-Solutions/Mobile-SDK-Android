@@ -18,7 +18,7 @@ Add `easypay` to your dependencies in the `build.gradle` file.
 
 ```
 dependencies {
-    implementation 'com.easypaysolutions:easypay:0.0.1'
+    implementation 'com.easypaysolutions:easypay:1.0.0'
 }
 ```
 
@@ -84,7 +84,7 @@ ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): N
 
 ### 3. Create Annual Consent (ConsentAnnual_Create_MAN)
 
-This method creates an annual consent by sending the credit card details, which include: card number, expiration date, CVV, and card holder contact data. It is not created by swiping the card through a reader device.
+This method creates an annual consent by sending the credit card details, which includes: card number, expiration date, CVV, and card holder contact data. It is not created by swiping the card through a reader device.
 ```
 CreateAnnualConsent().createAnnualConsent(params: CreateAnnualConsentBodyParams): NetworkResource<CreateAnnualConsentResult>
 ```
