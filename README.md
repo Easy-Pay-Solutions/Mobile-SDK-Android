@@ -12,7 +12,7 @@ EasyPay library offers an access to the EasyPay API for a seamless integration w
 * Gradle 8.2 and above
 * Android Gradle Plugin 8.2.1
 
-### Configuration
+### Configuration - Gradle / Maven dependency
 
 Add `easypay` to your dependencies in the `build.gradle` file.
 
@@ -200,3 +200,12 @@ Increment the:
 - MAJOR version when you make incompatible API changes,
 - MINOR version when you add functionality in a backwards-compatible manner, and
 - PATCH version when you make backwards-compatible bug fixes.
+
+## Feature flags
+
+### Rooted device detection
+
+To enable rooted device detection feature, call the following method before calling the EasyPay.init(...) method:
+```
+EasyPayFeatureFlagManager.setRootedDeviceDetectionEnabled(true)
+```

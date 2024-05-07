@@ -2,7 +2,6 @@ package com.easypay_sample
 
 import android.app.Application
 import com.easypaysolutions.EasyPay
-import com.easypay_sample.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

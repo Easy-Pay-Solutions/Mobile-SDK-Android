@@ -34,7 +34,6 @@ data class ProcessPaymentAnnualResult internal constructor(
     @SerializedName("AVSresult")
     val avsResult: String,
 
-    // TODO: Clarify type
     @SerializedName("AcquirerResponseEMV")
     val acquirerResponseEmv: String?,
 

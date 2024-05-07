@@ -1,5 +1,7 @@
 package com.easypaysolutions.utils
 
+import com.easypaysolutions.BuildConfig
+
 internal enum class VersionType {
     ACTUAL,         //version is matching
     DEPRECATED,     //minor version y differs
@@ -7,18 +9,13 @@ internal enum class VersionType {
 }
 
 internal class VersionManager {
-    private val currentVersion = "1.0.0"
+    private val currentVersion = BuildConfig.SDK_VERSION
     private val minVersion = "1.0.0"
 
     fun getCurrentSdkVersion(): String = currentVersion
 
     fun checkVersionType(): VersionType {
-        //TODO: Fetch from server
-        val libVersion = "1.0.0"
-
-        if (currentVersion == libVersion) {
-            return VersionType.ACTUAL
-        }
+        val libVersion = currentVersion
 
         if (compareMajorVersions(libVersion, minVersion) == VersionType.OUTDATED) {
             return VersionType.OUTDATED
@@ -27,6 +24,7 @@ internal class VersionManager {
         if (compareMinorVersions(libVersion, minVersion) == VersionType.DEPRECATED) {
             return VersionType.DEPRECATED
         }
+
         return VersionType.ACTUAL
     }
 

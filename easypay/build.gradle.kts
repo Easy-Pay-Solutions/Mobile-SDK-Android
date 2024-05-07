@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -10,11 +11,16 @@ android {
     namespace = "com.easypaysolutions"
     compileSdk = 34
 
+    val properties = Properties()
+    properties.load(project.rootProject.file("gradle.properties").inputStream())
+
     defaultConfig {
         minSdk = 23
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "SDK_VERSION", properties.getProperty("VERSION_NAME") ?: "")
     }
     buildFeatures {
         buildConfig = true
