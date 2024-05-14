@@ -7,6 +7,8 @@ import com.easypaysolutions.api.ApiModule
 import com.easypaysolutions.networking.NetworkingModule
 import com.easypaysolutions.repositories.annual_consent.ConsentAnnualModule
 import com.easypaysolutions.repositories.charge_cc.ChargeCreditCardModule
+import com.easypaysolutions.utils.RootedDeviceValidator
+import com.easypaysolutions.utils.feature_flags.EasyPayFeatureFlagManager
 import io.sentry.Sentry
 import io.sentry.android.core.SentryAndroid
 import org.koin.android.ext.koin.androidContext
@@ -31,8 +33,9 @@ class EasyPay private constructor() {
             initModules(context)
             initSentry(context, sentryKey)
             EasyPayConfiguration.init(sessionKey, hmacSecret)
-            // TODO: Validator blocks using Emulator. Need to find a way to bypass it.
-//            RootedDeviceValidator.verifyDevice(context)
+            if (EasyPayFeatureFlagManager.isRootedDeviceDetectionEnabled()) {
+                RootedDeviceValidator.verifyDevice(context)
+            }
         }
 
         //endregion

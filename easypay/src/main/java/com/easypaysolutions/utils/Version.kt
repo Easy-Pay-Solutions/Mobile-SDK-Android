@@ -13,8 +13,7 @@ internal class VersionManager {
     fun getCurrentSdkVersion(): String = currentVersion
 
     fun checkVersionType(): VersionType {
-        //TODO: Fetch from server
-        val libVersion = "1.0.0"
+        val libVersion = currentVersion
 
         if (currentVersion == libVersion) {
             return VersionType.ACTUAL

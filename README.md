@@ -1,6 +1,6 @@
 # EasyPay Android SDK
 
-EasyPay library offers access to the EasyPay API for seamless integration with Android applications.
+EasyPay library offers an access to the EasyPay API for a seamless integration with Android applications.
 
 [General Easy Pay Developer Documentation](https://easypaysoftware.com/en/home)
 
@@ -12,7 +12,7 @@ EasyPay library offers access to the EasyPay API for seamless integration with A
 * Gradle 8.2 and above
 * Android Gradle Plugin 8.2.1
 
-### Configuration
+### Configuration - Gradle / Maven dependency
 
 Add `easypay` to your dependencies in the `build.gradle` file.
 
@@ -36,7 +36,7 @@ class MainApplication : Application() {
 }
 ```
 
-3. Please mind that during EasyPay initialization, the RSA certificate download process begins. Proceeding with any call before downloading has finished will result with an exception (RSA_CERTIFICATE_NOT_FETCHED). You can check the download status by accessing the following enum:
+3. Please keep in mind that during EasyPay initialization, the RSA certificate download process begins. Proceeding with any call before downloading has finished will result with an exception (RSA_CERTIFICATE_NOT_FETCHED). You can check the download status by accessing the following enum:
 ```
 EasyPayConfiguration.getInstance().getRsaCertificateFetchingStatus()
 ```
@@ -45,7 +45,7 @@ EasyPayConfiguration.getInstance().getRsaCertificateFetchingStatus()
 [Easy Pay API Documentation](https://easypaypi.com/APIDocsDev/)
 ### 1. Charge Credit Card (CreditCardSale_Manual)
 
-Processes a credit card when the credit card details are entered manually. Details include the card number, expiration date, CVV, card holder name and address.
+This method processes a credit card when the credit card details are entered manually. Details include the card number, expiration date, CVV, card holder name and address.
 ```
 ChargeCreditCard().chargeCreditCard(params: ChargeCreditCardBodyParams): NetworkResource<ChargeCreditCardResult>
 ```
@@ -67,7 +67,7 @@ ChargeCreditCard().chargeCreditCard(params: ChargeCreditCardBodyParams): Network
 
 ### 2. List Annual Consents (ConsentAnnual_Query)
 
-A query that returns annual consent details. Depending upon the query sent, a single consent or multiple consents may be returned.
+A query that returns annual consent details. Depending on the query sent, a single consent or multiple consents may be returned.
 ```
 ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): NetworkResource<ListAnnualConsentsResult>
 ```
@@ -139,7 +139,7 @@ ProcessPaymentAnnual().processPaymentAnnual(params: ProcessPaymentAnnualBodyPara
 
 ## SecureTextField
 
-SDK contains component called SecureTextField prepared to ensure safe input of number of credit card details. It is a subclass of TextInputEditText which enables freedom of styling as needed.
+The SDK contains a component called SecureTextField which ensures a safe input of number of numbers for credit card. It is a subclass of TextInputEditText which enables freedom of styling as needed.
 
 SecureTextField supports only XML layout configuration:
 ```
@@ -200,3 +200,12 @@ Increment the:
 - MAJOR version when you make incompatible API changes,
 - MINOR version when you add functionality in a backwards-compatible manner, and
 - PATCH version when you make backwards-compatible bug fixes.
+
+## Feature flags
+
+### Rooted device detection
+
+To enable rooted device detection feature, call the following method before calling the EasyPay.init(...) method:
+```
+EasyPayFeatureFlagManager.setRootedDeviceDetectionEnabled(true)
+```
