@@ -11,6 +11,7 @@ EasyPay library offers an access to the EasyPay API for a seamless integration w
 * Android 6.0 (API level 23) and above
 * Gradle 8.2 and above
 * Android Gradle Plugin 8.2.1
+* Kotlin 1.9.22 and above
 
 ### Configuration - Gradle / Maven dependency
 
