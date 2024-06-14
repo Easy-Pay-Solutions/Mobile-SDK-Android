@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "EasyPaySDK"
 include(":example")
 include(":easypay")
+include(":easypay-widgets")

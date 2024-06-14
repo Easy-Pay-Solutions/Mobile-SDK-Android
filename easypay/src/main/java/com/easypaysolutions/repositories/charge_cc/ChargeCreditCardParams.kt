@@ -1,5 +1,6 @@
 package com.easypaysolutions.repositories.charge_cc
 
+import android.os.Parcelable
 import com.easypaysolutions.api.requests.charge_cc.AmountsDto
 import com.easypaysolutions.api.requests.charge_cc.BillingAddressDto
 import com.easypaysolutions.api.requests.charge_cc.ChargeCreditCardBodyDto
@@ -24,6 +25,7 @@ import com.easypaysolutions.utils.validation.ValidateNumberGreaterThanZero
 import com.easypaysolutions.utils.validation.ValidateLength
 import com.easypaysolutions.utils.validation.ValidateNotBlank
 import com.easypaysolutions.utils.validation.ValidateRegex
+import kotlinx.parcelize.Parcelize
 
 data class ChargeCreditCardBodyParams(
     val encryptedCardNumber: SecureData<String>,
@@ -79,6 +81,7 @@ data class CreditCardInfoParam(
     }
 }
 
+@Parcelize
 data class AccountHolderDataParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = FIRST_OR_LAST_NAME)
@@ -101,7 +104,7 @@ data class AccountHolderDataParam(
     @ValidateLength(maxLength = 16)
     @ValidateRegex(regex = ONLY_NUMBERS)
     val phone: String? = null,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): PersonalDataDto = PersonalDataDto(
         firstName = firstName,
         lastName = lastName,
@@ -119,6 +122,7 @@ data class AccountHolderDataParam(
     }
 }
 
+@Parcelize
 data class AccountHolderBillingAddressParam(
     @ValidateLength(maxLength = 100)
     @ValidateRegex(regex = ADDRESS1)
@@ -145,7 +149,7 @@ data class AccountHolderBillingAddressParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = COUNTRY_OR_STATE)
     val country: String? = null,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): BillingAddressDto = BillingAddressDto(
         address1 = address1,
         address2 = address2,
@@ -160,6 +164,7 @@ data class AccountHolderBillingAddressParam(
     }
 }
 
+@Parcelize
 data class EndCustomerDataParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = FIRST_OR_LAST_NAME)
@@ -182,7 +187,7 @@ data class EndCustomerDataParam(
     @ValidateLength(maxLength = 16)
     @ValidateRegex(regex = ONLY_NUMBERS)
     val phone: String? = null,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): PersonalDataDto = PersonalDataDto(
         firstName = firstName,
         lastName = lastName,
@@ -200,6 +205,7 @@ data class EndCustomerDataParam(
     }
 }
 
+@Parcelize
 data class EndCustomerBillingAddressParam(
     @ValidateLength(maxLength = 100)
     @ValidateRegex(regex = ADDRESS1)
@@ -224,7 +230,7 @@ data class EndCustomerBillingAddressParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = COUNTRY_OR_STATE)
     val country: String? = null,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): BillingAddressDto = BillingAddressDto(
         address1 = address1,
         address2 = address2,
@@ -239,12 +245,13 @@ data class EndCustomerBillingAddressParam(
     }
 }
 
+@Parcelize
 data class AmountsParam(
     @ValidateNumberGreaterThanZero
     val totalAmount: Double,
     val salesTax: Double? = null,
     val surcharge: Double? = null,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): AmountsDto = AmountsDto(
         totalAmount = totalAmount.toBigDecimal().toPlainString(),
         salesTax = (salesTax ?: 0.0).toBigDecimal().toPlainString(),
@@ -263,6 +270,7 @@ data class AmountsParam(
     }
 }
 
+@Parcelize
 data class PurchaseItemsParam(
     @ValidateLength(maxLength = 200)
     @ValidateRegex(regex = SERVICE_DESCRIPTION)
@@ -275,7 +283,7 @@ data class PurchaseItemsParam(
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = CLIENT_REF_ID_OR_RPGUID)
     val rpguid: String? = null,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): PurchaseItemsDto = PurchaseItemsDto(
         serviceDescription = serviceDescription,
         clientRefId = clientRefId,

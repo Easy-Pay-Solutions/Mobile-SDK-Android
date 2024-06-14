@@ -50,4 +50,6 @@
     <string name="enter_charge_amount">Please enter the charge amount below.</string>
     <string name="charge_a_card">Charge a card</string>
     <string name="charge_amount">Charge amount</string>
+    <string name="payment_sheet_example">Payment Sheet example</string>
+    <string name="customer_sheet_example">Customer Sheet example</string>
 </resources>

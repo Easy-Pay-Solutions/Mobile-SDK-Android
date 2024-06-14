@@ -7,17 +7,13 @@ internal enum class VersionType {
 }
 
 internal class VersionManager {
-    private val currentVersion = "1.0.0"
+    private val currentVersion = "1.0.1"
     private val minVersion = "1.0.0"
 
     fun getCurrentSdkVersion(): String = currentVersion
 
     fun checkVersionType(): VersionType {
         val libVersion = currentVersion
-
-        if (currentVersion == libVersion) {
-            return VersionType.ACTUAL
-        }
 
         if (compareMajorVersions(libVersion, minVersion) == VersionType.OUTDATED) {
             return VersionType.OUTDATED
@@ -26,6 +22,7 @@ internal class VersionManager {
         if (compareMinorVersions(libVersion, minVersion) == VersionType.DEPRECATED) {
             return VersionType.DEPRECATED
         }
+
         return VersionType.ACTUAL
     }
 
