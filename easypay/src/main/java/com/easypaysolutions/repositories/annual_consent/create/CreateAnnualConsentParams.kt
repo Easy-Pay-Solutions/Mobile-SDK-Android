@@ -1,5 +1,6 @@
 package com.easypaysolutions.repositories.annual_consent.create
 
+import android.os.Parcelable
 import com.easypaysolutions.api.requests.annual_consent.ConsentCreatorDto
 import com.easypaysolutions.api.requests.annual_consent.CreateAnnualConsentBodyDto
 import com.easypaysolutions.repositories.BaseBodyParams
@@ -13,6 +14,7 @@ import com.easypaysolutions.utils.validation.RegexPattern
 import com.easypaysolutions.utils.validation.ValidateNumberGreaterThanZero
 import com.easypaysolutions.utils.validation.ValidateLength
 import com.easypaysolutions.utils.validation.ValidateRegex
+import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 data class CreateAnnualConsentBodyParams(
@@ -38,6 +40,7 @@ data class CreateAnnualConsentBodyParams(
     }
 }
 
+@Parcelize
 data class ConsentCreatorParam(
     val merchantId: Int,
 
@@ -59,7 +62,7 @@ data class ConsentCreatorParam(
 
     @ValidateNumberGreaterThanZero
     val limitLifeTime: Double,
-) : BaseBodyParams() {
+) : BaseBodyParams(), Parcelable {
     internal fun toDto(): ConsentCreatorDto = ConsentCreatorDto(
         merchantId = merchantId,
         serviceDescription = serviceDescription,

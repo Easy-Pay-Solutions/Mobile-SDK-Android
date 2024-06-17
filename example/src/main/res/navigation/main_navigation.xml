@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_mainFragment_to_chargeCardFragment"
             app:destination="@id/chargeCardFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_paymentSheetFragment"
+            app:destination="@id/paymentSheetFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_customerSheetFragment"
+            app:destination="@id/customerSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/chargeCardFragment"
@@ -50,4 +56,14 @@
             app:argType="boolean"
             android:defaultValue="false" />
     </fragment>
+    <fragment
+        android:id="@+id/paymentSheetFragment"
+        android:name="com.easypay_sample.ui.payment_sheet.PaymentSheetFragment"
+        android:label="fragment_payment_sheet"
+        tools:layout="@layout/fragment_payment_sheet" />
+    <fragment
+        android:id="@+id/customerSheetFragment"
+        android:name="com.easypay_sample.ui.customer_sheet.CustomerSheetFragment"
+        android:label="fragment_customer_sheet"
+        tools:layout="@layout/fragment_customer_sheet" />
 </navigation>

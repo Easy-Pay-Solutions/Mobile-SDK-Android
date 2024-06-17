@@ -51,6 +51,7 @@ android {
 dependencies {
 
     implementation(project(":easypay"))
+    implementation(project(":easypay-widgets"))
 
     implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

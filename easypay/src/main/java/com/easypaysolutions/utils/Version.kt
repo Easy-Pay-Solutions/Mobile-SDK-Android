@@ -1,7 +1,5 @@
 package com.easypaysolutions.utils
 
-import com.easypaysolutions.BuildConfig
-
 internal enum class VersionType {
     ACTUAL,         //version is matching
     DEPRECATED,     //minor version y differs
@@ -9,7 +7,7 @@ internal enum class VersionType {
 }
 
 internal class VersionManager {
-    private val currentVersion = BuildConfig.SDK_VERSION
+    private val currentVersion = "1.1.0"
     private val minVersion = "1.0.0"
 
     fun getCurrentSdkVersion(): String = currentVersion

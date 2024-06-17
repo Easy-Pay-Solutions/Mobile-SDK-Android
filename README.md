@@ -1,8 +1,35 @@
 # EasyPay Android SDK
 
-EasyPay library offers an access to the EasyPay API for a seamless integration with Android applications.
+EasyPay library offers an access to the EasyPay API for a seamless integration with Android
+applications.
 
 [General Easy Pay Developer Documentation](https://easypaysoftware.com/en/home)
+
+Table of contents
+=================
+
+* [Installation](#installation)
+    * [Requirements](#requirements)
+    * [Configuration - Gradle / Maven dependency](#configuration---gradle--maven-dependency)
+* [Get started](#get-started)
+    * [Integration](#integration)
+    * [Using widgets](#using-widgets)
+        * [PaymentSheet](#paymentsheet)
+        * [CustomerSheet](#customersheet)
+* [Public methods in the EasyPay SDK](#public-methods-in-the-easypay-sdk)
+    * [1. Charge Credit Card (CreditCardSale_Manual)](#1-charge-credit-card-creditcardsale_manual)
+    * [2. List Annual Consents (ConsentAnnual_Query)](#2-list-annual-consents-consentannual_query)
+    * [3. Create Annual Consent (ConsentAnnual_Create_MAN)](#3-create-annual-consent-consent)
+    * [4. Cancel Annual Consent (ConsentAnnual_Cancel)](#4-cancel-annual-consent-consentannual_cancel)
+    * [5. Process Payment Annual Consent (ConsentAnnual_ProcPayment)](#5-process-payment-annual-consent-consentannual_procpayment)
+* [SecureTextField](#securetextfield)
+* [How to properly consume the API response](#how-to-properly-consume-the-api-response)
+* [Possible Exceptions](#possible-exceptions)
+    * [EasyPaySdkException](#easypaysdkexception)
+    * [EasyPayApiException](#easypayapiexception)
+* [Semantic Versioning](#semantic-versioning)
+* [Feature flags](#feature-flags)
+    * [Rooted device detection](#rooted-device-detection)
 
 ## Installation
 
@@ -19,15 +46,22 @@ Add `easypay` to your dependencies in the `build.gradle` file.
 
 ```
 dependencies {
-    implementation 'com.easypaysolutions:easypay:1.0.0'
+    implementation 'com.easypaysolutions:easypay:1.1.0'
+    
+    // If you want to use widgets, add the following line
+    implementation 'com.easypaysolutions:easypay-widgets:1.1.0'
 }
 ```
 
 ## Get started
 
+### Integration
+
 1. Prerequisites - get API key, HMAC secret and optional Sentry DSN from EasyPay.
 
-2. Configure the EasyPay class at the very beginning of the application lifecycle, e.g. in the main Application class (in the onCreate() method).
+2. Configure the EasyPay class at the very beginning of the application lifecycle, e.g. in the main
+   Application class (in the onCreate() method).
+
 ```
 class MainApplication : Application() {
     override fun onCreate() {
@@ -37,19 +71,185 @@ class MainApplication : Application() {
 }
 ```
 
-3. Please keep in mind that during EasyPay initialization, the RSA certificate download process begins. Proceeding with any call before downloading has finished will result with an exception (RSA_CERTIFICATE_NOT_FETCHED). You can check the download status by accessing the following enum:
+3. Please keep in mind that during EasyPay initialization, the RSA certificate download process
+   begins. Proceeding with any call before downloading has finished will result with an exception (
+   RSA_CERTIFICATE_NOT_FETCHED). You can check the download status by accessing the following enum:
+
 ```
 EasyPayConfiguration.getInstance().getRsaCertificateFetchingStatus()
 ```
 
+### Using widgets
+
+#### PaymentSheet
+
+EasyPay's prebuilt payment UI component that allows you to collect credit card information in a
+secure way and process payments.
+
+1. Initialize a `PaymentSheet` inside `onCreate` of your checkout Fragment or Activity, passing a
+   method to handle the payment result.
+
+```
+import com.easypaysolutions.payment_sheet.PaymentSheet
+import com.easypaysolutions.payment_sheet.utils.PaymentSheetResult
+
+class PaymentSheetFragment : Fragment() {
+    private lateinit var paymentSheet: PaymentSheet
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
+    }
+    
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+        // implemented in the next steps
+    }
+}
+```
+
+2. When the customer taps the payment button, call `present` method on the `PaymentSheet` instance
+   with the configuration.
+
+```
+// ...
+import com.easypaysolutions.repositories.annual_consent.create.ConsentCreatorParam
+import com.easypaysolutions.repositories.charge_cc.AmountsParam
+
+class PaymentSheetFragment : Fragment() {
+    // ...
+    
+    private fun presentPaymentSheet() {
+        val totalAmount: Double = 1000.0
+        val consentCreator = ConsentCreatorParam(
+            limitLifeTime = 100000.0,
+            limitPerCharge = 1000.0,
+            merchantId = 1,
+            startDate = Date()
+        )
+    
+        val config = PaymentSheet.Configuration
+            .Builder()
+            .setAmounts(AmountsParam(totalAmount))
+            .setConsentCreator(consentCreator)
+            .build()
+            
+        paymentSheet.present(config)
+    }
+}
+```
+
+3. Handle the payment result in the `onPaymentSheetResult` method.
+
+```
+// ...
+class PaymentSheetFragment : Fragment() {
+    // ...
+    
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+        when (paymentSheetResult) {
+            is PaymentSheetResult.Failed -> {
+                // Handle failure
+            }
+    
+            is PaymentSheetResult.Completed -> {
+                // Handle successful payment
+            }
+    
+            is PaymentSheetResult.Canceled -> {
+                // Handle cancellation
+            }
+        }
+    }
+}
+```
+
+#### CustomerSheet
+
+EasyPay's prebuilt UI component that lets your customers manage their saved credit cards.
+
+1. Initialize a `CustomerSheet` inside `onCreate` of your checkout Fragment or Activity, passing a
+   method to handle the customer sheet result.
+
+```
+import com.easypaysolutions.customer_sheet.CustomerSheet
+import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
+
+class CustomerSheetFragment : Fragment() {
+    private lateinit var customerSheet: CustomerSheet
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        customerSheet = CustomerSheet(this, ::onCustomerSheetResult)
+    }
+    
+    private fun onCustomerSheetResult(customerSheetResult: CustomerSheetResult) {
+        // implemented in the next steps
+    }
+}
+```
+
+2. To present the customer sheet, call the `present` method on the `CustomerSheet` instance, passing
+   the configuration.
+
+```
+// ...
+import com.easypaysolutions.repositories.annual_consent.create.ConsentCreatorParam
+
+class CustomerSheetFragment : Fragment() {
+    // ...
+    
+    private fun presentCustomerSheet() {
+        val consentCreator = ConsentCreatorParam(
+            limitLifeTime = 100000.0,
+            limitPerCharge = 1000.0,
+            merchantId = 1,
+            startDate = Date()
+        )
+    
+        val config = CustomerSheet.Configuration
+            .Builder()
+             .setConsentCreator(consentCreator)
+            .build()
+            
+        customerSheet.present(config)
+    }
+}
+```
+
+3. Handle the customer sheet result in the `onCustomerSheetResult` method.
+
+```
+// ...
+class CustomerSheetFragment : Fragment() {
+    // ...
+    
+    private fun onCustomerSheetResult(customerSheetResult: CustomerSheetResult) {
+        when (customerSheetResult) {
+            is CustomerSheetResult.Failed -> {
+                // Handle failure
+            }
+
+            is CustomerSheetResult.Selected -> {
+                // Handle selected card - customerSheetResult.annualConsentId
+            }
+        }
+    }
+}
+```
+
 ## Public methods in the EasyPay SDK
+
 [Easy Pay API Documentation](https://easypaypi.com/APIDocsDev/)
+
 ### 1. Charge Credit Card (CreditCardSale_Manual)
 
-This method processes a credit card when the credit card details are entered manually. Details include the card number, expiration date, CVV, card holder name and address.
+This method processes a credit card when the credit card details are entered manually. Details
+include the card number, expiration date, CVV, card holder name and address.
+
 ```
 ChargeCreditCard().chargeCreditCard(params: ChargeCreditCardBodyParams): NetworkResource<ChargeCreditCardResult>
 ```
+
 #### Request parameters
 
 * ChargeCreditCardBodyParams
@@ -68,10 +268,13 @@ ChargeCreditCard().chargeCreditCard(params: ChargeCreditCardBodyParams): Network
 
 ### 2. List Annual Consents (ConsentAnnual_Query)
 
-A query that returns annual consent details. Depending on the query sent, a single consent or multiple consents may be returned.
+A query that returns annual consent details. Depending on the query sent, a single consent or
+multiple consents may be returned.
+
 ```
 ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): NetworkResource<ListAnnualConsentsResult>
 ```
+
 #### Request parameters
 
 * ListAnnualConsentsBodyParams
@@ -85,10 +288,14 @@ ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): N
 
 ### 3. Create Annual Consent (ConsentAnnual_Create_MAN)
 
-This method creates an annual consent by sending the credit card details, which includes: card number, expiration date, CVV, and card holder contact data. It is not created by swiping the card through a reader device.
+This method creates an annual consent by sending the credit card details, which includes: card
+number, expiration date, CVV, and card holder contact data. It is not created by swiping the card
+through a reader device.
+
 ```
 CreateAnnualConsent().createAnnualConsent(params: CreateAnnualConsentBodyParams): NetworkResource<CreateAnnualConsentResult>
 ```
+
 #### Request parameters
 
 * CreateAnnualConsentBodyParams
@@ -105,7 +312,9 @@ CreateAnnualConsent().createAnnualConsent(params: CreateAnnualConsentBodyParams)
 
 ### 4. Cancel Annual Consent (ConsentAnnual_Cancel)
 
-Cancels an annual consent. Credit card data is removed from the system after the cancellation is complete.
+Cancels an annual consent. Credit card data is removed from the system after the cancellation is
+complete.
+
 ```
 CancelAnnualConsent().cancelAnnualConsent(params: CancelAnnualConsentBodyParams): NetworkResource<CancelAnnualConsentResult>
 ```
@@ -130,33 +339,40 @@ ProcessPaymentAnnual().processPaymentAnnual(params: ProcessPaymentAnnualBodyPara
 
 #### Request parameters
 
-*  ProcessPaymentAnnualBodyParams
+* ProcessPaymentAnnualBodyParams
     * consentId: Int
 
 #### Response result
 
-*  ProcessPaymentAnnualResult
+* ProcessPaymentAnnualResult
     * [Fields listed in the API documentation]
 
 ## SecureTextField
 
-The SDK contains a component called SecureTextField which ensures a safe input of number of numbers for credit card. It is a subclass of TextInputEditText which enables freedom of styling as needed.
+The SDK contains a component called SecureTextField which ensures a safe input of number of numbers
+for credit card. It is a subclass of TextInputEditText which enables freedom of styling as needed.
 
 SecureTextField supports only XML layout configuration:
+
 ```
 <com.easypaysolutions.utils.secured.SecureTextField
     ... />
 ```
 
 To get the SecureData from the SecureTextField, use the following property:
+
 ```
 val secureData = secureTextField.secureData
 ```
-Data is already encrypted and can be used in the API calls directly without any additional encryption.
+
+Data is already encrypted and can be used in the API calls directly without any additional
+encryption.
 
 ## How to properly consume the API response
 
-All requests are suspended functions, so they should be called from a coroutine scope. The result of the request is wrapped in a NetworkResource object, which can be handled in the following way:
+All requests are suspended functions, so they should be called from a coroutine scope. The result of
+the request is wrapped in a NetworkResource object, which can be handled in the following way:
+
 ```
 viewModelScope.launch {
     // Example of suspended function call
@@ -169,16 +385,19 @@ viewModelScope.launch {
             // Handle error
         }
         is NetworkResource.Status.DECLINED -> {
-            // Handle loading
+            // Handle declined
         }
     }
 }
 ```
-More information about consuming the API response can be found in the [EasyPay REST API documentation](https://easypaysoftware.com/en/rest-api#how-to-properly-consume-the-api-response).
+
+More information about consuming the API response can be found in
+the [EasyPay REST API documentation](https://easypaysoftware.com/en/rest-api#how-to-properly-consume-the-api-response).
 
 ## Possible Exceptions
 
 ### EasyPaySdkException
+
 Exceptions that are thrown by the SDK.
 
 | Exception name                         | Suggested solution                                                                                                                                           |
@@ -191,6 +410,7 @@ Exceptions that are thrown by the SDK.
 | RSA_CERTIFICATE_PARSING_ERROR          | Contact EasyPay.                                                                                                                                             |
 
 ### EasyPayApiException
+
 Exceptions that are thrown by the EasyPay API.
 
 ## Semantic Versioning
@@ -198,6 +418,7 @@ Exceptions that are thrown by the EasyPay API.
 Semantic versioning follows a three-part version number: MAJOR.MINOR.PATCH.
 
 Increment the:
+
 - MAJOR version when you make incompatible API changes,
 - MINOR version when you add functionality in a backwards-compatible manner, and
 - PATCH version when you make backwards-compatible bug fixes.
@@ -206,7 +427,9 @@ Increment the:
 
 ### Rooted device detection
 
-To enable rooted device detection feature, call the following method before calling the EasyPay.init(...) method:
+To enable rooted device detection feature, call the following method before calling the
+EasyPay.init(...) method:
+
 ```
 EasyPayFeatureFlagManager.setRootedDeviceDetectionEnabled(true)
 ```

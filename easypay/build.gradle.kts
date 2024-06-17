@@ -1,26 +1,21 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
-import java.util.Properties
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.vanniktech.maven.publish") version "0.28.0"
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
     namespace = "com.easypaysolutions"
     compileSdk = 34
 
-    val properties = Properties()
-    properties.load(project.rootProject.file("gradle.properties").inputStream())
-
     defaultConfig {
         minSdk = 23
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        buildConfigField("String", "SDK_VERSION", properties.getProperty("VERSION_NAME") ?: "")
     }
     buildFeatures {
         buildConfig = true
@@ -69,6 +64,8 @@ android {
 }
 
 mavenPublishing {
+    coordinates(artifactId = "easypay")
+
     configure(
         AndroidSingleVariantLibrary(
             variant = "release",
