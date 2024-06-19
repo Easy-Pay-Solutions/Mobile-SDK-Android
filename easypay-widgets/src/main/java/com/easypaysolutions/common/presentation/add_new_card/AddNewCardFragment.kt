@@ -239,7 +239,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
                                         val error =
                                             binding.root.context.getString(R.string.unable_to_save_your_card)
                                         sharedViewModel.completeWithResult(
-                                            CustomerSheetResult.Failed(
+                                            PaymentSheetResult.Failed(
                                                 Exception(error)
                                             )
                                         )
