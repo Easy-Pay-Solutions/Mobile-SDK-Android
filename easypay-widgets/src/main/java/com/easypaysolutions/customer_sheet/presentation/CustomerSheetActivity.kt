@@ -152,12 +152,7 @@ internal class CustomerSheetActivity : SheetActivity<CustomerSheetResult>() {
 
     private fun showAddNewCardSuccessSnackbar() {
         EasyPaySnackbar
-            .make(
-                binding.root,
-                R.string.card_was_saved,
-                R.drawable.ic_check_circle_filled_green,
-                R.drawable.bg_snackbar_success,
-            )
+            .makeSuccess(binding.root, R.string.card_was_saved)
             .show()
     }
 

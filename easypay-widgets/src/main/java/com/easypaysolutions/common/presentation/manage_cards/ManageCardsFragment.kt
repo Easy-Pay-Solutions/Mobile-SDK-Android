@@ -145,8 +145,6 @@ internal class ManageCardsFragment : Fragment() {
                                 showGeneralError()
                             }
 
-                            is PayWithSavedCardUiState.Idle -> binding.progressView.hide()
-
                             is PayWithSavedCardUiState.Loading -> binding.progressView.show()
 
                             is PayWithSavedCardUiState.Success -> {
@@ -316,23 +314,13 @@ internal class ManageCardsFragment : Fragment() {
 
     private fun showDeleteCardErrorSnackbar() {
         EasyPaySnackbar
-            .make(
-                binding.root,
-                R.string.delete_card_failure_message,
-                R.drawable.ic_x_circle_filled_red,
-                R.drawable.bg_snackbar_failure,
-            )
+            .makeFailure(binding.root, R.string.delete_card_failure_message)
             .show()
     }
 
     private fun showDeleteCardSuccessSnackbar() {
         EasyPaySnackbar
-            .make(
-                binding.root,
-                R.string.delete_card_success_message,
-                R.drawable.ic_check_circle_filled_green,
-                R.drawable.bg_snackbar_success,
-            )
+            .makeSuccess(binding.root, R.string.delete_card_success_message)
             .show()
     }
 

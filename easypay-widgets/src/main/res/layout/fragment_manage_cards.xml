@@ -61,6 +61,7 @@
             android:id="@+id/progress_view"
             android:layout_width="@dimen/easypay_lottie_progress_view_size"
             android:layout_height="@dimen/easypay_lottie_progress_view_size"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -13,6 +13,7 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.easypaysolutions.utils.extensions.findSuitableParent
+import com.easypaysolutions.widgets.R
 import com.easypaysolutions.widgets.databinding.LayoutSnackbarBinding
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.ContentViewCallback
@@ -30,7 +31,34 @@ internal class EasyPaySnackbar(
     }
 
     companion object {
-        fun make(
+
+        //region Public
+
+        fun makeFailure(
+            view: View,
+            @StringRes messageResId: Int,
+        ): EasyPaySnackbar = make(
+            view,
+            messageResId,
+            R.drawable.ic_x_circle_filled_red,
+            R.drawable.bg_snackbar_failure,
+        )
+
+        fun makeSuccess(
+            view: View,
+            @StringRes messageResId: Int,
+        ): EasyPaySnackbar = make(
+            view,
+            messageResId,
+            R.drawable.ic_check_circle_filled_green,
+            R.drawable.bg_snackbar_success
+        )
+
+        //endregion
+
+        //region Helpers
+
+        private fun make(
             view: View,
             @StringRes messageResId: Int,
             @DrawableRes iconResId: Int,
@@ -44,6 +72,9 @@ internal class EasyPaySnackbar(
             )
             return EasyPaySnackbar(parent, content)
         }
+
+        //endregion
+
     }
 }
 

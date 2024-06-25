@@ -103,9 +103,8 @@ internal class SheetViewModel private constructor(
     private val _payWithNewCardResult = MutableSharedFlow<PayWithNewCardUiState>()
     val payWithNewCardResult: SharedFlow<PayWithNewCardUiState> = _payWithNewCardResult
 
-    private val _payWithSavedCardResult =
-        MutableStateFlow<PayWithSavedCardUiState>(PayWithSavedCardUiState.Idle)
-    val payWithSavedCardResult: StateFlow<PayWithSavedCardUiState> = _payWithSavedCardResult
+    private val _payWithSavedCardResult = MutableSharedFlow<PayWithSavedCardUiState>()
+    val payWithSavedCardResult: SharedFlow<PayWithSavedCardUiState> = _payWithSavedCardResult
 
     private val _paymentMethods =
         MutableStateFlow<PaymentMethodsUiState>(PaymentMethodsUiState.Loading)
@@ -117,7 +116,8 @@ internal class SheetViewModel private constructor(
     private val _paymentSheetResult = MutableSharedFlow<PaymentSheetResult>()
     val paymentSheetResult: SharedFlow<PaymentSheetResult> = _paymentSheetResult
 
-    private val _openNewCardSheet = MutableStateFlow<OpenNewCardSheetUiState>(OpenNewCardSheetUiState.Idle)
+    private val _openNewCardSheet =
+        MutableStateFlow<OpenNewCardSheetUiState>(OpenNewCardSheetUiState.Idle)
     val openNewCardSheet: StateFlow<OpenNewCardSheetUiState> = _openNewCardSheet
 
     private val _errorState = MutableSharedFlow<Throwable>()
@@ -164,7 +164,11 @@ internal class SheetViewModel private constructor(
             purchaseItems = config.purchaseItems,
             consentCreator = config.consentCreator,
         )
-        payWithNewCard(config, params, viewData)
+        if (viewData.shouldSaveCard) {
+            addNewCard(config, viewData)
+        } else {
+            payWithNewCard(params)
+        }
     }
 
     fun addNewCard(viewData: AddNewCardViewData) {
@@ -178,10 +182,14 @@ internal class SheetViewModel private constructor(
         addNewCard(params)
     }
 
-    fun payWithSavedCard(it: AnnualConsent) {
+    fun payWithSavedCard(annualConsent: AnnualConsent) {
+        payWithSavedCard(annualConsent.id)
+    }
+
+    fun payWithSavedCard(consentId: Int) {
         val config = paymentSheetConfig ?: return
         val params = ProcessPaymentAnnualParams(
-            it.id,
+            consentId,
             config.amounts.totalAmount,
         )
         payWithSavedCard(params)
@@ -247,11 +255,7 @@ internal class SheetViewModel private constructor(
         addNewCard(params)
     }
 
-    private fun payWithNewCard(
-        config: PaymentSheet.Configuration,
-        params: ChargeCreditCardBodyParams,
-        viewData: AddNewCardViewData,
-    ) {
+    private fun payWithNewCard(params: ChargeCreditCardBodyParams) {
         viewModelScope.launch(workContext) {
             _payWithNewCardResult.emit(PayWithNewCardUiState.Loading)
             val result = chargeCreditCard.chargeCreditCard(params)
@@ -259,12 +263,7 @@ internal class SheetViewModel private constructor(
             when (result.status) {
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
-                        if (viewData.shouldSaveCard) {
-                            _payWithNewCardResult.emit(PayWithNewCardUiState.Idle)
-                            addNewCard(config, viewData)
-                        } else {
-                            _payWithNewCardResult.emit(PayWithNewCardUiState.Success(it))
-                        }
+                        _payWithNewCardResult.emit(PayWithNewCardUiState.Success(it))
                     } ?: _payWithNewCardResult.emit(PayWithNewCardUiState.Error(Exception()))
                 }
 
