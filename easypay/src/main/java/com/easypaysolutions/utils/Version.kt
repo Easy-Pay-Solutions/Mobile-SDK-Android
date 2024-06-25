@@ -7,7 +7,7 @@ internal enum class VersionType {
 }
 
 internal class VersionManager {
-    private val currentVersion = "1.0.1"
+    private val currentVersion = "1.1.0"
     private val minVersion = "1.0.0"
 
     fun getCurrentSdkVersion(): String = currentVersion

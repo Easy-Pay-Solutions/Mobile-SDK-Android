@@ -15,15 +15,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.easypaysolutions.common.presentation.AddNewCardUiState
 import com.easypaysolutions.common.presentation.PayWithNewCardUiState
+import com.easypaysolutions.common.presentation.PayWithSavedCardUiState
 import com.easypaysolutions.common.presentation.SheetFlow
 import com.easypaysolutions.common.presentation.SheetViewModel
-import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
 import com.easypaysolutions.payment_sheet.utils.PaymentSheetResult
 import com.easypaysolutions.utils.extensions.hide
 import com.easypaysolutions.utils.extensions.hideKeyboard
 import com.easypaysolutions.utils.extensions.show
 import com.easypaysolutions.utils.validation.Validation
 import com.easypaysolutions.utils.validation.ValidationState
+import com.easypaysolutions.views.EasyPaySnackbar
 import com.easypaysolutions.widgets.R
 import com.easypaysolutions.widgets.databinding.FragmentAddNewCardBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -194,8 +195,6 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
                 launch {
                     sharedViewModel.payWithNewCardResult.collect { result ->
                         when (result) {
-                            is PayWithNewCardUiState.Idle -> binding.progressView.hide()
-
                             is PayWithNewCardUiState.Loading -> binding.progressView.show()
 
                             is PayWithNewCardUiState.Success -> {
@@ -222,29 +221,45 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is AddNewCardUiState.Success -> {
                                 binding.progressView.hide()
+                                sharedViewModel.setShouldRefreshAfterClose()
                                 when (input.flow) {
-                                    SheetFlow.CARD_MANAGEMENT -> actionCloseWithRefresh()
-                                    SheetFlow.CARD_PAYMENT -> sharedViewModel.completeWithResult(
-                                        PaymentSheetResult.Completed
+                                    SheetFlow.CARD_MANAGEMENT -> actionClose()
+
+                                    // If the flow is CARD_PAYMENT, we need to pay with the saved card after saving it
+                                    SheetFlow.CARD_PAYMENT -> sharedViewModel.payWithSavedCard(
+                                        result.result.consentId
                                     )
                                 }
                             }
 
                             is AddNewCardUiState.Error -> {
                                 binding.progressView.hide()
+                                showSaveGeneralError()
+                            }
+                        }
+                    }
+                }
+                // Payment with saved card flow will be triggered ONLY after saving the card in the CARD_PAYMENT flow
+                launch {
+                    sharedViewModel.payWithSavedCardResult.collect { result ->
+                        when (result) {
+                            is PayWithSavedCardUiState.Declined -> {
+                                binding.progressView.hide()
+                                showPaymentDeclinedError()
+                                showAddNewCardSuccessSnackbar()
+                            }
 
-                                when (input.flow) {
-                                    SheetFlow.CARD_MANAGEMENT -> showSaveGeneralError()
-                                    SheetFlow.CARD_PAYMENT -> {
-                                        val error =
-                                            binding.root.context.getString(R.string.unable_to_save_your_card)
-                                        sharedViewModel.completeWithResult(
-                                            CustomerSheetResult.Failed(
-                                                Exception(error)
-                                            )
-                                        )
-                                    }
-                                }
+                            is PayWithSavedCardUiState.Error -> {
+                                binding.progressView.hide()
+                                showPaymentGeneralError()
+                                showAddNewCardSuccessSnackbar()
+                            }
+
+                            is PayWithSavedCardUiState.Loading -> binding.progressView.show()
+
+                            is PayWithSavedCardUiState.Success -> {
+                                binding.progressView.hide()
+                                sharedViewModel.completeWithResult(PaymentSheetResult.Completed)
                             }
                         }
                     }
@@ -275,14 +290,15 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
         dismiss()
     }
 
-    private fun actionCloseWithRefresh() {
-        sharedViewModel.closeNewCardSheet(true)
-        dismiss()
-    }
-
     //endregion
 
     //region Helpers
+
+    private fun showAddNewCardSuccessSnackbar() {
+        EasyPaySnackbar
+            .makeSuccess(binding.root, R.string.card_was_saved)
+            .show()
+    }
 
     private fun updateState(state: ValidationState) {
         binding.sectionBottom.apply {

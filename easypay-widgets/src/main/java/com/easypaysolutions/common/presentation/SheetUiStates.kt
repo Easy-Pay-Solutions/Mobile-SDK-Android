@@ -11,7 +11,6 @@ internal sealed class PayWithSavedCardUiState {
     data class Error(val exception: Throwable) : PayWithSavedCardUiState()
     data class Declined(val result: ProcessPaymentAnnualResult) : PayWithSavedCardUiState()
     data object Loading : PayWithSavedCardUiState()
-    data object Idle : PayWithSavedCardUiState()
 }
 
 internal sealed class PayWithNewCardUiState {
@@ -19,7 +18,6 @@ internal sealed class PayWithNewCardUiState {
     data class Error(val exception: Throwable) : PayWithNewCardUiState()
     data class Declined(val result: ChargeCreditCardResult) : PayWithNewCardUiState()
     data object Loading : PayWithNewCardUiState()
-    data object Idle : PayWithNewCardUiState()
 }
 
 internal sealed class AddNewCardUiState {
