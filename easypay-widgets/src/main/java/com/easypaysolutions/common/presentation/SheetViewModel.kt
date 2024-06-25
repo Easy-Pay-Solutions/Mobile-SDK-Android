@@ -86,6 +86,7 @@ internal class SheetViewModel private constructor(
         customerSheetConfig = config
     }
 
+    private var shouldRefreshAfterClose = false
     private var paymentSheetConfig: PaymentSheet.Configuration? = null
     private var customerSheetConfig: CustomerSheet.Configuration? = null
 
@@ -129,6 +130,10 @@ internal class SheetViewModel private constructor(
 
     //region Actions
 
+    fun setShouldRefreshAfterClose() {
+        shouldRefreshAfterClose = true
+    }
+
     fun onCardSelected(selectedCard: AnnualConsent?) {
         selectedCardId = selectedCard?.id
     }
@@ -145,10 +150,10 @@ internal class SheetViewModel private constructor(
         }
     }
 
-    fun closeNewCardSheet(withRefresh: Boolean = false) {
+    fun closeNewCardSheet() {
         viewModelScope.launch(workContext) {
             _openNewCardSheet.emit(OpenNewCardSheetUiState.Close)
-            if (withRefresh) {
+            if (shouldRefreshAfterClose) {
                 fetchAnnualConsents()
             }
         }

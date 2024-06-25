@@ -221,8 +221,9 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is AddNewCardUiState.Success -> {
                                 binding.progressView.hide()
+                                sharedViewModel.setShouldRefreshAfterClose()
                                 when (input.flow) {
-                                    SheetFlow.CARD_MANAGEMENT -> actionCloseWithRefresh()
+                                    SheetFlow.CARD_MANAGEMENT -> actionClose()
 
                                     // If the flow is CARD_PAYMENT, we need to pay with the saved card after saving it
                                     SheetFlow.CARD_PAYMENT -> sharedViewModel.payWithSavedCard(
@@ -286,11 +287,6 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
     private fun actionClose() {
         sharedViewModel.closeNewCardSheet()
-        dismiss()
-    }
-
-    private fun actionCloseWithRefresh() {
-        sharedViewModel.closeNewCardSheet(true)
         dismiss()
     }
 
