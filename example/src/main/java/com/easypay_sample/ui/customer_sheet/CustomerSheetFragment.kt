@@ -58,11 +58,13 @@ class CustomerSheetFragment : Fragment() {
     //region CustomerSheet
 
     private fun presentCustomerSheet() {
+        val customerRefId = binding.etCustomerRefId.text.toString()
         val consentCreator = ConsentCreatorParam(
             limitLifeTime = 100000.0,
             limitPerCharge = 1000.0,
             merchantId = 1,
-            startDate = Date()
+            startDate = Date(),
+            customerReferenceId = customerRefId
         )
         val config = CustomerSheet.Configuration
             .Builder()

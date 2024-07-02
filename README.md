@@ -124,7 +124,8 @@ class PaymentSheetFragment : Fragment() {
             limitLifeTime = 100000.0,
             limitPerCharge = 1000.0,
             merchantId = 1,
-            startDate = Date()
+            startDate = Date(),
+            customerReferenceId = "CUSTOMER_REFERENCE_ID"
         )
     
         val config = PaymentSheet.Configuration
@@ -203,7 +204,8 @@ class CustomerSheetFragment : Fragment() {
             limitLifeTime = 100000.0,
             limitPerCharge = 1000.0,
             merchantId = 1,
-            startDate = Date()
+            startDate = Date(),
+            customerReferenceId = "CUSTOMER_REFERENCE_ID"
         )
     
         val config = CustomerSheet.Configuration
@@ -279,7 +281,7 @@ ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): N
 
 * ListAnnualConsentsBodyParams
     * merchantId: Int?
-    * customerReferenceId: String?
+    * customerReferenceId: String
 
 #### Response result
 

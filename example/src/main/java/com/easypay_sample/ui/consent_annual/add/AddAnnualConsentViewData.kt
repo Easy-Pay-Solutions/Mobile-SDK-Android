@@ -68,7 +68,7 @@ data class AddAnnualConsentViewData(
         return ConsentCreatorParam(
             merchantId = merchantId?.toIntOrNull() ?: 0,
             serviceDescription = serviceDescription?.toNullIfBlank(),
-            customerReferenceId = customerReferenceId?.toNullIfBlank(),
+            customerReferenceId = customerReferenceId ?: "",
             rpguid = rpguid?.toNullIfBlank(),
             startDate = startDate?.let { DateUtils.parseDate(it) } ?: Date(),
             limitPerCharge = limitPerCharge?.toDoubleOrNull() ?: 0.0,

@@ -84,12 +84,14 @@ class PaymentSheetFragment : Fragment() {
 
     private fun prepareConfig(): PaymentSheet.Configuration {
         val amount = binding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
+        val customerRefId = binding.etCustomerRefId.text.toString()
 
         val consentCreator = ConsentCreatorParam(
             limitLifeTime = 100000.0,
             limitPerCharge = 1000.0,
             merchantId = 1,
-            startDate = Date()
+            startDate = Date(),
+            customerReferenceId = customerRefId
         )
 
         return PaymentSheet.Configuration

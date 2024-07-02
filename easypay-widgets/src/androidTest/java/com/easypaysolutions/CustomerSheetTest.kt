@@ -47,7 +47,8 @@ internal class CustomerSheetTest {
                 merchantId = 1,
                 limitLifeTime = 10000.0,
                 limitPerCharge = 1000.0,
-                startDate = Date()
+                startDate = Date(),
+                customerReferenceId = "TEST_ANDROID_CUSTOMER_REFERENCE_ID"
             )
         )
 
@@ -62,7 +63,8 @@ internal class CustomerSheetTest {
                 merchantId = 0,
                 limitLifeTime = 10000.0,
                 limitPerCharge = 1000.0,
-                startDate = Date()
+                startDate = Date(),
+                customerReferenceId = "TEST_ANDROID_CUSTOMER_REFERENCE_ID"
             )
         )
         .build()
@@ -107,8 +109,6 @@ internal class CustomerSheetTest {
         resultCallback = ::expectNoResult
     ) { testContext ->
         testScope.launch {
-            createAnnualConsent()
-
             testContext.presentCustomerSheet {
                 present(successfulConfig)
             }
@@ -129,8 +129,6 @@ internal class CustomerSheetTest {
         resultCallback = ::expectNoResult
     ) { testContext ->
         testScope.launch {
-            createAnnualConsent()
-
             testContext.presentCustomerSheet {
                 present(successfulConfig)
             }
