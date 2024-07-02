@@ -5,36 +5,37 @@ import com.easypaysolutions.api.responses.annual_consent.CancelAnnualConsentResu
 import com.easypaysolutions.api.responses.annual_consent.CreateAnnualConsentResult
 import com.easypaysolutions.api.responses.annual_consent.ProcessPaymentAnnualResult
 import com.easypaysolutions.api.responses.charge_cc.ChargeCreditCardResult
+import com.easypaysolutions.common.exceptions.EasyPayWidgetException
 
 internal sealed class PayWithSavedCardUiState {
     data class Success(val result: ProcessPaymentAnnualResult) : PayWithSavedCardUiState()
-    data class Error(val exception: Throwable) : PayWithSavedCardUiState()
+    data class Error(val exception: EasyPayWidgetException) : PayWithSavedCardUiState()
     data class Declined(val result: ProcessPaymentAnnualResult) : PayWithSavedCardUiState()
     data object Loading : PayWithSavedCardUiState()
 }
 
 internal sealed class PayWithNewCardUiState {
     data class Success(val result: ChargeCreditCardResult) : PayWithNewCardUiState()
-    data class Error(val exception: Throwable) : PayWithNewCardUiState()
+    data class Error(val exception: EasyPayWidgetException) : PayWithNewCardUiState()
     data class Declined(val result: ChargeCreditCardResult) : PayWithNewCardUiState()
     data object Loading : PayWithNewCardUiState()
 }
 
 internal sealed class AddNewCardUiState {
     data class Success(val result: CreateAnnualConsentResult) : AddNewCardUiState()
-    data class Error(val exception: Throwable) : AddNewCardUiState()
+    data class Error(val exception: EasyPayWidgetException) : AddNewCardUiState()
     data object Loading : AddNewCardUiState()
 }
 
 internal sealed class PaymentMethodsUiState {
     data class Success(val methods: List<AnnualConsent>) : PaymentMethodsUiState()
-    data class Error(val exception: Throwable) : PaymentMethodsUiState()
+    data class Error(val exception: EasyPayWidgetException) : PaymentMethodsUiState()
     data object Loading : PaymentMethodsUiState()
 }
 
 internal sealed class DeleteCardUiState {
     data class Success(val result: CancelAnnualConsentResult) : DeleteCardUiState()
-    data class Error(val exception: Throwable) : DeleteCardUiState()
+    data class Error(val exception: EasyPayWidgetException) : DeleteCardUiState()
     data object Loading : DeleteCardUiState()
 }
 

@@ -43,6 +43,9 @@
     <string name="invalid_cvc">Invalid CVC number.</string>
     <string name="invalid_characters">Invalid characters. Please check and enter again.</string>
 
+    <!-- API Errors -->
+    <string name="api_error_invalid_credit_card_data">The credit card data you entered is invalid. Please try again.</string>
+
     <!-- Regex Patterns -->
     <string name="regex_card_holder_name" tools:ignore="TypographyDashes">^[A-Za-z0-9 \'.,&amp;?/-]*$</string>
     <string name="regex_street_address" tools:ignore="TypographyDashes">^[a-zA-Z0-9\-\.\,#_/\'\s ]*$</string>

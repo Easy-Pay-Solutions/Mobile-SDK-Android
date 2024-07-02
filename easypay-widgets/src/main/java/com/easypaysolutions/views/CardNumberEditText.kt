@@ -20,7 +20,7 @@ internal class CardNumberEditText @JvmOverloads constructor(
     private lateinit var maskProvider: MaskProvider
 
     companion object {
-        private const val CARD_NUMBER_MIN_LENGTH = 15
+        private const val CARD_NUMBER_MIN_LENGTH = 13
     }
 
     init {
