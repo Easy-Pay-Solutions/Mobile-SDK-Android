@@ -19,5 +19,6 @@ internal object ConfigurationDefaults {
         startDate = Date(),
         limitPerCharge = 0.0,
         limitLifeTime = 0.0,
+        customerReferenceId = ""
     )
 }

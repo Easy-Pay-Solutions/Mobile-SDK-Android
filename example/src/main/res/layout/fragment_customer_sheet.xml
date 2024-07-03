@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.customer_sheet.CustomerSheetFragment">
 
+    <EditText
+        android:id="@+id/et_customer_ref_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/customer_ref_id"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@id/btn_customer_sheet" />
+
     <Button
         android:id="@+id/btn_customer_sheet"
         android:layout_width="wrap_content"

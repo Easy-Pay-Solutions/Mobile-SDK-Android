@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.easypaysolutions.api.responses.annual_consent.AnnualConsent
 import com.easypaysolutions.common.presentation.add_new_card.AddNewCardHelper
 import com.easypaysolutions.common.presentation.add_new_card.AddNewCardViewData
+import com.easypaysolutions.common.exceptions.EasyPayWidgetException
 import com.easypaysolutions.customer_sheet.CustomerSheet
 import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
 import com.easypaysolutions.networking.NetworkResource
@@ -49,8 +50,7 @@ internal class SheetViewModel private constructor(
     ) : this(
         config.preselectedCardId,
         ListAnnualConsentsBodyParams(
-            config.consentCreator.merchantId,
-            config.consentCreator.customerReferenceId
+            config.consentCreator.merchantId, config.consentCreator.customerReferenceId
         ),
         listAnnualConsents,
         createAnnualConsent,
@@ -73,8 +73,7 @@ internal class SheetViewModel private constructor(
     ) : this(
         config.preselectedCardId,
         ListAnnualConsentsBodyParams(
-            config.consentCreator.merchantId,
-            config.consentCreator.customerReferenceId
+            config.consentCreator.merchantId, config.consentCreator.customerReferenceId
         ),
         listAnnualConsents,
         createAnnualConsent,
@@ -238,13 +237,13 @@ internal class SheetViewModel private constructor(
                         _deleteCardResult.emit(DeleteCardUiState.Success(it))
                         onCardSelected(null)
                         fetchAnnualConsents()
-                    } ?: _deleteCardResult.emit(DeleteCardUiState.Error(Exception()))
+                    } ?: _deleteCardResult.emit(DeleteCardUiState.Error(EasyPayWidgetException(result.error)))
                 }
 
                 NetworkResource.Status.DECLINED,
                 NetworkResource.Status.ERROR,
                 -> {
-                    _deleteCardResult.emit(DeleteCardUiState.Error(result.error ?: Exception()))
+                    _deleteCardResult.emit(DeleteCardUiState.Error(EasyPayWidgetException(result.error)))
                 }
             }
         }
@@ -269,13 +268,19 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
                         _payWithNewCardResult.emit(PayWithNewCardUiState.Success(it))
-                    } ?: _payWithNewCardResult.emit(PayWithNewCardUiState.Error(Exception()))
+                    } ?: _payWithNewCardResult.emit(
+                        PayWithNewCardUiState.Error(
+                            EasyPayWidgetException(result.error)
+                        )
+                    )
                 }
 
                 NetworkResource.Status.ERROR -> {
                     _payWithNewCardResult.emit(
                         PayWithNewCardUiState.Error(
-                            result.error ?: Exception()
+                            EasyPayWidgetException(
+                                result.error
+                            )
                         )
                     )
                 }
@@ -283,7 +288,11 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.DECLINED -> {
                     result.data?.let {
                         _payWithNewCardResult.emit(PayWithNewCardUiState.Declined(it))
-                    } ?: _payWithNewCardResult.emit(PayWithNewCardUiState.Error(Exception()))
+                    } ?: _payWithNewCardResult.emit(
+                        PayWithNewCardUiState.Error(
+                            EasyPayWidgetException(result.error)
+                        )
+                    )
                 }
             }
         }
@@ -298,13 +307,19 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
                         _addNewCardResult.emit(AddNewCardUiState.Success(it))
-                    } ?: _addNewCardResult.emit(AddNewCardUiState.Error(Exception()))
+                    } ?: _addNewCardResult.emit(
+                        AddNewCardUiState.Error(
+                            EasyPayWidgetException(
+                                result.error
+                            )
+                        )
+                    )
                 }
 
                 NetworkResource.Status.DECLINED,
                 NetworkResource.Status.ERROR,
                 -> {
-                    _addNewCardResult.emit(AddNewCardUiState.Error(result.error ?: Exception()))
+                    _addNewCardResult.emit(AddNewCardUiState.Error(EasyPayWidgetException(result.error)))
                 }
             }
         }
@@ -319,13 +334,17 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
                         _payWithSavedCardResult.emit(PayWithSavedCardUiState.Success(it))
-                    } ?: _payWithSavedCardResult.emit(PayWithSavedCardUiState.Error(Exception()))
+                    } ?: _payWithSavedCardResult.emit(
+                        PayWithSavedCardUiState.Error(
+                            EasyPayWidgetException(result.error)
+                        )
+                    )
                 }
 
                 NetworkResource.Status.ERROR -> {
                     _payWithSavedCardResult.emit(
                         PayWithSavedCardUiState.Error(
-                            result.error ?: Exception()
+                            EasyPayWidgetException(result.error)
                         )
                     )
                 }
@@ -333,7 +352,11 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.DECLINED -> {
                     result.data?.let {
                         _payWithSavedCardResult.emit(PayWithSavedCardUiState.Declined(it))
-                    } ?: _payWithSavedCardResult.emit(PayWithSavedCardUiState.Error(Exception()))
+                    } ?: _payWithSavedCardResult.emit(
+                        PayWithSavedCardUiState.Error(
+                            EasyPayWidgetException(result.error)
+                        )
+                    )
                 }
             }
         }
@@ -351,13 +374,17 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
                         _paymentMethods.emit(PaymentMethodsUiState.Success(it.consents))
-                    }
+                    } ?: _paymentMethods.emit(
+                        PaymentMethodsUiState.Error(
+                            EasyPayWidgetException(
+                                result.error
+                            )
+                        )
+                    )
                 }
 
                 NetworkResource.Status.ERROR -> {
-                    result.error?.let {
-                        _paymentMethods.emit(PaymentMethodsUiState.Error(it))
-                    }
+                    _paymentMethods.emit(PaymentMethodsUiState.Error(EasyPayWidgetException(result.error)))
                 }
 
                 NetworkResource.Status.DECLINED -> {}

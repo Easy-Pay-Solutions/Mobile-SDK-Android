@@ -13,11 +13,13 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.easypaysolutions.common.exceptions.EasyPayWidgetException
 import com.easypaysolutions.common.presentation.AddNewCardUiState
 import com.easypaysolutions.common.presentation.PayWithNewCardUiState
 import com.easypaysolutions.common.presentation.PayWithSavedCardUiState
 import com.easypaysolutions.common.presentation.SheetFlow
 import com.easypaysolutions.common.presentation.SheetViewModel
+import com.easypaysolutions.common.utils.ErrorMapper
 import com.easypaysolutions.payment_sheet.utils.PaymentSheetResult
 import com.easypaysolutions.utils.extensions.hide
 import com.easypaysolutions.utils.extensions.hideKeyboard
@@ -155,6 +157,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
                 etStreetAddress.setOnLostFocusListener { validateFields() }
                 etZip.setOnLostFocusListener { validateFields() }
             }
+            sectionBottom.cbSaveCard.setOnCheckedChangeListener { _, _ -> validateFields() }
         }
     }
 
@@ -204,7 +207,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithNewCardUiState.Error -> {
                                 binding.progressView.hide()
-                                showPaymentGeneralError()
+                                showPaymentGeneralError(result.exception)
                             }
 
                             is PayWithNewCardUiState.Declined -> {
@@ -234,7 +237,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is AddNewCardUiState.Error -> {
                                 binding.progressView.hide()
-                                showSaveGeneralError()
+                                showSaveGeneralError(result.exception)
                             }
                         }
                     }
@@ -251,7 +254,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithSavedCardUiState.Error -> {
                                 binding.progressView.hide()
-                                showPaymentGeneralError()
+                                showPaymentGeneralError(result.exception)
                                 showAddNewCardSuccessSnackbar()
                             }
 
@@ -309,26 +312,6 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun showSaveGeneralError() {
-        showError(R.string.unable_to_save_your_card)
-    }
-
-    private fun showPaymentDeclinedError() {
-        showError(R.string.process_payment_declined_error)
-    }
-
-    private fun showPaymentGeneralError() {
-        showError(R.string.process_payment_general_error)
-    }
-
-    private fun showError(@StringRes messageResId: Int) {
-        updateState(ValidationState.ExternalValidationInvalid)
-        binding.sectionBottom.apply {
-            tvMainError.setText(messageResId)
-            tvMainError.visibility = View.VISIBLE
-        }
-    }
-
     private fun prepareViewData(): AddNewCardViewData {
         return binding.run {
             AddNewCardViewData(
@@ -341,6 +324,39 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
                 zip = sectionBillingAddress.etZip.getText(),
                 shouldSaveCard = sectionBottom.cbSaveCard.isChecked
             )
+        }
+    }
+
+    //endregion
+
+    //region Error handling
+
+    private fun handleCustomError(
+        exception: EasyPayWidgetException,
+        @StringRes defaultMessageResId: Int,
+    ) {
+        ErrorMapper.getCustomErrorMessage(exception)?.let {
+            showError(it)
+        } ?: showError(defaultMessageResId)
+    }
+
+    private fun showSaveGeneralError(exception: EasyPayWidgetException) {
+        handleCustomError(exception, R.string.unable_to_save_your_card)
+    }
+
+    private fun showPaymentDeclinedError() {
+        showError(R.string.process_payment_declined_error)
+    }
+
+    private fun showPaymentGeneralError(exception: EasyPayWidgetException) {
+        handleCustomError(exception, R.string.process_payment_general_error)
+    }
+
+    private fun showError(@StringRes messageResId: Int) {
+        updateState(ValidationState.ExternalValidationInvalid)
+        binding.sectionBottom.apply {
+            tvMainError.setText(messageResId)
+            tvMainError.visibility = View.VISIBLE
         }
     }
 

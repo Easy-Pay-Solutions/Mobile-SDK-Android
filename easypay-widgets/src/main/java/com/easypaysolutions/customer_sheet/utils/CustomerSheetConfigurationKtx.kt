@@ -22,5 +22,11 @@ internal fun CustomerSheet.Configuration.validate() {
                 "Consent creator limit per charge must be greater than 0."
             )
         }
+
+        consentCreator.customerReferenceId.isBlank() -> {
+            throw IllegalArgumentException(
+                "Consent creator customer reference ID must not be blank."
+            )
+        }
     }
 }

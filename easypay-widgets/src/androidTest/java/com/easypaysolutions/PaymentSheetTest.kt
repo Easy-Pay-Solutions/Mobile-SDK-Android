@@ -49,7 +49,8 @@ internal class PaymentSheetTest {
                 merchantId = 1,
                 limitLifeTime = 10000.0,
                 limitPerCharge = 1000.0,
-                startDate = Date()
+                startDate = Date(),
+                customerReferenceId = "TEST_ANDROID_CUSTOMER_REFERENCE_ID"
             )
         )
 
@@ -120,8 +121,6 @@ internal class PaymentSheetTest {
         resultCallback = ::assertCompleted
     ) { testContext ->
         testScope.launch {
-            createAnnualConsent()
-
             testContext.presentPaymentSheet {
                 present(successfulConfig)
             }
@@ -139,8 +138,6 @@ internal class PaymentSheetTest {
         resultCallback = ::expectNoResult
     ) { testContext ->
         testScope.launch {
-            createAnnualConsent()
-
             testContext.presentPaymentSheet {
                 present(successfulConfig)
             }
