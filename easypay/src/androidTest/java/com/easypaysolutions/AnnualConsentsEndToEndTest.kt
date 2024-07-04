@@ -110,7 +110,10 @@ internal class AnnualConsentsEndToEndTest {
 
     @Test
     fun listAnnualConsents_withProperParams_shouldReturnSuccess() = runBlocking {
-        val params = ListAnnualConsentsBodyParams(merchantId = 1000)
+        val params = ListAnnualConsentsBodyParams(
+            merchantId = 1000,
+            customerReferenceId = "Android_test_custom_ref_id"
+        )
         val result = ListAnnualConsents().listAnnualConsents(params)
         assertEquals(result.status, NetworkResource.Status.SUCCESS)
     }

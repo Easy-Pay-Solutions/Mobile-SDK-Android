@@ -76,7 +76,7 @@ ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): N
 
 * ListAnnualConsentsBodyParams
     * merchantId: Int?
-    * customerReferenceId: String?
+    * customerReferenceId: String
 
 #### Response result
 

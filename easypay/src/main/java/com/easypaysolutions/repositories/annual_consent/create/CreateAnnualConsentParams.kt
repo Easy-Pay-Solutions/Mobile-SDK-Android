@@ -12,6 +12,7 @@ import com.easypaysolutions.utils.secured.SecureData
 import com.easypaysolutions.utils.validation.RegexPattern
 import com.easypaysolutions.utils.validation.ValidateNumberGreaterThanZero
 import com.easypaysolutions.utils.validation.ValidateLength
+import com.easypaysolutions.utils.validation.ValidateNotBlank
 import com.easypaysolutions.utils.validation.ValidateRegex
 import java.util.Date
 
@@ -47,7 +48,8 @@ data class ConsentCreatorParam(
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)
-    val customerReferenceId: String? = null,
+    @ValidateNotBlank
+    val customerReferenceId: String,
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)

@@ -104,7 +104,10 @@ class ConsentAnnualViewModel @Inject constructor(
 
     //region Private
 
-    private fun prepareParams(): ListAnnualConsentsBodyParams = ListAnnualConsentsBodyParams()
+    private fun prepareParams(): ListAnnualConsentsBodyParams = ListAnnualConsentsBodyParams(
+        merchantId = 1,
+        customerReferenceId = "12456"
+    )
 
     private suspend fun emitErrorForDeleteConsent(message: String?) {
         _deleteAnnualConsentResult.emit(ViewState.Error(message))
