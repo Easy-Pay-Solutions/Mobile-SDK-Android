@@ -14,9 +14,7 @@ internal object QueryParser {
             merchantId?.let {
                 query += "&&(${ConsentAnnualQuery.Variable.MERCHANT_ID.value}=$it)"
             }
-            customerReferenceId?.let {
-                query += "&&(${ConsentAnnualQuery.Variable.CUSTOMER_REF_ID.value}='$it')"
-            }
+            query += "&&(${ConsentAnnualQuery.Variable.CUSTOMER_REF_ID.value}='$customerReferenceId')"
         }
         return ConsentAnnualQuery(query)
     }

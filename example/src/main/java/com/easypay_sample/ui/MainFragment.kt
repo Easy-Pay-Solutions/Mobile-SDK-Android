@@ -43,6 +43,12 @@ class MainFragment : Fragment() {
             btnConsentAnnual.setOnClickListener {
                 navigateToConsentAnnual()
             }
+            btnPaymentSheet.setOnClickListener {
+                navigateToPaymentSheet()
+            }
+            btnCustomerSheet.setOnClickListener {
+                navigateToCustomerSheet()
+            }
         }
     }
 
@@ -53,6 +59,16 @@ class MainFragment : Fragment() {
 
     private fun navigateToConsentAnnual(prefilled: Boolean = false) {
         val action = MainFragmentDirections.actionMainFragmentToConsentAnnualFragment(prefilled)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToPaymentSheet() {
+        val action = MainFragmentDirections.actionMainFragmentToPaymentSheetFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToCustomerSheet() {
+        val action = MainFragmentDirections.actionMainFragmentToCustomerSheetFragment()
         findNavController().navigate(action)
     }
 }

@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.vanniktech.maven.publish") version "0.28.0"
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
@@ -63,6 +64,8 @@ android {
 }
 
 mavenPublishing {
+    coordinates(artifactId = "easypay")
+
     configure(
         AndroidSingleVariantLibrary(
             variant = "release",
