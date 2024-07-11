@@ -11,6 +11,7 @@ import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
 import com.easypaysolutions.networking.NetworkResource
 import com.easypaysolutions.payment_sheet.PaymentSheet
 import com.easypaysolutions.payment_sheet.utils.PaymentSheetResult
+import com.easypaysolutions.payment_sheet.utils.mapToPaymentSheetCompletedData
 import com.easypaysolutions.repositories.annual_consent.cancel.CancelAnnualConsent
 import com.easypaysolutions.repositories.annual_consent.cancel.CancelAnnualConsentBodyParams
 import com.easypaysolutions.repositories.annual_consent.create.CreateAnnualConsent
@@ -266,7 +267,7 @@ internal class SheetViewModel private constructor(
 
             when (result.status) {
                 NetworkResource.Status.SUCCESS -> {
-                    result.data?.let {
+                    result.data?.mapToPaymentSheetCompletedData()?.let {
                         _payWithNewCardResult.emit(PayWithNewCardUiState.Success(it))
                     } ?: _payWithNewCardResult.emit(
                         PayWithNewCardUiState.Error(
@@ -332,7 +333,7 @@ internal class SheetViewModel private constructor(
 
             when (result.status) {
                 NetworkResource.Status.SUCCESS -> {
-                    result.data?.let {
+                    result.data?.mapToPaymentSheetCompletedData()?.let {
                         _payWithSavedCardResult.emit(PayWithSavedCardUiState.Success(it))
                     } ?: _payWithSavedCardResult.emit(
                         PayWithSavedCardUiState.Error(

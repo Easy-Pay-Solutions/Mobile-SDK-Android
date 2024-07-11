@@ -69,7 +69,7 @@ class PaymentSheetFragment : Fragment() {
             }
 
             is PaymentSheetResult.Completed -> {
-                AlertUtils.showAlert(requireContext(), "Completed")
+                AlertUtils.showAlert(requireContext(), "Completed with TxID: ${paymentSheetResult.data.txId}")
             }
 
             is PaymentSheetResult.Canceled -> {

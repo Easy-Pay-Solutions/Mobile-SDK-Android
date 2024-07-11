@@ -202,7 +202,8 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithNewCardUiState.Success -> {
                                 binding.progressView.hide()
-                                sharedViewModel.completeWithResult(PaymentSheetResult.Completed)
+                                val completedResult = PaymentSheetResult.Completed(result.result)
+                                sharedViewModel.completeWithResult(completedResult)
                             }
 
                             is PayWithNewCardUiState.Error -> {
@@ -244,8 +245,8 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
                 }
                 // Payment with saved card flow will be triggered ONLY after saving the card in the CARD_PAYMENT flow
                 launch {
-                    sharedViewModel.payWithSavedCardResult.collect { result ->
-                        when (result) {
+                    sharedViewModel.payWithSavedCardResult.collect { state ->
+                        when (state) {
                             is PayWithSavedCardUiState.Declined -> {
                                 binding.progressView.hide()
                                 showPaymentDeclinedError()
@@ -254,7 +255,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithSavedCardUiState.Error -> {
                                 binding.progressView.hide()
-                                showPaymentGeneralError(result.exception)
+                                showPaymentGeneralError(state.exception)
                                 showAddNewCardSuccessSnackbar()
                             }
 
@@ -262,7 +263,8 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithSavedCardUiState.Success -> {
                                 binding.progressView.hide()
-                                sharedViewModel.completeWithResult(PaymentSheetResult.Completed)
+                                val completedResult = PaymentSheetResult.Completed(state.result)
+                                sharedViewModel.completeWithResult(completedResult)
                             }
                         }
                     }
