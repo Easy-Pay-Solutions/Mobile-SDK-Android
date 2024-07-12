@@ -51,7 +51,9 @@ internal class SheetViewModel private constructor(
     ) : this(
         config.preselectedCardId,
         ListAnnualConsentsBodyParams(
-            config.consentCreator.merchantId, config.consentCreator.customerReferenceId
+            merchantId = config.consentCreator.merchantId,
+            customerReferenceId = config.consentCreator.customerReferenceId,
+            rpguid = config.consentCreator.rpguid
         ),
         listAnnualConsents,
         createAnnualConsent,
@@ -74,7 +76,9 @@ internal class SheetViewModel private constructor(
     ) : this(
         config.preselectedCardId,
         ListAnnualConsentsBodyParams(
-            config.consentCreator.merchantId, config.consentCreator.customerReferenceId
+            merchantId = config.consentCreator.merchantId,
+            customerReferenceId = config.consentCreator.customerReferenceId,
+            rpguid = config.consentCreator.rpguid
         ),
         listAnnualConsents,
         createAnnualConsent,
@@ -238,7 +242,13 @@ internal class SheetViewModel private constructor(
                         _deleteCardResult.emit(DeleteCardUiState.Success(it))
                         onCardSelected(null)
                         fetchAnnualConsents()
-                    } ?: _deleteCardResult.emit(DeleteCardUiState.Error(EasyPayWidgetException(result.error)))
+                    } ?: _deleteCardResult.emit(
+                        DeleteCardUiState.Error(
+                            EasyPayWidgetException(
+                                result.error
+                            )
+                        )
+                    )
                 }
 
                 NetworkResource.Status.DECLINED,

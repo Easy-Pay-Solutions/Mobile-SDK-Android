@@ -108,7 +108,15 @@ class PaymentSheetFragment : Fragment() {
 ```
 
 2. When the customer taps the payment button, call `present` method on the `PaymentSheet` instance
-   with the configuration.
+   with the configuration. PaymentSheet.Configuration requires the following parameters:
+    - AmountsParam - total amount of the payment;
+    - ConsentCreatorParam - annual consent details, that contains the following parameters:
+      - limitLifeTime - the maximum amount that can be charged in total,
+      - limitPerCharge - the maximum amount that can be charged per transaction,
+      - merchantId - the ID of the merchant that the consent is created for,
+      - startDate - the date when the consent is created,
+      - either customerReferenceId or consentId - to identify the customer.
+    Other parameters are optional.
 
 ```
 // ...
@@ -190,7 +198,14 @@ class CustomerSheetFragment : Fragment() {
 ```
 
 2. To present the customer sheet, call the `present` method on the `CustomerSheet` instance, passing
-   the configuration.
+   the configuration. CustomerSheet.Configuration requires the following parameters:
+    - ConsentCreatorParam - annual consent details, that contains the following parameters:
+        - limitLifeTime - the maximum amount that can be charged in total,
+        - limitPerCharge - the maximum amount that can be charged per transaction,
+        - merchantId - the ID of the merchant that the consent is created for,
+        - startDate - the date when the consent is created,
+        - either customerReferenceId or consentId - to identify the customer.
+    Other parameters are optional.
 
 ```
 // ...
@@ -281,7 +296,9 @@ ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): N
 
 * ListAnnualConsentsBodyParams
     * merchantId: Int?
-    * customerReferenceId: String
+    * customerReferenceId: String?
+    * rpguid: String?
+Either customerReferenceId or rpguid must be provided to get the list of consents of a specific customer.
 
 #### Response result
 

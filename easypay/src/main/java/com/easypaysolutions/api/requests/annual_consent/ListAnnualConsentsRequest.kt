@@ -17,5 +17,6 @@ internal data class ConsentAnnualQuery(
         CUSTOMER_REF_ID("F"),
         CONSENT_TYPE("G"),
         ENABLED("H"),
+        RPGUID("J")
     }
 }

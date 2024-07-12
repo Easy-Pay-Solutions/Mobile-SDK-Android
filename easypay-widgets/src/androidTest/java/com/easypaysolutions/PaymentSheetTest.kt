@@ -12,6 +12,7 @@ import com.easypaysolutions.utils.expectNoResult
 import com.easypaysolutions.utils.pages.AddNewCardPage
 import com.easypaysolutions.utils.pages.PaymentSheetPage
 import com.easypaysolutions.utils.pages.PopupSheetPage
+import com.easypaysolutions.utils.runCustomerSheetTest
 import com.easypaysolutions.utils.runPaymentSheetTest
 import com.easypaysolutions.utils.sdk_helpers.AnnualConsentHelper
 import kotlinx.coroutines.CoroutineScope
@@ -184,6 +185,28 @@ internal class PaymentSheetTest {
                 .build()
 
             testContext.presentPaymentSheet {
+                present(failedConfig)
+            }
+        }
+    }
+
+
+    @Test
+    fun testFailedToOpenWidgetWithNeitherRpguidOrCustomerRefId() = runPaymentSheetTest(
+        resultCallback = ::assertFailed
+    ) { testContext ->
+        testScope.launch {
+            testContext.presentPaymentSheet {
+                val failedConfig = builder
+                    .setConsentCreator(
+                        ConsentCreatorParam(
+                            merchantId = 1,
+                            limitLifeTime = 10000.0,
+                            limitPerCharge = 1000.0,
+                            startDate = Date()
+                        )
+                    )
+                    .build()
                 present(failedConfig)
             }
         }
