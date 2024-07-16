@@ -14,21 +14,27 @@ internal object AnnualConsentHelper {
         zip: String = "04005",
         limitPerCharge: Double = 10.0,
         csv: String = "999",
+        customerRefId: String = "Client Ref Id",
+        rpguid: String = "RPGUID",
     ): CreateAnnualConsentBodyParams =
         CreateAnnualConsentBodyParams(
             encryptedCardNumber = secureData,
             creditCardInfo = prepareCreditCardInfo(csv),
             accountHolder = prepareAccountHolder(zip),
             endCustomer = prepareEndCustomer(),
-            consentCreator = prepareConsentCreator(limitPerCharge),
+            consentCreator = prepareConsentCreator(limitPerCharge, customerRefId, rpguid),
         )
 
-    private fun prepareConsentCreator(limitPerCharge: Double): ConsentCreatorParam =
+    private fun prepareConsentCreator(
+        limitPerCharge: Double,
+        customerRefId: String,
+        rpguid: String,
+    ): ConsentCreatorParam =
         ConsentCreatorParam(
             merchantId = 1,
             serviceDescription = "Service Description",
-            customerReferenceId = "Client Ref Id",
-            rpguid = "RPGUID",
+            customerReferenceId = customerRefId,
+            rpguid = rpguid,
             startDate = Date(),
             limitPerCharge = limitPerCharge,
             limitLifeTime = 100.0

@@ -4,6 +4,7 @@ import com.easypaysolutions.networking.NetworkResource
 import com.easypaysolutions.utils.AnnualConsentHelper.prepareParams
 import com.easypaysolutions.utils.TestApiHelper
 import com.easypaysolutions.utils.secured.SecureData
+import com.easypaysolutions.utils.validation.ValidationErrorMessages.EITHER_RPGUID_OR_CUSTOMER_REFERENCE_ID
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -14,8 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class CreateAnnualConsentRepositoryTest {
 
     private val apiHelper = TestApiHelper()
+    private val validator = CreateAnnualConsentValidator()
     private val repository: CreateAnnualConsentRepository =
-        CreateAnnualConsentRepositoryImpl(apiHelper)
+        CreateAnnualConsentRepositoryImpl(apiHelper, validator)
     private val testSecureData = SecureData("encryptedData")
 
     //region Tests
@@ -68,6 +70,15 @@ internal class CreateAnnualConsentRepositoryTest {
             val result = repository.createAnnualConsent(params)
             TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
             TestCase.assertEquals(result.error?.message, "csv cannot be blank")
+        }
+
+    @Test
+    fun `createAnnualConsent() with neither RPGUID or CustomerRefId returns Error`() =
+        runBlocking {
+            val params = prepareParams(testSecureData, customerRefId = "", rpguid = "")
+            val result = repository.createAnnualConsent(params)
+            TestCase.assertEquals(result.status, NetworkResource.Status.ERROR)
+            TestCase.assertEquals(result.error?.message, EITHER_RPGUID_OR_CUSTOMER_REFERENCE_ID)
         }
 
     //endregion

@@ -48,8 +48,7 @@ data class ConsentCreatorParam(
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)
-    @ValidateNotBlank
-    val customerReferenceId: String,
+    val customerReferenceId: String? = null,
 
     @ValidateLength(maxLength = 75)
     @ValidateRegex(regex = RegexPattern.CLIENT_REF_ID_OR_RPGUID)

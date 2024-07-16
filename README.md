@@ -76,7 +76,9 @@ ListAnnualConsents().listAnnualConsents(params: ListAnnualConsentsBodyParams): N
 
 * ListAnnualConsentsBodyParams
     * merchantId: Int?
-    * customerReferenceId: String
+    * customerReferenceId: String?
+    * rpguid: String?
+Either customerReferenceId or rpguid must be provided to get the list of consents of a specific customer.
 
 #### Response result
 
