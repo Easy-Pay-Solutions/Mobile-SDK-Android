@@ -14,11 +14,11 @@ internal object QueryParser {
             merchantId?.let {
                 query += "&&(${ConsentAnnualQuery.Variable.MERCHANT_ID.value}=$it)"
             }
-            rpguid?.let {
-                query += "&&(${ConsentAnnualQuery.Variable.RPGUID.value}='$it')"
+            if (!rpguid.isNullOrBlank()) {
+                query += "&&(${ConsentAnnualQuery.Variable.RPGUID.value}='$rpguid')"
             }
-            customerReferenceId?.let {
-                query += "&&(${ConsentAnnualQuery.Variable.CUSTOMER_REF_ID.value}='$it')"
+            if (!customerReferenceId.isNullOrBlank()) {
+                query += "&&(${ConsentAnnualQuery.Variable.CUSTOMER_REF_ID.value}='$customerReferenceId')"
             }
         }
         return ConsentAnnualQuery(query)
