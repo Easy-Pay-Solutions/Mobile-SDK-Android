@@ -23,9 +23,9 @@ internal fun CustomerSheet.Configuration.validate() {
             )
         }
 
-        consentCreator.customerReferenceId.isBlank() -> {
+        consentCreator.customerReferenceId.isNullOrBlank() && consentCreator.rpguid.isNullOrBlank() -> {
             throw IllegalArgumentException(
-                "Consent creator customer reference ID must not be blank."
+                "Consent creator customer reference ID or RPGUID must be provided."
             )
         }
     }

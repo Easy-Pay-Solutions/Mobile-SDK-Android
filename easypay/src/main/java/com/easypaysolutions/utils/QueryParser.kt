@@ -14,7 +14,12 @@ internal object QueryParser {
             merchantId?.let {
                 query += "&&(${ConsentAnnualQuery.Variable.MERCHANT_ID.value}=$it)"
             }
-            query += "&&(${ConsentAnnualQuery.Variable.CUSTOMER_REF_ID.value}='$customerReferenceId')"
+            if (!rpguid.isNullOrBlank()) {
+                query += "&&(${ConsentAnnualQuery.Variable.RPGUID.value}='$rpguid')"
+            }
+            if (!customerReferenceId.isNullOrBlank()) {
+                query += "&&(${ConsentAnnualQuery.Variable.CUSTOMER_REF_ID.value}='$customerReferenceId')"
+            }
         }
         return ConsentAnnualQuery(query)
     }

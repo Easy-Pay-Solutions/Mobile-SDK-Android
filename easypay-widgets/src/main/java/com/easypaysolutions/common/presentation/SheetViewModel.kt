@@ -11,6 +11,7 @@ import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
 import com.easypaysolutions.networking.NetworkResource
 import com.easypaysolutions.payment_sheet.PaymentSheet
 import com.easypaysolutions.payment_sheet.utils.PaymentSheetResult
+import com.easypaysolutions.payment_sheet.utils.mapToPaymentSheetCompletedData
 import com.easypaysolutions.repositories.annual_consent.cancel.CancelAnnualConsent
 import com.easypaysolutions.repositories.annual_consent.cancel.CancelAnnualConsentBodyParams
 import com.easypaysolutions.repositories.annual_consent.create.CreateAnnualConsent
@@ -50,7 +51,9 @@ internal class SheetViewModel private constructor(
     ) : this(
         config.preselectedCardId,
         ListAnnualConsentsBodyParams(
-            config.consentCreator.merchantId, config.consentCreator.customerReferenceId
+            merchantId = config.consentCreator.merchantId,
+            customerReferenceId = config.consentCreator.customerReferenceId,
+            rpguid = config.consentCreator.rpguid
         ),
         listAnnualConsents,
         createAnnualConsent,
@@ -73,7 +76,9 @@ internal class SheetViewModel private constructor(
     ) : this(
         config.preselectedCardId,
         ListAnnualConsentsBodyParams(
-            config.consentCreator.merchantId, config.consentCreator.customerReferenceId
+            merchantId = config.consentCreator.merchantId,
+            customerReferenceId = config.consentCreator.customerReferenceId,
+            rpguid = config.consentCreator.rpguid
         ),
         listAnnualConsents,
         createAnnualConsent,
@@ -237,7 +242,13 @@ internal class SheetViewModel private constructor(
                         _deleteCardResult.emit(DeleteCardUiState.Success(it))
                         onCardSelected(null)
                         fetchAnnualConsents()
-                    } ?: _deleteCardResult.emit(DeleteCardUiState.Error(EasyPayWidgetException(result.error)))
+                    } ?: _deleteCardResult.emit(
+                        DeleteCardUiState.Error(
+                            EasyPayWidgetException(
+                                result.error
+                            )
+                        )
+                    )
                 }
 
                 NetworkResource.Status.DECLINED,
@@ -266,7 +277,7 @@ internal class SheetViewModel private constructor(
 
             when (result.status) {
                 NetworkResource.Status.SUCCESS -> {
-                    result.data?.let {
+                    result.data?.mapToPaymentSheetCompletedData()?.let {
                         _payWithNewCardResult.emit(PayWithNewCardUiState.Success(it))
                     } ?: _payWithNewCardResult.emit(
                         PayWithNewCardUiState.Error(
@@ -332,7 +343,7 @@ internal class SheetViewModel private constructor(
 
             when (result.status) {
                 NetworkResource.Status.SUCCESS -> {
-                    result.data?.let {
+                    result.data?.mapToPaymentSheetCompletedData()?.let {
                         _payWithSavedCardResult.emit(PayWithSavedCardUiState.Success(it))
                     } ?: _payWithSavedCardResult.emit(
                         PayWithSavedCardUiState.Error(

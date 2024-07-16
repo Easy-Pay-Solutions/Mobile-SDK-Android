@@ -19,7 +19,6 @@ import java.util.Date
 class CustomerSheetFragment : Fragment() {
 
     private val binding by viewBinding(FragmentCustomerSheetBinding::bind)
-
     private lateinit var customerSheet: CustomerSheet
 
     //region Lifecycle
@@ -46,10 +45,8 @@ class CustomerSheetFragment : Fragment() {
     //region Components initialization
 
     private fun initComponents() {
-        binding.apply {
-            btnCustomerSheet.setOnClickListener {
-                presentCustomerSheet()
-            }
+        binding.btnCustomerSheet.setOnClickListener {
+            presentCustomerSheet()
         }
     }
 
@@ -58,35 +55,45 @@ class CustomerSheetFragment : Fragment() {
     //region CustomerSheet
 
     private fun presentCustomerSheet() {
-        val customerRefId = binding.etCustomerRefId.text.toString()
-        val consentCreator = ConsentCreatorParam(
-            limitLifeTime = 100000.0,
-            limitPerCharge = 1000.0,
-            merchantId = 1,
-            startDate = Date(),
-            customerReferenceId = customerRefId
-        )
-        val config = CustomerSheet.Configuration
-            .Builder()
-            .setConsentCreator(consentCreator)
-            .build()
+        val config = prepareConfig()
         customerSheet.present(config)
     }
 
     private fun onCustomerSheetResult(customerSheetResult: CustomerSheetResult) {
         when (customerSheetResult) {
-
             is CustomerSheetResult.Failed -> {
                 AlertUtils.showAlert(requireContext(), "Error: ${customerSheetResult.error}")
             }
 
             is CustomerSheetResult.Selected -> {
                 AlertUtils.showAlert(
-                    requireContext(),
-                    "Selected: ${customerSheetResult.annualConsentId}"
+                    requireContext(), "Selected: ${customerSheetResult.annualConsentId}"
                 )
             }
         }
+    }
+
+    //endregion
+
+    //region Helpers
+
+    private fun prepareConfig(): CustomerSheet.Configuration {
+        val customerRefId = binding.etCustomerRefId.text.toString()
+        val rpguid = binding.etRpguid.text.toString()
+
+        val consentCreator = ConsentCreatorParam(
+            limitLifeTime = 100000.0,
+            limitPerCharge = 1000.0,
+            merchantId = 1,
+            startDate = Date(),
+            customerReferenceId = customerRefId,
+            rpguid = rpguid
+        )
+
+        return CustomerSheet.Configuration
+            .Builder()
+            .setConsentCreator(consentCreator)
+            .build()
     }
 
     //endregion

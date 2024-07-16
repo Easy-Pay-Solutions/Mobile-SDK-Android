@@ -149,7 +149,8 @@ internal class ManageCardsFragment : Fragment() {
 
                             is PayWithSavedCardUiState.Success -> {
                                 binding.progressView.hide()
-                                sharedViewModel.completeWithResult(PaymentSheetResult.Completed)
+                                val completedResult = PaymentSheetResult.Completed(state.result)
+                                sharedViewModel.completeWithResult(completedResult)
                             }
                         }
                     }

@@ -175,6 +175,27 @@ internal class CustomerSheetTest {
         }
     }
 
+    @Test
+    fun testFailedToOpenWidgetWithNeitherRpguidOrCustomerRefId() = runCustomerSheetTest(
+        resultCallback = ::assertFailed
+    ) { testContext ->
+        testScope.launch {
+            testContext.presentCustomerSheet {
+                val failedConfig = builder
+                    .setConsentCreator(
+                        ConsentCreatorParam(
+                            merchantId = 1,
+                            limitLifeTime = 10000.0,
+                            limitPerCharge = 1000.0,
+                            startDate = Date()
+                        )
+                    )
+                    .build()
+                present(failedConfig)
+            }
+        }
+    }
+
     //endregion
 
     //region Helpers
