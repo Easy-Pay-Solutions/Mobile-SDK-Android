@@ -6,16 +6,17 @@ import com.easypaysolutions.api.responses.annual_consent.CreateAnnualConsentResu
 import com.easypaysolutions.api.responses.annual_consent.ProcessPaymentAnnualResult
 import com.easypaysolutions.api.responses.charge_cc.ChargeCreditCardResult
 import com.easypaysolutions.common.exceptions.EasyPayWidgetException
+import com.easypaysolutions.payment_sheet.utils.PaymentSheetCompletedData
 
 internal sealed class PayWithSavedCardUiState {
-    data class Success(val result: ProcessPaymentAnnualResult) : PayWithSavedCardUiState()
+    data class Success(val result: PaymentSheetCompletedData) : PayWithSavedCardUiState()
     data class Error(val exception: EasyPayWidgetException) : PayWithSavedCardUiState()
     data class Declined(val result: ProcessPaymentAnnualResult) : PayWithSavedCardUiState()
     data object Loading : PayWithSavedCardUiState()
 }
 
 internal sealed class PayWithNewCardUiState {
-    data class Success(val result: ChargeCreditCardResult) : PayWithNewCardUiState()
+    data class Success(val result: PaymentSheetCompletedData) : PayWithNewCardUiState()
     data class Error(val exception: EasyPayWidgetException) : PayWithNewCardUiState()
     data class Declined(val result: ChargeCreditCardResult) : PayWithNewCardUiState()
     data object Loading : PayWithNewCardUiState()

@@ -20,6 +20,10 @@ internal object RegexPattern {
     const val ONLY_NUMBERS = "^[0-9]*$"
 }
 
+internal object ValidationErrorMessages {
+    const val EITHER_RPGUID_OR_CUSTOMER_REFERENCE_ID = "Either RPGUID or Customer Reference ID must be provided"
+}
+
 internal object ValidatorUtils {
 
     suspend fun <T : ApiResult> validate(
@@ -33,7 +37,7 @@ internal object ValidatorUtils {
         return call()
     }
 
-    private fun <T : BaseBodyParams> validate(dataClass: T): EasyPayApiException? {
+    fun <T : BaseBodyParams> validate(dataClass: T): EasyPayApiException? {
         dataClass.toMappedFields().forEach { mappedField ->
             mappedField.field.annotations.forEach { annotation ->
                 when (annotation) {
@@ -57,6 +61,26 @@ internal object ValidatorUtils {
         }
         return null
     }
+
+    //region Data validations
+
+    fun validateAtLeastOneNotBlank(
+        data: List<String?>,
+        errorMessage: String,
+    ): EasyPayApiException? {
+        val isAnyNotBlank = data.any { it?.isNotBlank() == true }
+        return if (!isAnyNotBlank) {
+            EasyPayApiException(
+                message = errorMessage
+            )
+        } else {
+            null
+        }
+    }
+
+    //endregion
+
+    //region MappedField validations
 
     private fun validateNotBlank(mappedField: MappedField): EasyPayApiException? {
         var isValid = true
@@ -125,4 +149,7 @@ internal object ValidatorUtils {
             null
         }
     }
+
+    //endregion
+
 }

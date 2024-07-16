@@ -52,7 +52,7 @@ class PaymentSheet internal constructor(
          * Consent Creator data - used in case that the user agrees to save the card for future payments.
          * Required to pass:
          * - [ConsentCreatorParam.merchantId];
-         * - [ConsentCreatorParam.customerReferenceId];
+         * - [ConsentCreatorParam.customerReferenceId] or [ConsentCreatorParam.rpguid];
          * - [ConsentCreatorParam.limitPerCharge];
          * - [ConsentCreatorParam.limitLifeTime].
          */
