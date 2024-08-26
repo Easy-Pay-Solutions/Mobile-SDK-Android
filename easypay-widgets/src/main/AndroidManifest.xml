@@ -5,6 +5,8 @@
         <activity
             android:name="com.easypaysolutions.payment_sheet.presentation.PaymentSheetActivity"
             android:exported="false"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
             android:screenOrientation="portrait"
             android:theme="@style/EasyPay.PaymentSheet.Default.Theme"
             android:windowSoftInputMode="adjustResize" />
@@ -12,6 +14,8 @@
         <activity
             android:name="com.easypaysolutions.customer_sheet.presentation.CustomerSheetActivity"
             android:exported="false"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
             android:screenOrientation="portrait"
             android:theme="@style/EasyPay.CustomerSheet.Default.Theme"
             android:windowSoftInputMode="adjustResize" />
