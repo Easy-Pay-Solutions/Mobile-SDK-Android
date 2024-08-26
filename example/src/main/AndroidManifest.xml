@@ -18,6 +18,8 @@
         <activity
             android:name="com.easypay_sample.MainActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
