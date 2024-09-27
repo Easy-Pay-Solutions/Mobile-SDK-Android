@@ -19,6 +19,7 @@ internal object AddNewCardHelper {
         consentCreator: ConsentCreatorParam,
     ): CreateAnnualConsentBodyParams {
         return CreateAnnualConsentBodyParams(
+            last4digits = viewData.last4digits,
             encryptedCardNumber = viewData.encryptedCardNumber,
             creditCardInfo = prepareCreditCardInfo(viewData),
             accountHolder = prepareAccountHolder(viewData, accountHolder),

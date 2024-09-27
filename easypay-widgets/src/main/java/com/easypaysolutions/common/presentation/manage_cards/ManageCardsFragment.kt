@@ -149,7 +149,11 @@ internal class ManageCardsFragment : Fragment() {
 
                             is PayWithSavedCardUiState.Success -> {
                                 binding.progressView.hide()
-                                val completedResult = PaymentSheetResult.Completed(state.result)
+                                val completedResult = PaymentSheetResult.Completed(
+                                    data = state.result,
+                                    addedConsents = sharedViewModel.addedConsents,
+                                    deletedConsents = sharedViewModel.deletedConsentIDs
+                                )
                                 sharedViewModel.completeWithResult(completedResult)
                             }
                         }
@@ -242,7 +246,9 @@ internal class ManageCardsFragment : Fragment() {
         when (input.flow) {
             SheetFlow.CARD_MANAGEMENT -> sharedViewModel.completeWithResult(
                 CustomerSheetResult.Selected(
-                    sharedViewModel.selectedCard?.id
+                    selectedConsentId = sharedViewModel.selectedCard?.id,
+                    addedConsents = sharedViewModel.addedConsents,
+                    deletedConsents = sharedViewModel.deletedConsentIDs
                 )
             )
 

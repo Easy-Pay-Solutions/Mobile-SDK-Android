@@ -6,6 +6,7 @@ import com.easypaysolutions.api.responses.annual_consent.AnnualConsent
 import com.easypaysolutions.common.presentation.add_new_card.AddNewCardHelper
 import com.easypaysolutions.common.presentation.add_new_card.AddNewCardViewData
 import com.easypaysolutions.common.exceptions.EasyPayWidgetException
+import com.easypaysolutions.common.utils.ConsentExcerpt
 import com.easypaysolutions.customer_sheet.CustomerSheet
 import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
 import com.easypaysolutions.networking.NetworkResource
@@ -128,6 +129,9 @@ internal class SheetViewModel private constructor(
     private val _errorState = MutableSharedFlow<Throwable>()
     val errorState: SharedFlow<Throwable> = _errorState
 
+    var deletedConsentIDs = mutableListOf<Int>()
+    var addedConsents = mutableListOf<ConsentExcerpt>()
+
     init {
         fetchAnnualConsents()
     }
@@ -239,6 +243,7 @@ internal class SheetViewModel private constructor(
             when (result.status) {
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
+                        deletedConsentIDs.add(it.cancelledConsentId)
                         _deleteCardResult.emit(DeleteCardUiState.Success(it))
                         onCardSelected(null)
                         fetchAnnualConsents()
@@ -318,6 +323,14 @@ internal class SheetViewModel private constructor(
                 NetworkResource.Status.SUCCESS -> {
                     result.data?.let {
                         _addNewCardResult.emit(AddNewCardUiState.Success(it))
+                        addedConsents.add(
+                            ConsentExcerpt(
+                                consentId = it.consentId,
+                                expirationMonth = params.creditCardInfo.expMonth,
+                                expirationYear = params.creditCardInfo.expYear,
+                                last4digits = params.last4digits
+                            )
+                        )
                     } ?: _addNewCardResult.emit(
                         AddNewCardUiState.Error(
                             EasyPayWidgetException(

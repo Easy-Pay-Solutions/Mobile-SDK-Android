@@ -1,6 +1,7 @@
 package com.easypay_sample.ui.customer_sheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,8 +67,10 @@ class CustomerSheetFragment : Fragment() {
             }
 
             is CustomerSheetResult.Selected -> {
+                Log.d("TEST_RESULT","Deleted consent IDs: ${customerSheetResult.deletedConsents}")
+                Log.d("TEST_RESULT","Added consents: ${customerSheetResult.addedConsents.size}")
                 AlertUtils.showAlert(
-                    requireContext(), "Selected: ${customerSheetResult.annualConsentId}"
+                    requireContext(), "Selected: ${customerSheetResult.selectedConsentId}"
                 )
             }
         }

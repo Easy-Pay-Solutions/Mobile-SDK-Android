@@ -202,7 +202,11 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithNewCardUiState.Success -> {
                                 binding.progressView.hide()
-                                val completedResult = PaymentSheetResult.Completed(result.result)
+                                val completedResult = PaymentSheetResult.Completed(
+                                    data = result.result,
+                                    addedConsents = sharedViewModel.addedConsents,
+                                    deletedConsents = sharedViewModel.deletedConsentIDs
+                                )
                                 sharedViewModel.completeWithResult(completedResult)
                             }
 
@@ -263,7 +267,11 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
                             is PayWithSavedCardUiState.Success -> {
                                 binding.progressView.hide()
-                                val completedResult = PaymentSheetResult.Completed(state.result)
+                                val completedResult = PaymentSheetResult.Completed(
+                                    data = state.result,
+                                    addedConsents = sharedViewModel.addedConsents,
+                                    deletedConsents = sharedViewModel.deletedConsentIDs
+                                )
                                 sharedViewModel.completeWithResult(completedResult)
                             }
                         }
@@ -317,6 +325,7 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
     private fun prepareViewData(): AddNewCardViewData {
         return binding.run {
             AddNewCardViewData(
+                last4digits = sectionCardInformation.etCardNumber.getText().takeLast(4),
                 encryptedCardNumber = sectionCardInformation.etCardNumber.getSecureData(),
                 cardHolderName = sectionCardInformation.etCardHolderName.getText(),
                 expMonth = sectionCardInformation.etExpiryDate.getExpMonth(),

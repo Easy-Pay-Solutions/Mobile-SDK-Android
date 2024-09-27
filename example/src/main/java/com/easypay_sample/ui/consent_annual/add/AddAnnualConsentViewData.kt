@@ -51,6 +51,7 @@ data class AddAnnualConsentViewData(
 
     fun toCreateAnnualConsentParams(secureData: SecureData<String>): CreateAnnualConsentBodyParams {
         return CreateAnnualConsentBodyParams(
+            last4digits = "", // only available when used with widgets
             encryptedCardNumber = secureData,
             creditCardInfo = prepareCreditCardInfo(),
             accountHolder = prepareAccountHolder(),

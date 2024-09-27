@@ -64,7 +64,13 @@ internal class CustomerSheetActivity : SheetActivity<CustomerSheetResult>() {
 
     override fun setupOnBackPressed() {
         onBackPressedDispatcher.addCallback {
-            viewModel.completeWithResult(CustomerSheetResult.Selected(viewModel.selectedCard?.id))
+            viewModel.completeWithResult(
+                CustomerSheetResult.Selected(
+                    selectedConsentId = viewModel.selectedCard?.id,
+                    addedConsents = viewModel.addedConsents,
+                    deletedConsents = viewModel.deletedConsentIDs
+                )
+            )
         }
     }
 
@@ -124,6 +130,7 @@ internal class CustomerSheetActivity : SheetActivity<CustomerSheetResult>() {
                             is AddNewCardUiState.Success -> {
                                 showAddNewCardSuccessSnackbar()
                             }
+
                             else -> {
                                 /* Do nothing */
                             }

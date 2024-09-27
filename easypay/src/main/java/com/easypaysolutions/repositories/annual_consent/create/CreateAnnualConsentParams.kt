@@ -19,6 +19,7 @@ import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 data class CreateAnnualConsentBodyParams(
+    val last4digits: String,
     val encryptedCardNumber: SecureData<String>,
     val creditCardInfo: CreditCardInfoParam,
     val accountHolder: AccountHolderDataParam,
