@@ -68,6 +68,10 @@ internal open class EasyPayEditText @JvmOverloads constructor(
         return binding.editText.text.toString()
     }
 
+    open fun setText(text: String) {
+        binding.editText.setText(text)
+    }
+
     protected open fun prepareValidationRules() {
         validationRules.clear()
         setRegexValidationRule()

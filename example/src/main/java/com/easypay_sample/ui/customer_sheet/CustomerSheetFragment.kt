@@ -13,6 +13,8 @@ import com.easypay_sample.utils.viewBinding
 import com.easypaysolutions.customer_sheet.CustomerSheet
 import com.easypaysolutions.customer_sheet.utils.CustomerSheetResult
 import com.easypaysolutions.repositories.annual_consent.create.ConsentCreatorParam
+import com.easypaysolutions.repositories.charge_cc.AccountHolderBillingAddressParam
+import com.easypaysolutions.repositories.charge_cc.AccountHolderDataParam
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
@@ -92,10 +94,26 @@ class CustomerSheetFragment : Fragment() {
             customerReferenceId = customerRefId,
             rpguid = rpguid
         )
-
+        val abc = AccountHolderBillingAddressParam(
+            address1 = "A1",
+            address2 = null,
+            city = "Newark",
+            state = "AZ",
+            zip = "90210",
+            country = null
+        )
+        val acc = AccountHolderDataParam(
+            firstName = "fname",
+            lastName = "lname",
+            company = null,
+            billingAddress = abc,
+            email = null,
+            phone = null
+        )
         return CustomerSheet.Configuration
             .Builder()
             .setConsentCreator(consentCreator)
+            .setAccountHolder(acc)
             .build()
     }
 

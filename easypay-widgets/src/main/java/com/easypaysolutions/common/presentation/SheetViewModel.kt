@@ -21,6 +21,7 @@ import com.easypaysolutions.repositories.annual_consent.list.ListAnnualConsents
 import com.easypaysolutions.repositories.annual_consent.list.ListAnnualConsentsBodyParams
 import com.easypaysolutions.repositories.annual_consent.process_payment.ProcessPaymentAnnual
 import com.easypaysolutions.repositories.annual_consent.process_payment.ProcessPaymentAnnualParams
+import com.easypaysolutions.repositories.charge_cc.AccountHolderDataParam
 import com.easypaysolutions.repositories.charge_cc.ChargeCreditCard
 import com.easypaysolutions.repositories.charge_cc.ChargeCreditCardBodyParams
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,6 +33,7 @@ import kotlin.coroutines.CoroutineContext
 
 internal class SheetViewModel private constructor(
     private var selectedCardId: Int? = null,
+    private val accountHolderDataParam: AccountHolderDataParam?,
     private val listAnnualConsentsParams: ListAnnualConsentsBodyParams,
     private val listAnnualConsents: ListAnnualConsents,
     private val createAnnualConsent: CreateAnnualConsent,
@@ -50,18 +52,19 @@ internal class SheetViewModel private constructor(
         processPaymentAnnual: ProcessPaymentAnnual,
         workContext: CoroutineContext,
     ) : this(
-        config.preselectedCardId,
-        ListAnnualConsentsBodyParams(
+        selectedCardId = config.preselectedCardId,
+        accountHolderDataParam = config.accountHolder,
+        listAnnualConsentsParams = ListAnnualConsentsBodyParams(
             merchantId = config.consentCreator.merchantId,
             customerReferenceId = config.consentCreator.customerReferenceId,
             rpguid = config.consentCreator.rpguid
         ),
-        listAnnualConsents,
-        createAnnualConsent,
-        cancelAnnualConsent,
-        chargeCreditCard,
-        processPaymentAnnual,
-        workContext,
+        listAnnualConsents = listAnnualConsents,
+        createAnnualConsent = createAnnualConsent,
+        cancelAnnualConsent = cancelAnnualConsent,
+        chargeCreditCard = chargeCreditCard,
+        processPaymentAnnual = processPaymentAnnual,
+        workContext =  workContext,
     ) {
         paymentSheetConfig = config
     }
@@ -75,18 +78,19 @@ internal class SheetViewModel private constructor(
         processPaymentAnnual: ProcessPaymentAnnual,
         workContext: CoroutineContext,
     ) : this(
-        config.preselectedCardId,
-        ListAnnualConsentsBodyParams(
+        selectedCardId = config.preselectedCardId,
+        accountHolderDataParam = config.accountHolder,
+        listAnnualConsentsParams = ListAnnualConsentsBodyParams(
             merchantId = config.consentCreator.merchantId,
             customerReferenceId = config.consentCreator.customerReferenceId,
             rpguid = config.consentCreator.rpguid
         ),
-        listAnnualConsents,
-        createAnnualConsent,
-        cancelAnnualConsent,
-        chargeCreditCard,
-        processPaymentAnnual,
-        workContext,
+        listAnnualConsents = listAnnualConsents,
+        createAnnualConsent = createAnnualConsent,
+        cancelAnnualConsent = cancelAnnualConsent,
+        chargeCreditCard = chargeCreditCard,
+        processPaymentAnnual = processPaymentAnnual,
+        workContext = workContext,
     ) {
         customerSheetConfig = config
     }
@@ -134,6 +138,30 @@ internal class SheetViewModel private constructor(
 
     init {
         fetchAnnualConsents()
+    }
+
+    fun accFullName(): String {
+        return accountHolderDataParam?.let {
+            if (it.firstName == null) {
+                it.lastName
+            }
+            if (it.lastName == null) {
+                it.firstName
+            }
+            "${it.firstName} ${it.lastName}"
+        } ?: ""
+    }
+
+    fun accZip(): String {
+        return accountHolderDataParam?.billingAddress?.zip ?: ""
+    }
+
+    fun accAddress(): String {
+        accountHolderDataParam?.billingAddress?.apply {
+            val elements = listOfNotNull(address1, address2, city, state, country)
+            return elements.joinToString(" ")
+        }
+        return ""
     }
 
     //region Actions

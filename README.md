@@ -47,10 +47,10 @@ Add `easypay` to your dependencies in the `build.gradle` file.
 
 ```
 dependencies {
-    implementation 'com.easypaysolutions:easypay:1.1.4'
+    implementation 'com.easypaysolutions:easypay:1.1.5'
     
     // If you want to use widgets, add the following line
-    implementation 'com.easypaysolutions:easypay-widgets:1.1.4'
+    implementation 'com.easypaysolutions:easypay-widgets:1.1.5'
 }
 ```
 

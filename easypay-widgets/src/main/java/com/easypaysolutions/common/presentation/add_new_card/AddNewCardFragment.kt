@@ -117,6 +117,12 @@ internal class AddNewCardFragment : BottomSheetDialogFragment() {
 
     private fun initComponents() {
         binding.apply {
+            sectionCardInformation.etCardHolderName.setText(sharedViewModel.accFullName())
+            sectionBillingAddress.apply {
+                etZip.setText(sharedViewModel.accZip())
+                etStreetAddress.setText(sharedViewModel.accAddress())
+            }
+
             newCardHeader.btnClose.setOnClickListener { actionClose() }
             sectionBottom.apply {
                 btnComplete.apply {
