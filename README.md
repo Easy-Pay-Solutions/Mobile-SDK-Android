@@ -255,6 +255,26 @@ class CustomerSheetFragment : Fragment() {
 }
 ```
 
+### Screenshots
+
+#### Save Card 
+<img src="https://easypayconfig.com/SDKImages/Android/Store.png" alt="store-phone" width=20% height=20%>
+<img src="https://easypayconfig.com/SDKImages/Android/StoreDark.png" alt="store-phone-dark" width=20% height=20%>
+<img src="https://easypayconfig.com/SDKImages/Android/Store_tablet.png" alt="store-tablet" width=25% height=25%>
+<img src="https://easypayconfig.com/SDKImages/Android/StoreDark_tablet.png" alt="store-tablet-dark" width=25% height=25%>
+
+#### Manage Cards
+
+<img src="https://easypayconfig.com/SDKImages/Android/Manage.png" alt="manage-phone" width=20% height=20%>
+<img src="https://easypayconfig.com/SDKImages/Android/ManageDark.png" alt="manage-phone-dark" width=20% height=20%>
+
+#### Store and Pay
+
+<img src="https://easypayconfig.com/SDKImages/Android/StoreAndPay.png" alt="store-pay-phone" width=20% height=20%>
+<img src="https://easypayconfig.com/SDKImages/Android/StoreAndPayDark.png" alt="store-pay-phone-dark" width=20% height=20%>
+<img src="https://easypayconfig.com/SDKImages/Android/StoreAndPay_tablet.png" alt="store-pay-tablet" width=25% height=25%>
+<img src="https://easypayconfig.com/SDKImages/Android/StoreAndPayDark_tablet.png" alt="store-pay-tablet-dark" width=25% height=25%>
+
 ## Public methods in the EasyPay SDK
 
 [Easy Pay API Documentation](https://easypaypi.com/APIDocsDev/)
