@@ -1,8 +1,8 @@
 package com.easypaysolutions.networking.rsa
 
 import com.easypaysolutions.exceptions.EasyPaySdkException
-import com.easypaysolutions.utils.toHex
-import okhttp3.CertificatePinner.Companion.sha1Hash
+import java.security.MessageDigest
+import java.security.cert.X509Certificate
 
 internal class RsaHelperImpl(
     private val rsaCertificateManager: RsaCertificateManager,
@@ -27,11 +27,23 @@ internal class RsaHelperImpl(
     //region Private
 
     private fun applyFingerprint(encrypted: String): String {
-         return "$encrypted|${getFingerprint() ?: ""}"
+         return "$encrypted|${getFingerprint()}"
     }
 
-    private fun getFingerprint(): String? {
-        return rsaCertificateManager.certificate?.sha1Hash()?.toByteArray()?.toHex()
+    private fun getFingerprint(): String {
+        val cert = rsaCertificateManager.certificate ?: return ""
+        return getDigest(cert)
+    }
+
+    private fun getDigest(cert: X509Certificate): String {
+        val digest = MessageDigest.getInstance("SHA1")
+        val bytes = digest.digest(cert.encoded)
+        val hexString = StringBuilder()
+        for (b in bytes) {
+            val hex = String.format("%02x", b)
+            hexString.append(hex)
+        }
+        return hexString.toString()
     }
 
     //endregion
